@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.projet_android"
+        applicationId "com.example.onTime"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
