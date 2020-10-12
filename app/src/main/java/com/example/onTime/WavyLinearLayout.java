@@ -38,16 +38,6 @@ public class WavyLinearLayout extends LinearLayout {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        /*float midX = this.getWidth() / 2.0f;
-        float midY = this.getHeight() / 2.0f;
-
-        this.path.moveTo(0, midY);
-        this.path.quadTo(midX / 2, midY + (midY / 6), midX, midY);
-        this.path.quadTo(1.5f * midX, midY - (midY / 6), 2 * midX, midY);
-        this.path.quadTo(2 * midX, midY, 2 * midX, midY - 2 * midY);
-        this.path.quadTo(2 * midX, midY - 2 * midY, 0, midY - 2 * midY);
-        this.path.quadTo(0, 2 * midY, 0, midY);*/
-
         float width = this.getWidth();
         float height = this.getHeight();
 
