@@ -17,33 +17,33 @@ import java.util.GregorianCalendar;
         return (heures * 3600 + minute * 60);
     }
 
+    static public int getHourFromSecondes(long secondes){
+        return (int)(secondes / 3600);
+    }
+
+    static public int getminutesFromSecondes(long secondes){
+        return (int)(secondes % 3600);
+    }
+
     static public long getSecondesFromEpoch(Date date) {
         return (date.getTime() / 1000);
     }
 
+    /**
+     * Méthode qui prend une heure en secondes et qui retourne la date en epoch en secondes de l'heure d'arivee. Il faut ajouter la timezone à l'heure retournée
+     * Ex: S'il est 8h et que j'apelle cette fonction avec 39600 (11h en secondes) alors ça retourne la date d'aujourd'hui à 9h en GMT soit 11h dans la bonne timezone
+     * @param arrivee est l'heure d'arivee dans cette timezone
+     * @return la date en epoch en secondes de l'heure d'arivee. Il faut ajouter la timezone à l'heure retournée.
+     */
     static public long getDateFromHeureArrivee(long arrivee) {
         Calendar rightNow = Calendar.getInstance();
-        int hour = rightNow.get(Calendar.HOUR);
-        int minutes = rightNow.get(Calendar.MINUTE);
-        System.out.println("heure :" + hour);
-        System.out.println("minutes :" + minutes);
-        long secondsNow = Toolbox.getSecondesFromHeureMinute(hour, minutes);
+        Calendar heureArriveeAjd = new GregorianCalendar(rightNow.get(Calendar.YEAR), rightNow.get(Calendar.MONTH), rightNow.get(Calendar.DAY_OF_MONTH), Toolbox.getHourFromSecondes(arrivee), Toolbox.getminutesFromSecondes(arrivee));
+        long secondesFromEpochArivee = Toolbox.getSecondesFromEpoch(heureArriveeAjd.getTime());
 
-
-        Calendar gregorianCalendar = new GregorianCalendar(rightNow.get(Calendar.YEAR), rightNow.get(Calendar.MONTH), rightNow.get(Calendar.DAY_OF_MONTH), 0, 0);
-        Date dateajd = gregorianCalendar.getTime();
-        long dateEpoch = Toolbox.getSecondesFromEpoch(dateajd);
-
-        Date date = new Date();
-        System.out.println(date);
-
-
-        if (secondsNow < arrivee) {
-            System.out.println("ajd");
-            return dateEpoch + arrivee;
+        if (rightNow.after(heureArriveeAjd)) { // si on est après l'heure indiquée aujourd'hui alors on passe au lendemain
+            return secondesFromEpochArivee + 86400;
         } else {
-            System.out.println("demain");
-            return dateEpoch + arrivee + 86400; // date ajourd'hui + heure de 11h + 24h en secondes pour demain
+            return secondesFromEpochArivee; // date ajourd'hui + heure de 11h + 24h en secondes pour demain
         }
     }
 
