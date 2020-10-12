@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">onTime</string>
+    <string name="bienvenueString">Bienvenue sur votre application</string>
+    <string name="onTimeString">onTime</string>
+    <string name="descriptionString">Créer votre routine matinale n\'a jamais été aussi simple que sur onTime !</string>
+    <string name="startString">Et si on démarrait ?</string>
+    <string name="creerPremiereRoutineString">Créer ma première routine matinale !</string>
 </resources>
