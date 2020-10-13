@@ -1,20 +1,24 @@
 package com.example.onTime;
 
+import android.util.Log;
+
+import com.example.onTime.modele.Toolbox;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.util.concurrent.Callable;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+public class GoogleMapsAPI implements Callable<Integer> {
 
-public abstract class GoogleMapsAPI implements Callable<Integer> {
-
-    int arrivalTime; // Le nombre de secondes entre minuit et l'heure d'arrivée voulue par l'utilisateur
-    String adresseDepart, adresseArrivee; // Les adresses de départ et d'arrivée
+    int arrivalTime, departureTimeWithoutTraffic;
+    String adresseDepart, adresseArrivee;
 
     public GoogleMapsAPI(int arrivalTime, String adresseDepart, String adresseArrivee) {
         this.arrivalTime = arrivalTime;
@@ -28,33 +32,65 @@ public abstract class GoogleMapsAPI implements Callable<Integer> {
      * afin de récupérer le temps de trajet sans prendre en compte le traffic
      */
     private String buildURLWithArrivalTime() {
-        StringBuilder res = new StringBuilder();
-        res.append("https://maps.googleapis.com/maps/api/distancematrix/json");
-        res.append("?origins=").append(adresseDepart.replaceAll(" ", "+"));
-        res.append("&destinations=").append(adresseArrivee.replaceAll(" ", "+"));
-        res.append("&arrival_time=").append(this.getEpochOfArrivalTime());
-        res.append("&key=AIzaSyAtz4xXytziDpkNHU12fYqAvjf_0NY5TxY");
+        StringBuilder res = new StringBuilder()
+        .append("https://maps.googleapis.com/maps/api/distancematrix/json")
+        .append("?origins=").append(this.adresseDepart.replaceAll(" ", "+"))
+        .append("&destinations=").append(this.adresseArrivee.replaceAll(" ", "+"))
+        .append("&arrival_time=").append(Toolbox.getDateFromHeureArrivee(this.arrivalTime))
+        .append("&key=AIzaSyAtz4xXytziDpkNHU12fYqAvjf_0NY5TxY");
         return res.toString();
     }
 
-    public int getEpochOfArrivalTime() {
-
+    private String buildURLWithDepartureTimeTraffic(int departureTime) {
+        StringBuilder res = new StringBuilder()
+            .append("https://maps.googleapis.com/maps/api/distancematrix/json")
+            .append("?origins=").append(this.adresseDepart.replaceAll(" ", "+"))
+            .append("&destinations=").append(this.adresseArrivee.replaceAll(" ", "+"))
+            .append("&departure_time=").append(departureTime)
+            .append("&traffic_model=pessimistic")
+            .append("&key=AIzaSyAtz4xXytziDpkNHU12fYqAvjf_0NY5TxY");
+        return res.toString();
     }
 
-    public static int getDepartureTimeWithTraffic() {
+    public int getDepartureTimeWithTraffic(int departureTime) {
+        return 0;
     }
 
-    public Integer call() {
+    public int getTravelTimeWithoutTraffic() {
         try {
-            OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-            Request request = new Request.Builder()
-                .url(this.buildURLWithArrivalTime())
-                .method("GET", null)
-                .build();
-            Response response = client.newCall(request).execute();
-        } catch (IOException e) {
+            URL obj = new URL(buildURLWithArrivalTime());
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("GET");
+            int responseCode = con.getResponseCode();
+            Log.d("responseCode", String.valueOf(responseCode));
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader in;
+                in = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while (true) {
+                    if (!((inputLine = in.readLine()) != null)) break;
+                    response.append(inputLine);
+                }
+                in.close();
+                Log.d("response", response.toString());
+                JSONObject jsonObject = new JSONObject(response.toString());
+                JSONArray rows = jsonObject.getJSONArray("rows");
+                JSONArray elements = rows.getJSONObject(0).getJSONArray("elements");
+
+                this.departureTimeWithoutTraffic = this.arrivalTime - elements.getJSONObject(0).getJSONObject("duration").getInt("value");
+            }
+
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
+        return -1; // si erreur
+    }
+
+    @Override
+    public Integer call() throws Exception {
+        return this.getTravelTimeWithoutTraffic();
     }
 }
