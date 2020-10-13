@@ -52,4 +52,9 @@ public class Adresse {
     public void setAdresseArrivee(String adresseArrivee) {
         this.adresseArrivee = adresseArrivee;
     }
+
+    @Override
+    public String toString() {
+        return nom;
+    }
 }

@@ -1,63 +1,80 @@
 package com.example.onTime;
 
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.onTime.modele.Adresse;
 import com.example.onTime.modele.MRA;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Toolbox;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class MainActivity extends ListActivity {
 
-    private MRManager mrManager;
+public class MainActivity extends AppCompatActivity {
 
-    private TextView text;
+    private GridView gridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mrManager = new MRManager();
-        MorningRoutine m = new MorningRoutine("test1", null);
-        MorningRoutine m2 = new MorningRoutine("test2", null);
-        MRA mra1 = new MRA(m);
-        MRA mra2 = new MRA(m2);
-        mrManager.ajouterMRA(mra1);
-        mrManager.ajouterMRA(mra2);
+        this.gridView = (GridView) findViewById(R.id.gridView);
 
-        text = findViewById(R.id.mainText);
+        //
+        MorningRoutine mr1 = new MorningRoutine("mr1");
+        MorningRoutine mr2 = new MorningRoutine("mr2");
+        MorningRoutine mr3 = new MorningRoutine("m3");
+        Adresse a1 = new Adresse("adresse1", "d1","a1");
+        Adresse a2 = new Adresse("adresse2", "d2","a2");
+        Adresse a3 = new Adresse("adresse3", "d3","a3");
+
+        final MRA mra1 = new MRA(mr1, a1);
+        MRA mra2 = new MRA(mr2, a2);
+        MRA mra3 = new MRA(mr3, a3);
+
+        List<MRA> mras = new ArrayList<>();
+
+        mras.add(mra1);
+        mras.add(mra2);
+        mras.add(mra3);
 
 
-        // initiate the listadapter
-        ArrayAdapter<MRA> myAdapter = new ArrayAdapter <>(this,
-                R.layout.row_layout, R.id.listText, mrManager.getListMRA());
+        // android.R.layout.simple_list_item_1 is a constant predefined layout of Android.
+        // used to create a GridView with simple GridItem (Only one TextView).
 
-        // assign the list adapter
-        setListAdapter(myAdapter);
+        ArrayAdapter<MRA> arrayAdapter
+                = new ArrayAdapter<MRA>(this, android.R.layout.simple_list_item_1, mras);
 
-        int heure = Toolbox.getHourFromSecondes(this.mrManager.getHeureArrivee());
-        int minute = Toolbox.getMinutesFromSecondes(this.mrManager.getHeureArrivee());
-        text.setText(Toolbox.formaterHeure(heure, minute));
 
+        gridView.setAdapter(arrayAdapter);
+
+        // When the user clicks on the GridItem
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+                Object o = gridView.getItemAtPosition(position);
+                MRA mra = (MRA) o;
+                Toast.makeText(MainActivity.this, "Selected :" + " " + mra.toString(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
-    // when an item of the list is clicked
-    @Override
-    protected void onListItemClick(ListView list, View view, int position, long id) {
-        super.onListItemClick(list, view, position, id);
-
-        //String selectedItem = (String) getListView().getItemAtPosition(position);
-        //MRA selectedItem =  (MRA) getListAdapter().getItem(position);
-
-        //text.setText("You clicked " + selectedItem.getMorningRoutine().getNom() + " at position " + position);
-
-    }
 }
