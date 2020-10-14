@@ -1,11 +1,13 @@
 package com.example.onTime;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.view.animation.PathInterpolator;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
@@ -14,6 +16,8 @@ public class WavyLinearLayout extends LinearLayout {
 
     private Paint paint;
     private Path path;
+    private PathInterpolator interpolator;
+    private ObjectAnimator animator;
 
     public WavyLinearLayout(Context context) {
         super(context);

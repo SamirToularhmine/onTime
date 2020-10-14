@@ -90,6 +90,7 @@
                 android:text="@string/creerPremiereRoutineString"
                 android:textColor="#FFFFFF"
                 android:layout_gravity="center"
+                android:onClick="nextSetDestination"
                 />
 
         </LinearLayout>
