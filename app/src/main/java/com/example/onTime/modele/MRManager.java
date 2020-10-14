@@ -18,6 +18,11 @@ public class MRManager {
         this.listMRA = new ArrayList<>();
     }
 
+    public MRManager(long heureArrivee, List<MRA> listMRA) {
+        this.heureArrivee = heureArrivee; // 11h en secondes
+        this.listMRA = listMRA;
+    }
+
     public long getHeureArrivee() {
         return this.heureArrivee;
     }

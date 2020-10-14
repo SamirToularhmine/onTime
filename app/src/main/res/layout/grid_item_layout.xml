@@ -4,20 +4,25 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     >
-
     <Button
         android:id="@+id/button_morning_routine"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mornign routine"
+        android:text="Morning routine"
         android:layout_weight="1"
-
         />
 
     <Button
         android:id="@+id/button_adresse"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="adresse" />
+        android:text="Adresse" />
+
+    <Button
+        android:id="@+id/button_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:text="-" />
 </LinearLayout>

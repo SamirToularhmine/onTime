@@ -28,10 +28,11 @@
             android:textSize="26sp"/>
 
         <TextView
+            android:id="@+id/heureReveil"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="11:00 H"
+            android:text="00:00 H"
             android:layout_weight="0.5"
             android:textColor="@color/colorAccent"
             android:textSize="28sp"

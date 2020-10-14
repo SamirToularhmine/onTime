@@ -53,6 +53,8 @@ public class CustomGridAdapter extends BaseAdapter {
             holder.moringRoutineView.setTag(position);
             holder.adresseView = convertView.findViewById(R.id.button_adresse);
             holder.adresseView.setTag(position);
+            holder.deleteMR = convertView.findViewById(R.id.button_delete);
+            holder.deleteMR.setTag(position);
 
             holder.moringRoutineView.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
@@ -69,6 +71,14 @@ public class CustomGridAdapter extends BaseAdapter {
                     System.out.println(adresseClicked);
                     Toast.makeText(parent.getContext(), "Selected : " + adresseClicked, Toast.LENGTH_SHORT).show();
 
+                }
+            });
+
+            holder.deleteMR.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View v){
+                    int position=(Integer)v.getTag();
+                    MRA morningRoutineClicked = listData.get(position);
+                    Toast.makeText(parent.getContext(), "Removed : " + morningRoutineClicked, Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -92,6 +102,7 @@ public class CustomGridAdapter extends BaseAdapter {
     static class ViewHolder {
         Button moringRoutineView;
         Button adresseView;
+        Button deleteMR;
     }
 
 }
