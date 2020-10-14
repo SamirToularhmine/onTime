@@ -41,6 +41,12 @@ public class GoogleMapsAPI implements Callable<Integer> {
         return res.toString();
     }
 
+    /**
+     * Méthode qui retourne l'URL pour interroger l'API Google Maps afin de récupérer l'estimation du temps de trajet
+     * en prenant en compte le trafic (de façon pessimiste)
+     * @param departureTime l'heure de départ sous la forme du nombre de secondes depuis le 1 janvier 1970 (UTC)
+     * @return l'URL correspondante sous la forme d'un String
+     */
     private String buildURLWithDepartureTimeTraffic(int departureTime) {
         StringBuilder res = new StringBuilder()
             .append("https://maps.googleapis.com/maps/api/distancematrix/json")
@@ -52,10 +58,11 @@ public class GoogleMapsAPI implements Callable<Integer> {
         return res.toString();
     }
 
-    public int getDepartureTimeWithTraffic(int departureTime) {
-        return 0;
-    }
-
+    /**
+     * Méthode qui demande à l'API Google le temps nécessaire pour aller d'un point A à un point B
+     * à partir de l'heure d'arrivée (attribut de la classe)
+     * @return le temps de trajet en voiture entre les deux adresses (en secondes)
+     */
     public int getTravelTimeWithoutTraffic() {
         try {
             URL obj = new URL(buildURLWithArrivalTime());
@@ -80,7 +87,8 @@ public class GoogleMapsAPI implements Callable<Integer> {
                 JSONArray rows = jsonObject.getJSONArray("rows");
                 JSONArray elements = rows.getJSONObject(0).getJSONArray("elements");
 
-                this.departureTimeWithoutTraffic = this.arrivalTime - elements.getJSONObject(0).getJSONObject("duration").getInt("value");
+                int travelTimeWithoutTraffic = elements.getJSONObject(0).getJSONObject("duration").getInt("value");
+                return travelTimeWithoutTraffic;
             }
 
         } catch (IOException | JSONException e) {
@@ -89,8 +97,44 @@ public class GoogleMapsAPI implements Callable<Integer> {
         return -1; // si erreur
     }
 
+    public int getTravelTimeWithTraffic(int departureTime) {
+        try {
+            URL url = new URL(buildURLWithDepartureTimeTraffic(departureTime));
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            int responseCode = con.getResponseCode();
+            Log.d("responseCode", String.valueOf(responseCode));
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader in;
+                in = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while (true) {
+                    if (!((inputLine = in.readLine()) != null)) break;
+                    response.append(inputLine);
+                }
+                in.close();
+                Log.d("response", response.toString());
+                JSONObject jsonObject = new JSONObject(response.toString());
+                JSONArray rows = jsonObject.getJSONArray("rows");
+                JSONArray elements = rows.getJSONObject(0).getJSONArray("elements");
+                int travelTimeWithTraffic = elements.getJSONObject(0).getJSONObject("duration_in_traffic").getInt("value");
+                return travelTimeWithTraffic;
+            }
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     @Override
     public Integer call() throws Exception {
-        return this.getTravelTimeWithoutTraffic();
+        int travelTimeWithoutTraffic = this.getTravelTimeWithoutTraffic();
+        if (travelTimeWithoutTraffic != -1) {
+            this.departureTimeWithoutTraffic = this.arrivalTime - travelTimeWithoutTraffic;
+        }
+        return -1;
     }
 }
