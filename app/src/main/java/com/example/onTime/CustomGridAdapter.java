@@ -78,6 +78,7 @@ public class CustomGridAdapter extends BaseAdapter {
                 public void onClick(View v){
                     int position=(Integer)v.getTag();
                     MRA morningRoutineClicked = listData.get(position);
+                    listData.remove(morningRoutineClicked);
                     Toast.makeText(parent.getContext(), "Removed : " + morningRoutineClicked, Toast.LENGTH_SHORT).show();
                 }
             });

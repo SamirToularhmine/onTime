@@ -31,7 +31,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        List<MRA> mras = getListData();
+        List<MRA> mras = createMRA(18);
         this.mrManager = new MRManager(39600, mras);
 
         this.listView = findViewById(R.id.morningRoutinesList);
@@ -43,24 +43,13 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private List<MRA> getListData() {
-        MorningRoutine mr1 = new MorningRoutine("mr1");
-        MorningRoutine mr2 = new MorningRoutine("mr2");
-        MorningRoutine mr3 = new MorningRoutine("m3");
-        Adresse a1 = new Adresse("adresse1", "d1","a1");
-        Adresse a2 = new Adresse("adresse2", "d2","a2");
-        Adresse a3 = new Adresse("adresse3", "d3","a3");
+    private List<MRA> createMRA(int longeur){
+        List<MRA> mra = new ArrayList<>();
 
-        MRA mra1 = new MRA(mr1, null);
-        MRA mra2 = new MRA(mr2, a2);
-        MRA mra3 = new MRA(mr3, a3);
+        for (int i = 0; i < longeur; i++) {
+            mra.add(new MRA(new MorningRoutine("Morning Routine" + i), new Adresse("adresse" + i, "depart" + i, "arrivee" + i)));
+        }
 
-        List<MRA> mras = new ArrayList<>();
-
-        mras.add(mra1);
-        mras.add(mra2);
-        mras.add(mra3);
-
-        return mras;
+        return mra;
     }
 }
