@@ -43,5 +43,10 @@ public class MRA {
         this.adresse = adresse;
     }
 
+    @Override
+    public String toString() {
+        return morningRoutine + " | " + adresse ;
+    }
+
 
 }
