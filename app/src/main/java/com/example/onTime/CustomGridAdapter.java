@@ -1,6 +1,8 @@
 package com.example.onTime;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +49,7 @@ public class CustomGridAdapter extends BaseAdapter {
     public View getView(int position, View convertView, final ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.grid_item_layout, null);
+            convertView = layoutInflater.inflate(R.layout.grid_item_layout, parent, false);
             holder = new ViewHolder();
             holder.moringRoutineView = convertView.findViewById(R.id.button_morning_routine);
             holder.moringRoutineView.setTag(position);
@@ -68,9 +70,7 @@ public class CustomGridAdapter extends BaseAdapter {
                 public void onClick(View v){
                     int position=(Integer)v.getTag();
                     Adresse adresseClicked = listData.get(position).getAdresse();
-                    System.out.println(adresseClicked);
                     Toast.makeText(parent.getContext(), "Selected : " + adresseClicked, Toast.LENGTH_SHORT).show();
-
                 }
             });
 
@@ -78,8 +78,8 @@ public class CustomGridAdapter extends BaseAdapter {
                 public void onClick(View v){
                     int position=(Integer)v.getTag();
                     MRA morningRoutineClicked = listData.get(position);
-                    listData.remove(morningRoutineClicked);
-                    Toast.makeText(parent.getContext(), "Removed : " + morningRoutineClicked, Toast.LENGTH_SHORT).show();
+                    AlertDialog alertDialog =  AskOption(morningRoutineClicked);
+                    alertDialog.show();
                 }
             });
 
@@ -97,6 +97,34 @@ public class CustomGridAdapter extends BaseAdapter {
             holder.adresseView.setText(mra.getAdresse().toString());
 
         return convertView;
+    }
+
+    private AlertDialog AskOption(final MRA morningRoutineClicked) {
+
+        return new AlertDialog.Builder(context)
+                // set message, title, and icon
+                .setTitle("Delete")
+                .setMessage("Do you want to Delete")
+                .setIcon(R.drawable.ic_delete_24px)
+
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        listData.remove(morningRoutineClicked);
+                        notifyDataSetChanged();
+                        dialog.dismiss();
+                        Toast.makeText(context, "Removed : " + morningRoutineClicked, Toast.LENGTH_SHORT).show();
+                    }
+
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                })
+                .create();
     }
 
 
