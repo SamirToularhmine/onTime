@@ -51,42 +51,42 @@ public class CustomGridAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.grid_item_layout, parent, false);
             holder = new ViewHolder();
-            holder.moringRoutineView = convertView.findViewById(R.id.button_morning_routine);
-            holder.moringRoutineView.setTag(position);
-            holder.adresseView = convertView.findViewById(R.id.button_adresse);
-            holder.adresseView.setTag(position);
-            holder.deleteMR = convertView.findViewById(R.id.button_delete);
-            holder.deleteMR.setTag(position);
-
-            holder.moringRoutineView.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    int position=(Integer)v.getTag();
-                    MorningRoutine morningRoutineClicked = listData.get(position).getMorningRoutine();
-                    Toast.makeText(parent.getContext(), "Selected : " + morningRoutineClicked, Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            holder.adresseView.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    int position=(Integer)v.getTag();
-                    Adresse adresseClicked = listData.get(position).getAdresse();
-                    Toast.makeText(parent.getContext(), "Selected : " + adresseClicked, Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            holder.deleteMR.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    int position=(Integer)v.getTag();
-                    MRA morningRoutineClicked = listData.get(position);
-                    AlertDialog alertDialog =  AskOption(morningRoutineClicked);
-                    alertDialog.show();
-                }
-            });
-
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
+        holder.moringRoutineView = convertView.findViewById(R.id.button_morning_routine);
+        holder.moringRoutineView.setTag(position);
+        holder.adresseView = convertView.findViewById(R.id.button_adresse);
+        holder.adresseView.setTag(position);
+        holder.deleteMR = convertView.findViewById(R.id.button_delete);
+        holder.deleteMR.setTag(position);
+
+        holder.moringRoutineView.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                int position=(Integer)v.getTag();
+                MorningRoutine morningRoutineClicked = listData.get(position).getMorningRoutine();
+                Toast.makeText(parent.getContext(), "Selected : " + morningRoutineClicked, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.adresseView.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                int position=(Integer)v.getTag();
+                Adresse adresseClicked = listData.get(position).getAdresse();
+                Toast.makeText(parent.getContext(), "Selected :" + adresseClicked, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.deleteMR.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                int position=(Integer)v.getTag();
+                MRA morningRoutineClicked = listData.get(position);
+                AlertDialog alertDialog =  AskOption(morningRoutineClicked);
+                alertDialog.show();
+            }
+        });
 
         MRA mra = this.listData.get(position);
         holder.moringRoutineView.setText(mra.getMorningRoutine().toString()); // verifer null
