@@ -20,20 +20,13 @@
         android:paddingRight="20dp"
         android:paddingBottom="50dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Demain, vous vous réveillerez à"
-            android:textColor="@color/colorAccent"
-            android:layout_weight="0.2"
-            android:textSize="26sp"/>
 
         <TextView
-            android:id="@+id/heureReveil"
+            android:id="@+id/titreMorningRoutine"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="00:00 H"
+            android:text="Morning Routine"
             android:layout_weight="0.5"
             android:textColor="@color/colorAccent"
             android:textSize="28sp"
@@ -55,7 +48,7 @@
             android:layout_weight="0.1">
 
             <ListView
-                android:id="@+id/morningRoutinesList"
+                android:id="@+id/tacheList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
@@ -73,8 +66,7 @@
                 android:layout_margin="16dp"
                 app:backgroundTint="@color/colorPrimary"
                 app:srcCompat="@drawable/ic_add_24px"
-                app:tint="@color/colorAccent"
-                android:onClick="createMorningRoutine"/>
+                app:tint="@color/colorAccent"/>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
