@@ -129,9 +129,9 @@ public class CustomGridAdapter extends BaseAdapter {
 
 
     static class ViewHolder {
-        Button moringRoutineView;
-        Button adresseView;
-        Button deleteMR;
+        TextView moringRoutineView;
+        TextView adresseView;
+        TextView deleteMR;
     }
 
 }
