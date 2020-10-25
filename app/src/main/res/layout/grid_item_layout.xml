@@ -2,27 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    >
-    <Button
-        android:id="@+id/button_morning_routine"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Morning routine"
-        android:layout_weight="1"
-        />
+    android:clipToPadding="false">
 
-    <Button
-        android:id="@+id/button_adresse"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Adresse" />
+        app:cardElevation="20dp"
+        >
 
-    <Button
-        android:id="@+id/button_delete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.5"
-        android:text="-" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+            <TextView
+                android:id="@+id/button_morning_routine"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Morning routine"
+                />
+
+            <Button
+                android:id="@+id/button_adresse"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:text="Adresse" />
+
+            <Button
+                android:id="@+id/button_delete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="-" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 </LinearLayout>
