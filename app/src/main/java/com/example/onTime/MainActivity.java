@@ -20,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         GoogleMapsAPI googleMapsAPI = new GoogleMapsAPI(
-                1602536400,
-                "2 chemin du Bourg, Vienne en Val",
+                1603875600,
+                "150 rue Barbara, 45400 Semoy",
                 "6 rue Léonard de Vinci, 45067 Orléans");
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();

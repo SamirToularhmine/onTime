@@ -17,7 +17,7 @@ import java.util.concurrent.Callable;
 
 public class GoogleMapsAPI implements Callable<Integer> {
 
-    int arrivalTime, departureTimeWithoutTraffic;
+    int arrivalTime;
     String adresseDepart, adresseArrivee;
 
     public GoogleMapsAPI(int arrivalTime, String adresseDepart, String adresseArrivee) {
@@ -131,9 +131,17 @@ public class GoogleMapsAPI implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        int travelTimeWithoutTraffic = this.getTravelTimeWithoutTraffic();
-        if (travelTimeWithoutTraffic != -1) {
-            this.departureTimeWithoutTraffic = this.arrivalTime - travelTimeWithoutTraffic;
+        int tempsTrajetSansTrafic = this.getTravelTimeWithoutTraffic(); // temps de trajet pour arriver à l'heure voulue sans prendre en compte le trafic
+        if (tempsTrajetSansTrafic != -1) { // s'il n'y a pas d'erreur
+            int heureDepart = this.arrivalTime - tempsTrajetSansTrafic;
+            int tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
+            int heureArriveeAvecTrafic = heureDepart + tempsTrajetAvecTrafic;
+            while (heureArriveeAvecTrafic > this.arrivalTime) {
+                heureDepart = heureDepart - 60; // on retire une minute à l'heure de départ
+                tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
+                heureArriveeAvecTrafic = heureDepart + tempsTrajetAvecTrafic;
+            }
+            return tempsTrajetAvecTrafic;
         }
         return -1;
     }
