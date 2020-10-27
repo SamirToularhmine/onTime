@@ -97,6 +97,12 @@ public class GoogleMapsAPI implements Callable<Integer> {
         return -1; // si erreur
     }
 
+    /**
+     * Méthode qui demande à l'API Google Maps le temps nécessaire pour aller du point de départ au point d'arrivée
+     * en prenant en compte le trafic, à partir de l'heure de départ donnée en attribut
+     * @param departureTime l'heure de départ sous la forme du nombre de secondes depuis le 1er janvier 1970
+     * @return le temps de trajet en secondes
+     */
     public int getTravelTimeWithTraffic(int departureTime) {
         try {
             URL url = new URL(buildURLWithDepartureTimeTraffic(departureTime));
