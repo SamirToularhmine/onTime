@@ -141,7 +141,7 @@ public class GoogleMapsAPI implements Callable<Integer> {
                 tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
                 heureArriveeAvecTrafic = heureDepart + tempsTrajetAvecTrafic;
             }
-            return tempsTrajetAvecTrafic;
+            return Toolbox.getMinutesRoundedUpFromSecondes(tempsTrajetAvecTrafic);
         }
         return -1;
     }
