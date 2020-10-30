@@ -1,96 +1,69 @@
 package com.example.onTime;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.onTime.modele.Adresse;
-import com.example.onTime.modele.MRA;
-import com.example.onTime.modele.MorningRoutine;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.onTime.modele.Tache;
-import com.example.onTime.modele.Toolbox;
+
 
 import java.util.List;
 
-public class TacheAdapter extends BaseAdapter {
-    private List<Tache> listData;
-    private LayoutInflater layoutInflater;
-    private Context context;
-
-    public TacheAdapter(Context aContext, List<Tache> listTache) {
-        this.context = aContext;
-        this.listData = listTache;
-        layoutInflater = LayoutInflater.from(aContext);
-    }
-
-    @Override
-    public int getCount() {
-        return listData.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return listData.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    public View getView(int position, View convertView, final ViewGroup parent) {
-        TacheAdapter.ViewHolder holder;
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.tache_item_layout, parent, false);
-            holder = new TacheAdapter.ViewHolder();
-            convertView.setTag(holder);
-        } else {
-            holder = (TacheAdapter.ViewHolder) convertView.getTag();
-        }
-
-        holder.nomTache = convertView.findViewById(R.id.button_nomTache);
-        holder.nomTache.setTag(position);
+public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHolder> {
+    private List<Tache> listTache;
 
 
 
-        Tache tache = this.listData.get(position);
-        String heure = Toolbox.formaterHeure(Toolbox.getHourFromSecondes(tache.getDuree()), Toolbox.getMinutesFromSecondes(tache.getDuree()));
-        String afficher = tache.getNom() + " " + heure;
-        holder.nomTache.setText(afficher);
-
-
-        return convertView;
-    }
-
-
-
-    static class ViewHolder {
+    public static class TacheViewHolder extends RecyclerView.ViewHolder {
         TextView nomTache;
+        TextView duree;
+
+        public TacheViewHolder(View itemView) {
+            super(itemView);
+            nomTache = itemView.findViewById(R.id.nomtache);
+            duree = itemView.findViewById(R.id.dureetache);
+        }
+    }
+
+        public TacheAdapter(List<Tache> listTache) {
+        this.listTache = listTache;
+    }
+
+    @NonNull
+    @Override
+    public TacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tache_item_layout, parent, false);
+        return new TacheViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final TacheViewHolder holder, int position) {
+        Tache tache = listTache.get(position);
+        holder.nomTache.setText(tache.getNom());
+        holder.duree.setText(String.valueOf(tache.getDuree()));
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Tache tacheClicked = listTache.get(holder.getAdapterPosition());
+                Toast.makeText(v.getContext(), "Selected : " + tacheClicked.getNom(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
-    private void showAddItemDialog(Context c) {
-        final EditText taskEditText = new EditText(c);
-        AlertDialog dialog = new AlertDialog.Builder(c)
-                .setTitle("Add a new task")
-                .setMessage("What do you want to do next?")
-                .setView(taskEditText)
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String task = String.valueOf(taskEditText.getText());
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .create();
-        dialog.show();
+    @Override
+    public int getItemCount() {
+        return listTache.size();
     }
+
+    public List<Tache> getListTache() {
+        return listTache;
+    }
+
 }

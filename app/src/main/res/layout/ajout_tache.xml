@@ -5,7 +5,7 @@
 
     <EditText
         android:inputType="text"
-        android:id="@+id/nomtache"
+        android:id="@+id/nomtachecreate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
