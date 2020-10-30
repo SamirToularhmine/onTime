@@ -62,6 +62,7 @@ public class MorningRoutineActivity extends AppCompatActivity {
         ItemTouchHelperTache itemTouchHelperTache = new ItemTouchHelperTache(this, this.tacheAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
     }
 
 

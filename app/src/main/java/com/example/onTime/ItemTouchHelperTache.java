@@ -3,7 +3,7 @@ package com.example.onTime;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
+
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -70,34 +70,50 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
         snackbar.show();
     }
 
+
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             View itemView = viewHolder.itemView;
 
-            int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
             int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
             int iconBottom = iconTop + icon.getIntrinsicHeight();
 
+            int iconLeft, iconRight;
+
             if (dX > 0) { // Swiping to the right
-                int iconLeft = itemView.getLeft() + (int) dX - icon.getIntrinsicWidth();
-                int iconRight = itemView.getLeft() + (int) dX;
+                if (dX > icon.getIntrinsicWidth()) {
+                    iconLeft = itemView.getLeft();
+                    iconRight = itemView.getLeft() + icon.getIntrinsicWidth();
+                } else {
+                    iconLeft = itemView.getLeft() + (int) dX - icon.getIntrinsicWidth();
+                    iconRight = itemView.getLeft() + (int) dX;
+                }
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
                 background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX), itemView.getBottom());
             } else if (dX < 0) { // Swiping to the left
-                int iconLeft = itemView.getRight() + (int) dX ; // ajouter inconMaring si necessaire
-                int iconRight = itemView.getRight() + (int) dX + icon.getIntrinsicWidth();
+                if (dX * -1 > icon.getIntrinsicWidth()) {
+                    iconLeft = itemView.getRight() - icon.getIntrinsicWidth();
+                    iconRight = itemView.getRight();
+                } else {
+                    iconLeft = itemView.getRight() + (int) dX; // ajouter inconMaring si necessaire
+                    iconRight = itemView.getRight() + (int) dX + icon.getIntrinsicWidth();
+                }
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
-                background.setBounds(itemView.getRight() + (int) dX , itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
 
             }
 
             background.draw(c);
             icon.draw(c);
         }
+
+
     }
 }
+
+
 
