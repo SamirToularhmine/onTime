@@ -90,10 +90,12 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
                     iconLeft = itemView.getLeft() + (int) dX - icon.getIntrinsicWidth();
                     iconRight = itemView.getLeft() + (int) dX;
                 }
+
+
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
                 background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX), itemView.getBottom());
-            } else if (dX < 0) { // Swiping to the left
+            } else { // Swiping to the left
                 if (dX * -1 > icon.getIntrinsicWidth()) {
                     iconLeft = itemView.getRight() - icon.getIntrinsicWidth();
                     iconRight = itemView.getRight();
@@ -102,6 +104,8 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
                     iconRight = itemView.getRight() + (int) dX + icon.getIntrinsicWidth();
                 }
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+
+
 
                 background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
 
