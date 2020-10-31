@@ -1,8 +1,7 @@
-package com.example.onTime;
+package com.example.onTime.morning_routine;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.onTime.R;
 import com.example.onTime.modele.Tache;
 
 
@@ -22,7 +22,13 @@ import java.util.List;
 public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHolder> {
     private List<Tache> listTache;
 
+    public TacheAdapter(List<Tache> listTache) {
+        this.listTache = listTache;
+    }
 
+    public List<Tache> getList() {
+        return this.listTache;
+    }
 
     public static class TacheViewHolder extends RecyclerView.ViewHolder {
         TextView nomTache;
@@ -35,9 +41,7 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
         }
     }
 
-        public TacheAdapter(List<Tache> listTache) {
-        this.listTache = listTache;
-    }
+
 
     @NonNull
     @Override
@@ -55,7 +59,7 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Tache tacheClicked = listTache.get(holder.getAdapterPosition());
+                //Tache tacheClicked = listTache.get(holder.getAdapterPosition());
                 modifierTache(holder.itemView, holder);
                 //Toast.makeText(v.getContext(), "Selected : " + tacheClicked.getNom(), Toast.LENGTH_SHORT).show();
             }
@@ -77,7 +81,7 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
 
         duree.setMinValue(0);
         duree.setMaxValue(60);
-        duree.setValue((int)tacheClicked.getDuree()/60);
+        duree.setValue((int) tacheClicked.getDuree() / 60);
 
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
@@ -88,8 +92,8 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 tacheClicked.setNom(nomTache.getText().toString());
-                                tacheClicked.setDuree(duree.getValue()*60);
-                                TacheAdapter.this.notifyItemInserted(position);
+                                tacheClicked.setDuree(duree.getValue() * 60);
+                                TacheAdapter.this.notifyItemChanged(position);
                             }
                         })
                 .setNegativeButton("Cancel",
@@ -102,14 +106,9 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
     }
 
 
-
     @Override
     public int getItemCount() {
         return listTache.size();
-    }
-
-    public List<Tache> getListTache() {
-        return listTache;
     }
 
 }

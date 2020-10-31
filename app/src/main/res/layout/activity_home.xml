@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="0dp"
-    tools:context=".HomeActivity">
+    tools:context=".mra.HomeActivity">
 
     <com.example.onTime.WavyLinearLayout
         android:layout_width="match_parent"
@@ -54,8 +54,8 @@
             android:layout_height="match_parent"
             android:layout_weight="0.1">
 
-            <ListView
-                android:id="@+id/morningRoutinesList"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/morning_routine_adress_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
@@ -63,7 +63,7 @@
                 android:clipToPadding="false"
                 >
 
-            </ListView>
+            </androidx.recyclerview.widget.RecyclerView>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floating_action_button"

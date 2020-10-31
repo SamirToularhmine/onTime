@@ -1,57 +1,80 @@
-package com.example.onTime;
+package com.example.onTime.mra;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.onTime.modele.Adresse;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.onTime.R;
 import com.example.onTime.modele.MRA;
 import com.example.onTime.modele.MorningRoutine;
 
+
 import java.util.List;
 
-public class CustomGridAdapter extends BaseAdapter {
+public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRoutineAdressAdapter.MoringRoutineAdressViewHolder> {
 
-    private List<MRA> listData;
-    private LayoutInflater layoutInflater;
-    private Context context;
+    private List<MRA> listMRA;
 
-    public CustomGridAdapter(Context aContext, List<MRA> listData) {
-        this.context = aContext;
-        this.listData = listData;
-        layoutInflater = LayoutInflater.from(aContext);
+    public MorningRoutineAdressAdapter(List<MRA> listMRA) {
+        this.listMRA = listMRA;
+    }
+
+    public static class MoringRoutineAdressViewHolder extends RecyclerView.ViewHolder {
+        TextView moringRoutineView;
+        TextView adresseView;
+
+        public MoringRoutineAdressViewHolder(View itemView){
+            super(itemView);
+            moringRoutineView = itemView.findViewById(R.id.button_morning_routine);
+            adresseView = itemView.findViewById(R.id.button_adresse);
+        }
+
+    }
+
+    @NonNull
+    @Override
+    public MoringRoutineAdressViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.mra_item_layout, parent, false);
+        return new MorningRoutineAdressAdapter.MoringRoutineAdressViewHolder(view);
     }
 
     @Override
-    public int getCount() {
-        return listData.size();
+    public void onBindViewHolder(@NonNull final MoringRoutineAdressViewHolder holder, int position) {
+        MRA mra = listMRA.get(position);
+        holder.moringRoutineView.setText(mra.getMorningRoutine().getNom());
+        holder.adresseView.setText(String.valueOf(mra.getAdresse().getNom()));
+
+        holder.moringRoutineView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                MorningRoutine morningRoutine = listMRA.get(holder.getAdapterPosition()).getMorningRoutine();
+                Toast.makeText(v.getContext(), "Selected : " + morningRoutine.getNom(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
-
-
 
     @Override
-    public Object getItem(int position) {
-        return listData.get(position);
+    public int getItemCount() {
+        return listMRA.size();
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
+    public List<MRA> getList() {
+        return listMRA;
     }
 
+
+
+
+    /*
     public View getView(int position, View convertView, final ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.grid_item_layout, parent, false);
+            convertView = layoutInflater.inflate(R.layout.mra_item_layout, parent, false);
             holder = new ViewHolder();
             convertView.setTag(holder);
         } else {
@@ -135,5 +158,7 @@ public class CustomGridAdapter extends BaseAdapter {
         TextView adresseView;
         TextView deleteMR;
     }
+
+     */
 
 }

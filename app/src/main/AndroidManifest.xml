@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MorningRoutineActivity"/>
-        <activity android:name=".HomeActivity" />
+        <activity android:name=".morning_routine.MorningRoutineActivity"/>
+        <activity android:name=".mra.HomeActivity" />
         <activity android:name=".Destination" />
         <activity android:name=".MainActivity">
             <intent-filter>

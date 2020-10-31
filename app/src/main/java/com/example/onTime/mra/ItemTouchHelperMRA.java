@@ -1,9 +1,8 @@
-package com.example.onTime;
+package com.example.onTime.mra;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -13,24 +12,25 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.onTime.modele.Tache;
+import com.example.onTime.R;
+import com.example.onTime.modele.MRA;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
 
-public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
+public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
 
 
-    private TacheAdapter tacheAdapter;
+    private MorningRoutineAdressAdapter morningRoutineAdressAdapter;
     private int positionSuppr;
-    private Tache tacheSuppr;
+    private MRA supprMRA;
     private final Drawable icon;
     final ColorDrawable background = new ColorDrawable(Color.RED);
 
 
-    public ItemTouchHelperTache(Context context, TacheAdapter tacheAdapter) {
+    public ItemTouchHelperMRA(Context context, MorningRoutineAdressAdapter morningRoutineAdressAdapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        this.tacheAdapter = tacheAdapter;
+        this.morningRoutineAdressAdapter = morningRoutineAdressAdapter;
         icon = ContextCompat.getDrawable(context, R.drawable.ic_delete_24px);
     }
 
@@ -43,8 +43,8 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        Collections.swap(tacheAdapter.getListTache(), viewHolder.getAdapterPosition(), target.getAdapterPosition());
-        tacheAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        Collections.swap(morningRoutineAdressAdapter.getList(), viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        morningRoutineAdressAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
         return true;
     }
 
@@ -52,19 +52,19 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
         this.positionSuppr = position;
-        this.tacheSuppr = tacheAdapter.getListTache().get(position);
-        tacheAdapter.getListTache().remove(position);
-        tacheAdapter.notifyItemRemoved(position);
+        this.supprMRA = morningRoutineAdressAdapter.getList().get(position);
+        morningRoutineAdressAdapter.getList().remove(position);
+        morningRoutineAdressAdapter.notifyItemRemoved(position);
         showUndoSnackbar(viewHolder);
     }
 
     private void showUndoSnackbar(RecyclerView.ViewHolder viewHolder) {
-        Snackbar snackbar = Snackbar.make(viewHolder.itemView, "Suppression de " + tacheSuppr.getNom(), Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(viewHolder.itemView, "Suppression de " + supprMRA.getMorningRoutine().getNom(), Snackbar.LENGTH_SHORT);
         snackbar.setAction("Annuler", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tacheAdapter.getListTache().add(positionSuppr, tacheSuppr);
-                tacheAdapter.notifyItemInserted(positionSuppr);
+                morningRoutineAdressAdapter.getList().add(positionSuppr, supprMRA);
+                morningRoutineAdressAdapter.notifyItemInserted(positionSuppr);
             }
         });
         snackbar.show();

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="0dp"
-    tools:context=".MorningRoutineActivity">
+    tools:context=".morning_routine.MorningRoutineActivity">
 
     <com.example.onTime.WavyLinearLayout
         android:layout_width="match_parent"

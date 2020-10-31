@@ -1,8 +1,6 @@
-package com.example.onTime;
+package com.example.onTime.morning_routine;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,24 +8,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.NumberPicker;
-import android.widget.TextView;
 
+import com.example.onTime.R;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MorningRoutineActivity extends AppCompatActivity {
