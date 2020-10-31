@@ -16,6 +16,7 @@ import com.example.onTime.modele.Adresse;
 import com.example.onTime.modele.MRA;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
+import com.example.onTime.modele.Tache;
 import com.example.onTime.modele.Toolbox;
 import com.example.onTime.morning_routine.MorningRoutineActivity;
 
@@ -67,6 +68,8 @@ public class HomeActivity extends AppCompatActivity {
         for (int i = 0; i < longeur; i++) {
             mra.add(new MRA(new MorningRoutine("Morning Routine " + i), new Adresse("adresse" + i, "depart" + i, "arrivee" + i)));
         }
+        Tache t = new Tache("tache 1", 600);
+        mra.get(0).getMorningRoutine().ajouterTache(t);
 
         return mra;
     }
@@ -74,6 +77,5 @@ public class HomeActivity extends AppCompatActivity {
     public void createMorningRoutine(View view) {
         Intent intent = new Intent(this, MorningRoutineActivity.class);
         startActivity(intent);
-
     }
 }

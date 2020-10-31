@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.example.onTime.R;
 import com.example.onTime.modele.MorningRoutine;
@@ -37,7 +39,14 @@ public class MorningRoutineActivity extends AppCompatActivity {
 
         this.recyclerView = findViewById(R.id.tache_recyclerview);
 
-        this.laMorningRoutine = new MorningRoutine("Premiere Mornign routine", this.createTache(10));
+
+        Intent i = getIntent();
+        this.laMorningRoutine = i.getParcelableExtra("morning_routine");
+        if (this.laMorningRoutine == null)
+            this.laMorningRoutine = new MorningRoutine("Premiere Mornign routine", this.createTache(10));
+
+        TextView titre = findViewById(R.id.titreMorningRoutine);
+        titre.setText(this.laMorningRoutine.getNom());
 
         this.layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(this.layoutManager);

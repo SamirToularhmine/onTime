@@ -1,5 +1,6 @@
 package com.example.onTime.mra;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.onTime.R;
 import com.example.onTime.modele.MRA;
 import com.example.onTime.modele.MorningRoutine;
+import com.example.onTime.morning_routine.MorningRoutineActivity;
 
 
 import java.util.List;
@@ -52,7 +54,8 @@ public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRou
         holder.moringRoutineView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 MorningRoutine morningRoutine = listMRA.get(holder.getAdapterPosition()).getMorningRoutine();
-                Toast.makeText(v.getContext(), "Selected : " + morningRoutine.getNom(), Toast.LENGTH_SHORT).show();
+                modifierMorningRoutine(holder.itemView, morningRoutine);
+                //Toast.makeText(v.getContext(), "Selected : " + morningRoutine.getNom(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -65,6 +68,15 @@ public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRou
 
     public List<MRA> getList() {
         return listMRA;
+    }
+
+
+
+    public void modifierMorningRoutine(View view, MorningRoutine morningRoutine) {
+        Intent intent = new Intent(view.getContext(), MorningRoutineActivity.class);
+
+        intent.putExtra("morning_routine", morningRoutine);
+        view.getContext().startActivity(intent);
     }
 
 
