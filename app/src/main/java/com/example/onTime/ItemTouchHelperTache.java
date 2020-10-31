@@ -100,7 +100,7 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
                     iconLeft = itemView.getRight() - icon.getIntrinsicWidth();
                     iconRight = itemView.getRight();
                 } else {
-                    iconLeft = itemView.getRight() + (int) dX; // ajouter inconMaring si necessaire
+                    iconLeft = itemView.getRight() + (int) dX; // ajouter iconMaring si necessaire
                     iconRight = itemView.getRight() + (int) dX + icon.getIntrinsicWidth();
                 }
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);

@@ -1,9 +1,14 @@
 package com.example.onTime;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,10 +56,49 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Tache tacheClicked = listTache.get(holder.getAdapterPosition());
-                Toast.makeText(v.getContext(), "Selected : " + tacheClicked.getNom(), Toast.LENGTH_SHORT).show();
+                modifierTache(holder.itemView, holder);
+                //Toast.makeText(v.getContext(), "Selected : " + tacheClicked.getNom(), Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+
+    public void modifierTache(View view, final TacheViewHolder holder) {
+        LayoutInflater factory = LayoutInflater.from(view.getContext());
+        final View textEntryView = factory.inflate(R.layout.ajout_tache, null);
+        final int position = holder.getAdapterPosition();
+        final Tache tacheClicked = listTache.get(position);
+
+
+        final EditText nomTache = textEntryView.findViewById(R.id.nomtachecreate);
+        final NumberPicker duree = textEntryView.findViewById(R.id.duree);
+        nomTache.setText(tacheClicked.getNom());
+
+        duree.setMinValue(0);
+        duree.setMaxValue(60);
+        duree.setValue((int)tacheClicked.getDuree()/60);
+
+
+        final AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+
+        alert.setTitle("Enter the Text:")
+                .setView(textEntryView)
+                .setPositiveButton("Save",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                tacheClicked.setNom(nomTache.getText().toString());
+                                tacheClicked.setDuree(duree.getValue()*60);
+                                TacheAdapter.this.notifyItemInserted(position);
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                            }
+                        });
+        alert.show();
     }
 
 
