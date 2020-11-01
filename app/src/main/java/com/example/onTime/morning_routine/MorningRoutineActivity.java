@@ -37,6 +37,7 @@ public class MorningRoutineActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private TacheAdapter tacheAdapter;
     private MorningRoutine laMorningRoutine;
+    private int positionMorningRoutine;
 
 
 
@@ -48,11 +49,11 @@ public class MorningRoutineActivity extends AppCompatActivity {
         this.recyclerView = findViewById(R.id.tache_recyclerview);
 
 
-
         Intent i = getIntent();
+        this.positionMorningRoutine = i.getIntExtra("position", -1);
         this.laMorningRoutine = i.getParcelableExtra("morning_routine");
         if (this.laMorningRoutine == null)
-            this.laMorningRoutine = new MorningRoutine("Premiere Mornign routine", this.createTache(10));
+            this.laMorningRoutine = new MorningRoutine("Premiere morning routine");
 
         final EditText titre = findViewById(R.id.titreMorningRoutine);
         titre.setText(this.laMorningRoutine.getNom());
@@ -109,7 +110,7 @@ public class MorningRoutineActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(ev);
     }
 
-    private List<Tache> createTache(int longeur) {
+    /*private List<Tache> createTache(int longeur) {
         List<Tache> taches = new ArrayList<>();
 
         for (int i = 0; i < longeur; i++) {
@@ -117,7 +118,7 @@ public class MorningRoutineActivity extends AppCompatActivity {
         }
 
         return taches;
-    }
+    }*/
 
 
     public void creerTache(View view) {
@@ -154,5 +155,14 @@ public class MorningRoutineActivity extends AppCompatActivity {
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @Override
+    public void finish() {
+        Intent i = new Intent();
+        i.putExtra("morning_routine", this.laMorningRoutine);
+        i.putExtra("position", positionMorningRoutine);
+        setResult(RESULT_OK, i);
+        super.finish();
     }
 }

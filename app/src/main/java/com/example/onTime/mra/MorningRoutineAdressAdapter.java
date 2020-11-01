@@ -1,5 +1,7 @@
 package com.example.onTime.mra;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +23,10 @@ import java.util.List;
 public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRoutineAdressAdapter.MoringRoutineAdressViewHolder> {
 
     private List<MRA> listMRA;
+    private Context context;
 
-    public MorningRoutineAdressAdapter(List<MRA> listMRA) {
+    public MorningRoutineAdressAdapter(List<MRA> listMRA, Context context) {
+        this.context = context;
         this.listMRA = listMRA;
     }
 
@@ -48,13 +52,18 @@ public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRou
     @Override
     public void onBindViewHolder(@NonNull final MoringRoutineAdressViewHolder holder, int position) {
         MRA mra = listMRA.get(position);
+        String nomAdresse;
         holder.moringRoutineView.setText(mra.getMorningRoutine().getNom());
-        holder.adresseView.setText(String.valueOf(mra.getAdresse().getNom()));
+        if (mra.getAdresse() == null)
+            nomAdresse = "+";
+        else
+            nomAdresse = mra.getAdresse().getNom();
+        holder.adresseView.setText(String.valueOf(nomAdresse));
 
         holder.moringRoutineView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 MorningRoutine morningRoutine = listMRA.get(holder.getAdapterPosition()).getMorningRoutine();
-                modifierMorningRoutine(holder.itemView, morningRoutine);
+                modifierMorningRoutine(holder.itemView, morningRoutine, holder.getAdapterPosition());
                 //Toast.makeText(v.getContext(), "Selected : " + morningRoutine.getNom(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -72,105 +81,13 @@ public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRou
 
 
 
-    public void modifierMorningRoutine(View view, MorningRoutine morningRoutine) {
+    public void modifierMorningRoutine(View view, MorningRoutine morningRoutine, int position) {
         Intent intent = new Intent(view.getContext(), MorningRoutineActivity.class);
 
         intent.putExtra("morning_routine", morningRoutine);
-        view.getContext().startActivity(intent);
+        intent.putExtra("position", position);
+        ((Activity) context).startActivityForResult(intent, 1);
     }
 
-
-
-
-    /*
-    public View getView(int position, View convertView, final ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.mra_item_layout, parent, false);
-            holder = new ViewHolder();
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-
-        holder.moringRoutineView = convertView.findViewById(R.id.button_morning_routine);
-        holder.moringRoutineView.setTag(position);
-        holder.adresseView = convertView.findViewById(R.id.button_adresse);
-        holder.adresseView.setTag(position);
-        holder.deleteMR = convertView.findViewById(R.id.button_delete);
-        holder.deleteMR.setTag(position);
-
-        holder.moringRoutineView.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                int position=(Integer)v.getTag();
-                MorningRoutine morningRoutineClicked = listData.get(position).getMorningRoutine();
-                Toast.makeText(parent.getContext(), "Selected : " + morningRoutineClicked, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        holder.adresseView.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                int position=(Integer)v.getTag();
-                Adresse adresseClicked = listData.get(position).getAdresse();
-                Toast.makeText(parent.getContext(), "Selected :" + adresseClicked, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        holder.deleteMR.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                int position=(Integer)v.getTag();
-                MRA morningRoutineClicked = listData.get(position);
-                AlertDialog alertDialog =  AskOption(morningRoutineClicked);
-                alertDialog.show();
-            }
-        });
-
-        MRA mra = this.listData.get(position);
-        holder.moringRoutineView.setText(mra.getMorningRoutine().toString()); // verifer null
-        Adresse a  = mra.getAdresse();
-        if (a == null)
-            holder.adresseView.setText("+");
-        else
-            holder.adresseView.setText(mra.getAdresse().toString());
-
-        return convertView;
-    }
-
-    private AlertDialog AskOption(final MRA morningRoutineClicked) {
-
-        return new AlertDialog.Builder(context)
-                // set message, title, and icon
-                .setTitle("Delete")
-                .setMessage("Do you want to Delete")
-                .setIcon(R.drawable.ic_delete_24px)
-
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        listData.remove(morningRoutineClicked);
-                        notifyDataSetChanged();
-                        dialog.dismiss();
-                        Toast.makeText(context, "Removed : " + morningRoutineClicked, Toast.LENGTH_SHORT).show();
-                    }
-
-                })
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.dismiss();
-
-                    }
-                })
-                .create();
-    }
-
-
-    static class ViewHolder {
-        TextView moringRoutineView;
-        TextView adresseView;
-        TextView deleteMR;
-    }
-
-     */
 
 }

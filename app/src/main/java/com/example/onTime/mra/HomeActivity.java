@@ -1,5 +1,6 @@
 package com.example.onTime.mra;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -35,15 +36,15 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        List<MRA> mras = createMRA(18);
-        this.mrManager = new MRManager(39600, mras);
+        //List<MRA> mras = createMRA(18);
+        this.mrManager = new MRManager();
 
         this.recyclerView = findViewById(R.id.morning_routine_adress_recycler_view);
 
         this.layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRA());
+        this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRA(), this);
         this.recyclerView.setAdapter(this.morningRoutineAdressAdapter);
 
         //On sépare chaque ligne de notre liste par un trait
@@ -62,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private List<MRA> createMRA(int longeur){
+    /*private List<MRA> createMRA(int longeur){
         List<MRA> mra = new ArrayList<>();
 
         for (int i = 0; i < longeur; i++) {
@@ -74,8 +75,26 @@ public class HomeActivity extends AppCompatActivity {
         return mra;
     }
 
+     */
+
     public void createMorningRoutine(View view) {
         Intent intent = new Intent(this, MorningRoutineActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        MorningRoutine morningRoutine = data.getParcelableExtra("morning_routine");
+        int position = data.getIntExtra("position", -1);
+
+        if (position == -1 ){
+            this.mrManager.ajouterMorningRoutine(morningRoutine);
+            morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRA().size());
+        }else{
+            MRA mra = this.mrManager.getListMRA().get(position);
+            mra.setMorningRoutine(morningRoutine);
+            morningRoutineAdressAdapter.notifyItemChanged(position);
+        }
     }
 }
