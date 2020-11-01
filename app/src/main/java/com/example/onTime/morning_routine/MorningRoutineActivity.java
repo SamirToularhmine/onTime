@@ -6,19 +6,27 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.example.onTime.MainActivity;
 import com.example.onTime.R;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,12 +48,13 @@ public class MorningRoutineActivity extends AppCompatActivity {
         this.recyclerView = findViewById(R.id.tache_recyclerview);
 
 
+
         Intent i = getIntent();
         this.laMorningRoutine = i.getParcelableExtra("morning_routine");
         if (this.laMorningRoutine == null)
             this.laMorningRoutine = new MorningRoutine("Premiere Mornign routine", this.createTache(10));
 
-        TextView titre = findViewById(R.id.titreMorningRoutine);
+        final EditText titre = findViewById(R.id.titreMorningRoutine);
         titre.setText(this.laMorningRoutine.getNom());
 
         this.layoutManager = new LinearLayoutManager(this);
@@ -63,12 +72,42 @@ public class MorningRoutineActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
+        //Perdre le focus lorsqu'on clique sur ok lors du changement de titre
+        titre.setOnEditorActionListener(new TextView.OnEditorActionListener(){
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_DONE){
+                    //Clear focus here from edittext
+                    titre.clearFocus();
+                    MorningRoutineActivity.this.laMorningRoutine.setNom(titre.getText().toString());
+                }
+                return false;
+            }
+        });
+
+        //Enlever le clavier quand on perd le focus
+        titre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                    MorningRoutineActivity.this.laMorningRoutine.setNom(titre.getText().toString());
+                }
+            }
+        });
+
     }
 
-
-
-
-
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            final EditText titre = findViewById(R.id.titreMorningRoutine);
+            titre.clearFocus();
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 
     private List<Tache> createTache(int longeur) {
         List<Tache> taches = new ArrayList<>();
@@ -112,4 +151,8 @@ public class MorningRoutineActivity extends AppCompatActivity {
     }
 
 
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }
