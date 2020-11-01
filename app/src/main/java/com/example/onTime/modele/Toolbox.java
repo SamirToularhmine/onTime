@@ -26,6 +26,25 @@ import java.util.GregorianCalendar;
     }
 
     /**
+     * Méthode qui retourne une heure sous le format HH:MM
+     * @param heure est l'heure de 0 à 23
+     * @param minutes sont les minutes de 0 à 59
+     * @return un String sous le format HH:MM
+     */
+    static public String formaterHeure(int heure, int minutes){
+        String total = "";
+        if (heure < 10) {
+            total += "0";
+        }
+        total += heure + ":";
+        if (minutes < 10){
+            total += "0";
+        }
+        total += minutes;
+        return total;
+    }
+
+    /**
      * Méthode qui retourne les minutes dans à partir d'un nombre de secondes (modulo 60 minutes)
      * @param secondes le nombre de seconde a convertir en minutes
      * @return le nombre de secondes en minutes % 60

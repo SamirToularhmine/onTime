@@ -1,12 +1,15 @@
 package com.example.onTime.modele;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Classe qui représente une morning routine composée d'un nom et d'une liste de taches.
  */
-public class MorningRoutine {
+public class MorningRoutine implements Parcelable {
     private String nom;
     private List<Tache> listeTaches;
 
@@ -27,6 +30,46 @@ public class MorningRoutine {
     public MorningRoutine(String nom) {
         this.nom = nom;
         this.listeTaches = new ArrayList<>();
+    }
+
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<MorningRoutine> CREATOR = new Parcelable.Creator<MorningRoutine>() {
+        @Override
+        public MorningRoutine createFromParcel(Parcel in) {
+            return new MorningRoutine(in);
+        }
+
+        @Override
+        public MorningRoutine[] newArray(int size) {
+            return new MorningRoutine[size];
+        }
+    };
+
+    protected MorningRoutine(Parcel in) {
+        nom = in.readString();
+        if (in.readByte() == 0x01) {
+            listeTaches = new ArrayList<>();
+            in.readList(listeTaches, Tache.class.getClassLoader());
+        } else {
+            listeTaches = null;
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nom);
+        if (listeTaches == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(listeTaches);
+        }
     }
 
     /**
@@ -66,5 +109,10 @@ public class MorningRoutine {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    @Override
+    public String toString() {
+        return nom ;
     }
 }
