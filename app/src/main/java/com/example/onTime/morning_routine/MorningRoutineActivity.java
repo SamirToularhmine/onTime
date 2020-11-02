@@ -22,14 +22,9 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.example.onTime.MainActivity;
 import com.example.onTime.R;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
-import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MorningRoutineActivity extends AppCompatActivity {
 

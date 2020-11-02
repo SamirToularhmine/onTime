@@ -36,8 +36,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //List<MRA> mras = createMRA(18);
-        this.mrManager = new MRManager();
+        List<MRA> mras = createMRA(18);
+        this.mrManager = new MRManager(39600, mras);
 
         this.recyclerView = findViewById(R.id.morning_routine_adress_recycler_view);
 
@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    /*private List<MRA> createMRA(int longeur){
+    private List<MRA> createMRA(int longeur){
         List<MRA> mra = new ArrayList<>();
 
         for (int i = 0; i < longeur; i++) {
@@ -74,8 +74,6 @@ public class HomeActivity extends AppCompatActivity {
 
         return mra;
     }
-
-     */
 
     public void createMorningRoutine(View view) {
         Intent intent = new Intent(this, MorningRoutineActivity.class);
