@@ -25,8 +25,7 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
     private int positionSuppr;
     private MRA supprMRA;
     private final Drawable icon;
-    final ColorDrawable background = new ColorDrawable(Color.RED);
-
+    final ColorDrawable background = new ColorDrawable(Color.parseColor("#CA4242"));
 
     public ItemTouchHelperMRA(Context context, MorningRoutineAdressAdapter morningRoutineAdressAdapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);

@@ -26,7 +26,7 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
     private int positionSuppr;
     private Tache tacheSuppr;
     private final Drawable icon;
-    final ColorDrawable background = new ColorDrawable(Color.RED);
+    final ColorDrawable background = new ColorDrawable(Color.parseColor("#CA4242"));
 
 
     public ItemTouchHelperTache(Context context, TacheAdapter tacheAdapter) {
