@@ -1,6 +1,9 @@
 package com.example.onTime.modele;
 
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -12,7 +15,7 @@ import java.util.GregorianCalendar;
 
     private Toolbox() { }
 
-    static public long getSecondesFromHeureMinute(int heures, int minute) {
+    public static long getSecondesFromHeureMinute(int heures, int minute) {
         return (heures * 3600 + minute * 60);
     }
 
@@ -21,7 +24,7 @@ import java.util.GregorianCalendar;
      * @param secondes le nombre de secondes a convertir en heure
      * @return le nomre de secodnes en heures
      */
-    static public int getHourFromSecondes(long secondes){
+    public static int getHourFromSecondes(long secondes){
         return (int)(secondes / 3600);
     }
 
@@ -31,7 +34,7 @@ import java.util.GregorianCalendar;
      * @param minutes sont les minutes de 0 à 59
      * @return un String sous le format HH:MM
      */
-    static public String formaterHeure(int heure, int minutes){
+    public static String formaterHeure(int heure, int minutes){
         String total = "";
         if (heure < 10) {
             total += "0";
@@ -49,7 +52,7 @@ import java.util.GregorianCalendar;
      * @param secondes le nombre de seconde a convertir en minutes
      * @return le nombre de secondes en minutes % 60
      */
-    static public int getMinutesFromSecondes(long secondes){
+    public static int getMinutesFromSecondes(long secondes){
         return (int)((secondes % 3600) / 60);
     }
 
@@ -58,7 +61,7 @@ import java.util.GregorianCalendar;
      * @param date est la date souhaitée
      * @return les secondes entre le 01/01/1970 et date
      */
-    static public long getSecondesFromEpoch(Date date) {
+    public static long getSecondesFromEpoch(Date date) {
         return (date.getTime() / 1000);
     }
 
@@ -68,7 +71,7 @@ import java.util.GregorianCalendar;
      * @param arrivee est l'heure d'arivee dans cette timezone
      * @return la date en epoch en secondes de l'heure d'arivee. Il faut ajouter la timezone à l'heure retournée.
      */
-    static public long getDateFromHeureArrivee(long arrivee) {
+    public static long getDateFromHeureArrivee(long arrivee) {
         Calendar rightNow = Calendar.getInstance();
         Calendar heureArriveeAjd = new GregorianCalendar(rightNow.get(Calendar.YEAR), rightNow.get(Calendar.MONTH), rightNow.get(Calendar.DAY_OF_MONTH), Toolbox.getHourFromSecondes(arrivee), Toolbox.getMinutesFromSecondes(arrivee));
         long secondesFromEpochArivee = Toolbox.getSecondesFromEpoch(heureArriveeAjd.getTime());
@@ -80,5 +83,8 @@ import java.util.GregorianCalendar;
         }
     }
 
+    public static void showToast(Context context, String message, int displayTime){
+        Toast.makeText(context, message, displayTime).show();
+    }
 
 }
