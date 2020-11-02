@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -27,9 +28,12 @@ import com.example.onTime.R;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class MorningRoutineActivity extends AppCompatActivity {
 
@@ -81,6 +85,7 @@ public class MorningRoutineActivity extends AppCompatActivity {
                     //Clear focus here from edittext
                     titre.clearFocus();
                     MorningRoutineActivity.this.laMorningRoutine.setNom(titre.getText().toString());
+                    MorningRoutineActivity.this.sauvegarder();
                 }
                 return false;
             }
@@ -93,6 +98,7 @@ public class MorningRoutineActivity extends AppCompatActivity {
                 if (!hasFocus) {
                     hideKeyboard(v);
                     MorningRoutineActivity.this.laMorningRoutine.setNom(titre.getText().toString());
+                    MorningRoutineActivity.this.sauvegarder();
                 }
             }
         });
@@ -140,6 +146,7 @@ public class MorningRoutineActivity extends AppCompatActivity {
                                 Tache t = new Tache(nomTache.getText().toString(),duree.getValue()*60);
                                 laMorningRoutine.ajouterTache(t);
                                 tacheAdapter.notifyDataSetChanged();
+                                MorningRoutineActivity.this.sauvegarder();
                             }
                         })
                 .setNegativeButton("Cancel",
@@ -158,11 +165,19 @@ public class MorningRoutineActivity extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        Intent i = new Intent();
-        i.putExtra("morning_routine", this.laMorningRoutine);
-        i.putExtra("position", positionMorningRoutine);
-        setResult(RESULT_OK, i);
-        super.finish();
+    public void onPause() {
+        this.sauvegarder();
+        super.onPause();
+    }
+
+    private void sauvegarder() {
+        Context context = getApplicationContext();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String jsonMorningRoutine = gson.toJson(this.laMorningRoutine);
+        editor.putString("morning_routine", jsonMorningRoutine);
+        editor.putInt("position", positionMorningRoutine);
+        editor.apply();
     }
 }
