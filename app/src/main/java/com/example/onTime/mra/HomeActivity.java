@@ -1,7 +1,10 @@
 package com.example.onTime.mra;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,10 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.onTime.R;
+import com.example.onTime.fragments.EditMRFragment;
+import com.example.onTime.fragments.NextAlarmHeaderFragment;
 import com.example.onTime.modele.Adresse;
 import com.example.onTime.modele.MRA;
 import com.example.onTime.modele.MRManager;
@@ -20,6 +26,8 @@ import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
 import com.example.onTime.modele.Toolbox;
 import com.example.onTime.morning_routine.MorningRoutineActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationMenu;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +69,33 @@ public class HomeActivity extends AppCompatActivity {
         if(heureReveil != null){
             heureReveil.setText(Toolbox.formaterHeure(Toolbox.getHourFromSecondes(this.mrManager.getHeureArrivee()), Toolbox.getMinutesFromSecondes(this.mrManager.getHeureArrivee())));
         }
+
+
+        BottomNavigationView menu = findViewById(R.id.bottom_navigation);
+        menu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.page_1: {
+                        Fragment nextAlarmHeaderFragment = new NextAlarmHeaderFragment();
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.header_fragment, nextAlarmHeaderFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        break;
+                    }
+                    case R.id.page_2: {
+                        Fragment editMRFragment = new EditMRFragment();
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.header_fragment, editMRFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     private List<MRA> createMRA(int longeur){
