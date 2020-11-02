@@ -1,9 +1,12 @@
 package com.example.onTime.modele;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Classe Adresse composée du nom qui sera affiché et de l'adresse
  */
-public class Adresse {
+public class Adresse implements Parcelable{
 
     private String nom;
     private String adresseDepart;
@@ -19,6 +22,36 @@ public class Adresse {
         this.nom = nom;
         this.adresseDepart = adresseDepart;
         this.adresseArrivee = adresseArrivee;
+    }
+
+    protected Adresse(Parcel in) {
+        nom = in.readString();
+        adresseDepart = in.readString();
+        adresseArrivee = in.readString();
+    }
+
+    public static final Creator<Adresse> CREATOR = new Creator<Adresse>() {
+        @Override
+        public Adresse createFromParcel(Parcel in) {
+            return new Adresse(in);
+        }
+
+        @Override
+        public Adresse[] newArray(int size) {
+            return new Adresse[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(this.nom);
+        parcel.writeString(this.adresseDepart);
+        parcel.writeString(this.adresseArrivee);
     }
 
     public String getNom() {
@@ -57,4 +90,6 @@ public class Adresse {
     public String toString() {
         return nom;
     }
+
+
 }

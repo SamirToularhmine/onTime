@@ -48,12 +48,21 @@ import java.util.GregorianCalendar;
     }
 
     /**
-     * Méthode qui retourne les minutes dans une seconde (modulo 60 minutes)
+     * Méthode qui retourne les minutes dans à partir d'un nombre de secondes (modulo 60 minutes)
      * @param secondes le nombre de seconde a convertir en minutes
      * @return le nombre de secondes en minutes % 60
      */
     public static int getMinutesFromSecondes(long secondes){
         return (int)((secondes % 3600) / 60);
+    }
+
+    /**
+     * Méthode qui retourne les minutes (arrondi à l'entier supérieur) à partir d'un nombre de secondes
+     * @param secondes le nombre de secondes à convertir en minutes
+     * @return le nombre de secondes en minutes (arrondi à l'entier supérieur)
+     */
+    static public int getMinutesRoundedUpFromSecondes(long secondes) {
+        return (int)(secondes + 60 - 1) / 60;
     }
 
     /**
