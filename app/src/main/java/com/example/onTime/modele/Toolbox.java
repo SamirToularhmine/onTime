@@ -1,9 +1,15 @@
 package com.example.onTime.modele;
 
 
+import com.example.onTime.services.GoogleMapsAPI;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Classe qui sert de boite à outil
@@ -87,6 +93,13 @@ import java.util.GregorianCalendar;
         } else {
             return secondesFromEpochArivee; // date de l'heure d'arrivée sans la timeZone
         }
+    }
+
+    static public long getTimeOfTravelWithTraffic(long arrivalTime, String adresseDepart, String adresseArrivee) throws ExecutionException, InterruptedException {
+        GoogleMapsAPI googleMapsAPI = new GoogleMapsAPI(arrivalTime, adresseDepart, adresseArrivee);
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<Integer> future = executorService.submit(googleMapsAPI);
+        return future.get();
     }
 
 
