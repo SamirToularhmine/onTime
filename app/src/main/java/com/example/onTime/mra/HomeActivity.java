@@ -53,13 +53,6 @@ public class HomeActivity extends AppCompatActivity {
             this.mrManager = gson.fromJson(json, MRManager.class);
         }
 
-        // Enregistrement du fait que l'utilisateur a passé l'intro, pour plus ne lui montrer ensuite
-        boolean userHasFinishedInitialSetup = this.sharedPreferences.getBoolean("userHasFinishedInitialSetup", false);
-        if (!userHasFinishedInitialSetup) {
-            this.sharedPreferences.edit().putBoolean("userHasFinishedInitialSetup", true).apply();
-        }
-
-
         this.recyclerView = findViewById(R.id.morning_routine_adress_recycler_view);
 
         this.layoutManager = new LinearLayoutManager(this);
