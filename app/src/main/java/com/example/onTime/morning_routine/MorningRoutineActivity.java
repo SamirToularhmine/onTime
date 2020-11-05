@@ -34,8 +34,6 @@ public class MorningRoutineActivity extends AppCompatActivity {
     private MorningRoutine laMorningRoutine;
     private int positionMorningRoutine;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
@@ -23,10 +24,10 @@ import java.util.List;
 public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRoutineAdressAdapter.MoringRoutineAdressViewHolder> {
 
     private List<MRA> listMRA;
-    private Context context;
+    private Fragment fragment;
 
-    public MorningRoutineAdressAdapter(List<MRA> listMRA, Context context) {
-        this.context = context;
+    public MorningRoutineAdressAdapter(List<MRA> listMRA, Fragment fragment) {
+        this.fragment = fragment;
         this.listMRA = listMRA;
     }
 
@@ -79,15 +80,11 @@ public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRou
         return listMRA;
     }
 
-
-
     public void modifierMorningRoutine(View view, MorningRoutine morningRoutine, int position) {
         Intent intent = new Intent(view.getContext(), MorningRoutineActivity.class);
 
         intent.putExtra("morning_routine", morningRoutine);
         intent.putExtra("position", position);
-        ((Activity) context).startActivityForResult(intent, 1);
+        this.fragment.startActivityForResult(intent, 1);
     }
-
-
 }

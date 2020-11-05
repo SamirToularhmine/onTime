@@ -9,69 +9,31 @@
     android:paddingBottom="0dp"
     tools:context=".mra.HomeActivity">
 
-    <com.example.onTime.WavyLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:paddingTop="40dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="50dp">
-
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/header_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </com.example.onTime.WavyLinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="20dp"
-        android:paddingBottom="0dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_weight="0.1">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <FrameLayout
+            android:id="@+id/header_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.1">
+            android:layout_height="wrap_content">
+        </FrameLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/morning_routine_adress_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:divider="@android:color/transparent"
-                android:clipToPadding="false"
-                >
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floating_action_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:layout_margin="16dp"
-                app:backgroundTint="@color/colorPrimary"
-                app:srcCompat="@drawable/ic_add_24px"
-                app:tint="@color/colorAccent"
-                android:onClick="createMorningRoutine"/>
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
+        <FrameLayout
+            android:id="@+id/content_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:menu="@menu/bottom_navigation_menu"
-            android:isScrollContainer="false"
-            app:labelVisibilityMode="labeled"/>
+            android:layout_height="match_parent">
+        </FrameLayout>
     </LinearLayout>
 
-    
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:menu="@menu/bottom_navigation_menu"
+        android:isScrollContainer="false"
+        app:labelVisibilityMode="labeled"/>
 </LinearLayout>
