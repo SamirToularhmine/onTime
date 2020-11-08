@@ -87,7 +87,7 @@ public class EditMRFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        FloatingActionButton ct = getActivity().findViewById(R.id.floating_action_button);
+        FloatingActionButton ct = view.findViewById(R.id.floating_action_button);
         ct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

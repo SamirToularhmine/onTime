@@ -1,5 +1,6 @@
 package com.example.onTime.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class ListMRFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private MorningRoutineAdressAdapter morningRoutineAdressAdapter;
+    private SharedPreferences sharedPreferences;
 
     public ListMRFragment() {
         // Required empty public constructor
@@ -65,9 +67,10 @@ public class ListMRFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SharedPreferences  mPrefs = getActivity().getPreferences(MODE_PRIVATE);
+        Context context = this.getActivity().getApplicationContext();
+        this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = mPrefs.getString("mr_manager", "");
+        String json = this.sharedPreferences.getString("MRManager", "");
         this.mrManager = gson.fromJson(json, MRManager.class);
 
         TextView heureReveil = view.findViewById(R.id.heureReveil);
@@ -122,5 +125,35 @@ public class ListMRFragment extends Fragment {
             mra.setMorningRoutine(mr);
             morningRoutineAdressAdapter.notifyItemChanged(position);
         }
+    }
+
+    @Override
+    public void onResume() {
+        Context context = getContext();
+        this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+
+        MorningRoutine morningRoutine;
+        int position = this.sharedPreferences.getInt("position", -2);
+
+        Gson gson = new Gson();
+        String json = this.sharedPreferences.getString("morning_routine", "");
+        if (json != "") {
+            morningRoutine = gson.fromJson(json, MorningRoutine.class);
+            if (position == -1) {
+                this.mrManager.ajouterMorningRoutine(morningRoutine);
+                morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRA().size());
+            } else {
+                if (position >= 0) {
+                    MRA mra = this.mrManager.getListMRA().get(position);
+                    mra.setMorningRoutine(morningRoutine);
+                    morningRoutineAdressAdapter.notifyItemChanged(position);
+                }
+            }
+        }
+        this.sharedPreferences.edit()
+                .remove("morning_routine")
+                .remove("position")
+                .apply();
+        super.onResume();
     }
 }

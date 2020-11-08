@@ -27,7 +27,7 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
    private MRManager mrManager;
-    private SharedPreferences sharedPreferences;
+   private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +41,12 @@ public class HomeActivity extends AppCompatActivity {
         String json = this.sharedPreferences.getString("MRManager", "");
         if (json.equals("")) {
             List<MRA> mras = createMRA(18);
-            this.mrManager = new MRManager();
+            this.mrManager = new MRManager(16900, mras);
         } else {
             this.mrManager = gson.fromJson(json, MRManager.class);
         }
+
+        this.saveMRManager();
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
@@ -90,38 +92,7 @@ public class HomeActivity extends AppCompatActivity {
         startActivityForResult(intent, 1);
     }*/
 
-    /*@Override
-    protected void onResume() {
-        Context context = getApplicationContext();
-        this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-
-        MorningRoutine morningRoutine;
-        int position = this.sharedPreferences.getInt("position", -2);
-
-        Gson gson = new Gson();
-        String json = this.sharedPreferences.getString("morning_routine", "");
-        if (json != "") {
-            morningRoutine = gson.fromJson(json, MorningRoutine.class);
-            if (position == -1) {
-                this.mrManager.ajouterMorningRoutine(morningRoutine);
-                morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRA().size());
-            } else {
-                if (position >= 0) {
-                    MRA mra = this.mrManager.getListMRA().get(position);
-                    mra.setMorningRoutine(morningRoutine);
-                    morningRoutineAdressAdapter.notifyItemChanged(position);
-                }
-            }
-        }
-        this.sharedPreferences.edit()
-                .remove("morning_routine")
-                .remove("position")
-                .apply();
-        super.onResume();
-    }*/
-
-    @Override
-    protected void onPause() {
+    private void saveMRManager(){
         Context context = getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = this.sharedPreferences.edit();
@@ -129,7 +100,11 @@ public class HomeActivity extends AppCompatActivity {
         String json = gson.toJson(this.mrManager);
         editor.putString("MRManager", json);
         editor.apply();
+    }
 
+    @Override
+    protected void onPause() {
+        this.saveMRManager();
         super.onPause();
     }
 }
