@@ -6,8 +6,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -93,7 +95,7 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
 
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
-                background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX), itemView.getBottom());
+                background.setBounds(itemView.getLeft(), itemView.getTop() + 25, itemView.getLeft() + ((int) dX), itemView.getBottom() - 25);
             } else { // Swiping to the left
                 if (dX * -1 > icon.getIntrinsicWidth()) {
                     iconLeft = itemView.getRight() - icon.getIntrinsicWidth();
@@ -106,7 +108,7 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
 
 
 
-                background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                background.setBounds(itemView.getRight() + (int) dX, itemView.getTop() + 25, itemView.getRight(), itemView.getBottom() - 25);
 
             }
 

@@ -1,22 +1,29 @@
 package com.example.onTime.mra;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
+import com.example.onTime.fragments.EditMRFragment;
 import com.example.onTime.modele.MRA;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.morning_routine.MorningRoutineActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 import java.util.List;
@@ -81,10 +88,14 @@ public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRou
     }
 
     public void modifierMorningRoutine(View view, MorningRoutine morningRoutine, int position) {
-        Intent intent = new Intent(view.getContext(), MorningRoutineActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("morning_routine", morningRoutine);
+        bundle.putInt("position", position);
 
-        intent.putExtra("morning_routine", morningRoutine);
-        intent.putExtra("position", position);
-        this.fragment.startActivityForResult(intent, 1);
+        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+
+        NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+        navController.navigate(R.id.editMRFragment, bundle);
     }
 }

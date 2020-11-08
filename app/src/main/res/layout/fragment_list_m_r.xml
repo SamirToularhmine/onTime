@@ -6,33 +6,76 @@
     android:layout_height="wrap_content"
     tools:context=".fragments.ListMRFragment">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/morning_routine_adress_recycler_view"
+        <com.example.onTime.WavyLinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2"
-            android:divider="@android:color/transparent"
-            android:clipToPadding="false"
-            >
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_action_button"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="16dp"
-            app:backgroundTint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_add_24px"
-            app:tint="@color/colorAccent"
-            android:onClick="createMorningRoutine"
-            android:contentDescription="TODO" />
+            android:background="@color/colorAccent"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:paddingTop="40dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="50dp">
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="0dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Demain, vous vous réveillerez à"
+                    android:textColor="@color/colorAccent"
+                    android:layout_weight="0.2"
+                    android:textSize="24sp"/>
+
+                <TextView
+                    android:id="@+id/heureReveil"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="00:00 H"
+                    android:layout_weight="0.5"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </com.example.onTime.WavyLinearLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/morning_routine_adress_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:divider="@android:color/transparent"
+                android:clipToPadding="false"
+                >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floating_action_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="16dp"
+                app:backgroundTint="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_add_24px"
+                app:tint="@color/colorAccent"
+                android:onClick="createMorningRoutine"
+                android:contentDescription="TODO" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </LinearLayout>
 
 </FrameLayout>

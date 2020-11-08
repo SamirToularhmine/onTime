@@ -1,24 +1,26 @@
 package com.example.onTime.mra;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.example.onTime.R;
-import com.example.onTime.fragments.ListMRFragment;
-import com.example.onTime.fragments.NextAlarmHeaderFragment;
 import com.example.onTime.modele.Adresse;
 import com.example.onTime.modele.MRA;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +29,6 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
    private MRManager mrManager;
-    /*private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private MorningRoutineAdressAdapter morningRoutineAdressAdapter;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,78 +38,21 @@ public class HomeActivity extends AppCompatActivity {
         List<MRA> mras = createMRA(18);
         this.mrManager = new MRManager(39600, mras);
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("mr_manager", this.mrManager);
-        NextAlarmHeaderFragment nextAlarmHeaderFragment = NextAlarmHeaderFragment.newInstance();
-        nextAlarmHeaderFragment.setArguments(bundle);
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = preferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(this.mrManager);
+        prefsEditor.putString("mr_manager", json);
+        prefsEditor.apply();
 
-        ListMRFragment listMRFragment = ListMRFragment.newInstance();
-        listMRFragment.setArguments(bundle);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.header_fragment, nextAlarmHeaderFragment)
-                .commit();
+        navController.setGraph(R.navigation.nav_graph);
 
-       getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_fragment, listMRFragment)
-                .commit();
-
-        /*List<MRA> mras = createMRA(18);
-        this.mrManager = new MRManager(39600, mras);
-
-        this.recyclerView = findViewById(R.id.morning_routine_adress_recycler_view);
-
-        this.layoutManager = new LinearLayoutManager(this);
-        this.recyclerView.setLayoutManager(this.layoutManager);
-
-        this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRA(), this);
-        this.recyclerView.setAdapter(this.morningRoutineAdressAdapter);
-
-        //On sépare chaque ligne de notre liste par un trait
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
-        // drag and drop + swipe
-        ItemTouchHelperMRA itemTouchHelperTache = new ItemTouchHelperMRA(this, this.morningRoutineAdressAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-
-
-        TextView heureReveil = findViewById(R.id.heureReveil);
-        if(heureReveil != null){
-            heureReveil.setText(Toolbox.formaterHeure(Toolbox.getHourFromSecondes(this.mrManager.getHeureArrivee()), Toolbox.getMinutesFromSecondes(this.mrManager.getHeureArrivee())));
-        }
-
-        */
-        BottomNavigationView menu = findViewById(R.id.bottom_navigation);
-        menu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()){
-                    case R.id.page_1: {
-                        Fragment nextAlarmHeaderFragment = NextAlarmHeaderFragment.newInstance();
-                        Fragment listMRFragment = ListMRFragment.newInstance();
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.header_fragment, nextAlarmHeaderFragment);
-                        transaction.replace(R.id.content_fragment, listMRFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
-                        break;
-                    }
-                    case R.id.page_2: {
-                        /* Fragment editMRHeaderFragment = EditMRHeaderFragment.newInstance();
-                        Fragment editMRFragment = EditMRFragment.newInstance();
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.header_fragment, editMRHeaderFragment);
-                        transaction.replace(R.id.content_fragment, editMRFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();*/
-                        break;
-                    }
-                }
-                return true;
-            }
-        });
+        // navController.navigate(R.id.listMRFragment, bundle);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        NavigationUI.setupWithNavController(bottomNav, navController);
     }
 
     private List<MRA> createMRA(int longeur){
@@ -123,6 +65,23 @@ public class HomeActivity extends AppCompatActivity {
         mra.get(0).getMorningRoutine().ajouterTache(t);
 
         return mra;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View v = getCurrentFocus();
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            v.clearFocus();
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    public void hideKeyboard(Activity act) {
+        if(act!=null)
+            ((InputMethodManager)act.getSystemService(Context.INPUT_METHOD_SERVICE))
+                    .hideSoftInputFromWindow((act.getWindow().getDecorView().getApplicationWindowToken()), 0);
     }
 
     /*public void createMorningRoutine(View view) {

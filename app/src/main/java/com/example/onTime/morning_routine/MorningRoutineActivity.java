@@ -48,8 +48,8 @@ public class MorningRoutineActivity extends AppCompatActivity {
         if (this.laMorningRoutine == null)
             this.laMorningRoutine = new MorningRoutine("Premiere morning routine");
 
-        final EditText titre = findViewById(R.id.titreMorningRoutine);
-        titre.setText(this.laMorningRoutine.getNom());
+        /*final EditText titre = findViewById(R.id.titreMorningRoutine);
+        titre.setText(this.laMorningRoutine.getNom());*/
 
         this.layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(this.layoutManager);
@@ -67,7 +67,7 @@ public class MorningRoutineActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         //Perdre le focus lorsqu'on clique sur ok lors du changement de titre
-        titre.setOnEditorActionListener(new TextView.OnEditorActionListener(){
+        /*titre.setOnEditorActionListener(new TextView.OnEditorActionListener(){
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_DONE){
@@ -88,7 +88,7 @@ public class MorningRoutineActivity extends AppCompatActivity {
                     MorningRoutineActivity.this.laMorningRoutine.setNom(titre.getText().toString());
                 }
             }
-        });
+        });*/
 
     }
 
@@ -145,10 +145,10 @@ public class MorningRoutineActivity extends AppCompatActivity {
     }
 
 
-    public void hideKeyboard(View view) {
+    /*public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
+    }*/
 
     @Override
     public void finish() {

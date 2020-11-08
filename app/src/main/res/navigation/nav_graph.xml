@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/listMRFragment">
+
+    <fragment
+        android:id="@+id/editMRFragment"
+        android:name="com.example.onTime.fragments.EditMRFragment"
+        android:label="fragment_edit_m_r"
+        tools:layout="@layout/fragment_edit_m_r" />
+    <fragment
+        android:id="@+id/listMRFragment"
+        android:name="com.example.onTime.fragments.ListMRFragment"
+        android:label="fragment_list_m_r"
+        tools:layout="@layout/fragment_list_m_r">
+        <action
+            android:id="@+id/action_listMRFragment_to_manageFragment"
+            app:destination="@id/manageFragment" />
+        <action
+            android:id="@+id/action_listMRFragment_to_editMRFragment"
+            app:destination="@id/editMRFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/manageFragment"
+        android:name="com.example.onTime.fragments.ManageFragment"
+        android:label="fragment_manage"
+        tools:layout="@layout/fragment_manage"/>
+</navigation>

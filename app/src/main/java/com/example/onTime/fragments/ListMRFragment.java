@@ -1,12 +1,17 @@
 package com.example.onTime.fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.SavedStateHandle;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,9 +36,12 @@ import com.example.onTime.mra.ItemTouchHelperMRA;
 import com.example.onTime.mra.MorningRoutineAdressAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class ListMRFragment extends Fragment {
 
@@ -60,13 +68,22 @@ public class ListMRFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        this.mrManager = (MRManager) getArguments().get("mr_manager");
         return inflater.inflate(R.layout.fragment_list_m_r, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        SharedPreferences  mPrefs = getActivity().getPreferences(MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString("mr_manager", "");
+        this.mrManager = gson.fromJson(json, MRManager.class);
+
+        TextView heureReveil = view.findViewById(R.id.heureReveil);
+        if(heureReveil != null){
+            heureReveil.setText(Toolbox.formaterHeure(Toolbox.getHourFromSecondes(this.mrManager.getHeureArrivee()), Toolbox.getMinutesFromSecondes(this.mrManager.getHeureArrivee())));
+        }
 
         this.recyclerView = view.findViewById(R.id.morning_routine_adress_recycler_view);
 
@@ -76,9 +93,20 @@ public class ListMRFragment extends Fragment {
         this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRA(), this);
         this.recyclerView.setAdapter(this.morningRoutineAdressAdapter);
 
-        //On sépare chaque ligne de notre liste par un trait
-        /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);*/
+
+        // We use a String here, but any type that can be put in a Bundle is supported
+        SavedStateHandle handle = NavHostFragment.findNavController(this).getCurrentBackStackEntry().getSavedStateHandle();
+        MutableLiveData<MorningRoutine> liveMorningRoutine = handle.getLiveData("morning_routine");
+        final MutableLiveData<Integer> livePosition = handle.getLiveData("position");
+
+        liveMorningRoutine.observe(getViewLifecycleOwner(), new Observer<MorningRoutine>() {
+            @Override
+            public void onChanged(MorningRoutine mr) {
+                if(livePosition.getValue() != null){
+                    ListMRFragment.this.editMR(mr, livePosition.getValue());
+                }
+            }
+        });
 
         // drag and drop + swipe
         ItemTouchHelperMRA itemTouchHelperTache = new ItemTouchHelperMRA(getActivity(), this.morningRoutineAdressAdapter);
@@ -95,18 +123,13 @@ public class ListMRFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        MorningRoutine morningRoutine = data.getParcelableExtra("morning_routine");
-        int position = data.getIntExtra("position", -1);
-
+    public void editMR(MorningRoutine mr, int position) {
         if (position == -1 ){
-            this.mrManager.ajouterMorningRoutine(morningRoutine);
+            this.mrManager.ajouterMorningRoutine(mr);
             morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRA().size());
         }else{
             MRA mra = this.mrManager.getListMRA().get(position);
-            mra.setMorningRoutine(morningRoutine);
+            mra.setMorningRoutine(mr);
             morningRoutineAdressAdapter.notifyItemChanged(position);
         }
     }
