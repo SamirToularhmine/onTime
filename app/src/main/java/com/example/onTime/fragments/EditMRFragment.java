@@ -102,6 +102,7 @@ public class EditMRFragment extends Fragment {
                     //Clear focus here from edittext
                     titre.clearFocus();
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
+                    saveMR();
                 }
                 return false;
             }
@@ -113,6 +114,7 @@ public class EditMRFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
+                    saveMR();
                 }
             }
         });
@@ -121,11 +123,4 @@ public class EditMRFragment extends Fragment {
     private void saveMR(){
         NavHostFragment.findNavController(this).getPreviousBackStackEntry().getSavedStateHandle().set("morning_routine", this.laMorningRoutine);
         NavHostFragment.findNavController(this).getPreviousBackStackEntry().getSavedStateHandle().set("position", this.positionMorningRoutine);
-    }
-
-    @Override
-    public void onPause() {
-        saveMR();
-        super.onPause();
-    }
-}
+    }}
