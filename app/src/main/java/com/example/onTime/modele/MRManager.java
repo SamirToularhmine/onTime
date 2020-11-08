@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Classe représentant toutes les morning routines ainsi que l'heure d'arrivée du prochain trajet.
@@ -64,6 +65,32 @@ public class MRManager implements Parcelable {
         }
     }
 
+    /**
+     * Méthode qui donne la somme du temps des tâches de la morning routine en première position dans la liste
+     * @return le temps total pour effectuer les tâches (en secondes)
+     */
+    public long getTempsTotalTaches() {
+        long res = 0;
+        for (Tache tache : this.listMRA.get(0).getMorningRoutine().getListeTaches()) {
+            res += tache.getDuree();
+        }
+        return res;
+    }
+
+    /**
+     * Méthode qui donne l'heure de réveil en prenant en compte le temps des tâches et le temps de trajet
+     * @return l'heure de réveil en secondes par rapport à minuit
+     * @throws ExecutionException erreur lors de l'exécution de la requête
+     * @throws InterruptedException interruption lors de l'exécution de la requête
+     */
+    public long getHeureReveil() throws ExecutionException, InterruptedException {
+        long res = this.heureArrivee; // on part de l'heure d'arrivée
+        res -= this.getTempsTotalTaches(); // on y supprime le temps des tâches
+        MRA mra = this.listMRA.get(0);
+        long dateHeureArrivee = Toolbox.getDateFromHeureArrivee(this.heureArrivee);
+        res -= Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, mra.getAdresse().getAdresseDepart(), mra.getAdresse().getAdresseArrivee()); // et le temps de trajet
+        return res;
+    }
 
     public long getHeureArrivee() {
         return this.heureArrivee;

@@ -1,12 +1,23 @@
 package com.example.onTime.modele;
 
 
+import com.example.onTime.services.GoogleMapsAPI;
+
 import android.content.Context;
 import android.widget.Toast;
+
+import com.example.onTime.GoogleMapsAPI;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Classe qui sert de boite à outil
@@ -61,7 +72,7 @@ import java.util.GregorianCalendar;
      * @param secondes le nombre de secondes à convertir en minutes
      * @return le nombre de secondes en minutes (arrondi à l'entier supérieur)
      */
-    static public int getMinutesRoundedUpFromSecondes(long secondes) {
+    public static int getMinutesRoundedUpFromSecondes(long secondes) {
         return (int)(secondes + 60 - 1) / 60;
     }
 
@@ -90,6 +101,13 @@ import java.util.GregorianCalendar;
         } else {
             return secondesFromEpochArivee; // date de l'heure d'arrivée sans la timeZone
         }
+    }
+
+    static public long getTimeOfTravelWithTraffic(long arrivalTime, String adresseDepart, String adresseArrivee) throws ExecutionException, InterruptedException {
+        GoogleMapsAPI googleMapsAPI = new GoogleMapsAPI(arrivalTime, adresseDepart, adresseArrivee);
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<Integer> future = executorService.submit(googleMapsAPI);
+        return future.get();
     }
 
     public static void showToast(Context context, String message, int displayTime){

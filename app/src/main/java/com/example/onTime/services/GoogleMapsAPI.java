@@ -1,4 +1,4 @@
-package com.example.onTime;
+package com.example.onTime.services;
 
 import android.util.Log;
 
@@ -17,10 +17,10 @@ import java.util.concurrent.Callable;
 
 public class GoogleMapsAPI implements Callable<Integer> {
 
-    int arrivalTime;
+    long arrivalTime;
     String adresseDepart, adresseArrivee;
 
-    public GoogleMapsAPI(int arrivalTime, String adresseDepart, String adresseArrivee) {
+    public GoogleMapsAPI(long arrivalTime, String adresseDepart, String adresseArrivee) {
         this.arrivalTime = arrivalTime;
         this.adresseDepart = adresseDepart;
         this.adresseArrivee = adresseArrivee;
@@ -47,7 +47,7 @@ public class GoogleMapsAPI implements Callable<Integer> {
      * @param departureTime l'heure de départ sous la forme du nombre de secondes depuis le 1 janvier 1970 (UTC)
      * @return l'URL correspondante sous la forme d'un String
      */
-    private String buildURLWithDepartureTimeTraffic(int departureTime) {
+    private String buildURLWithDepartureTimeTraffic(long departureTime) {
         StringBuilder res = new StringBuilder()
             .append("https://maps.googleapis.com/maps/api/distancematrix/json")
             .append("?origins=").append(this.adresseDepart.replaceAll(" ", "+"))
@@ -63,7 +63,7 @@ public class GoogleMapsAPI implements Callable<Integer> {
      * à partir de l'heure d'arrivée (attribut de la classe)
      * @return le temps de trajet en voiture entre les deux adresses (en secondes)
      */
-    public int getTravelTimeWithoutTraffic() {
+    public long getTravelTimeWithoutTraffic() {
         try {
             URL obj = new URL(buildURLWithArrivalTime());
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -87,7 +87,7 @@ public class GoogleMapsAPI implements Callable<Integer> {
                 JSONArray rows = jsonObject.getJSONArray("rows");
                 JSONArray elements = rows.getJSONObject(0).getJSONArray("elements");
 
-                int travelTimeWithoutTraffic = elements.getJSONObject(0).getJSONObject("duration").getInt("value");
+                long travelTimeWithoutTraffic = elements.getJSONObject(0).getJSONObject("duration").getLong("value");
                 return travelTimeWithoutTraffic;
             }
 
@@ -103,7 +103,7 @@ public class GoogleMapsAPI implements Callable<Integer> {
      * @param departureTime l'heure de départ sous la forme du nombre de secondes depuis le 1er janvier 1970
      * @return le temps de trajet en secondes
      */
-    public int getTravelTimeWithTraffic(int departureTime) {
+    public long getTravelTimeWithTraffic(long departureTime) {
         try {
             URL url = new URL(buildURLWithDepartureTimeTraffic(departureTime));
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -125,7 +125,7 @@ public class GoogleMapsAPI implements Callable<Integer> {
                 JSONObject jsonObject = new JSONObject(response.toString());
                 JSONArray rows = jsonObject.getJSONArray("rows");
                 JSONArray elements = rows.getJSONObject(0).getJSONArray("elements");
-                int travelTimeWithTraffic = elements.getJSONObject(0).getJSONObject("duration_in_traffic").getInt("value");
+                long travelTimeWithTraffic = elements.getJSONObject(0).getJSONObject("duration_in_traffic").getLong("value");
                 return travelTimeWithTraffic;
             }
 
@@ -137,11 +137,11 @@ public class GoogleMapsAPI implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        int tempsTrajetSansTrafic = this.getTravelTimeWithoutTraffic(); // temps de trajet pour arriver à l'heure voulue sans prendre en compte le trafic
+        long tempsTrajetSansTrafic = this.getTravelTimeWithoutTraffic(); // temps de trajet pour arriver à l'heure voulue sans prendre en compte le trafic
         if (tempsTrajetSansTrafic != -1) { // s'il n'y a pas d'erreur
-            int heureDepart = this.arrivalTime - tempsTrajetSansTrafic;
-            int tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
-            int heureArriveeAvecTrafic = heureDepart + tempsTrajetAvecTrafic;
+            long heureDepart = this.arrivalTime - tempsTrajetSansTrafic;
+            long tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
+            long heureArriveeAvecTrafic = heureDepart + tempsTrajetAvecTrafic;
             while (heureArriveeAvecTrafic > this.arrivalTime) {
                 heureDepart = heureDepart - 60; // on retire une minute à l'heure de départ
                 tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
