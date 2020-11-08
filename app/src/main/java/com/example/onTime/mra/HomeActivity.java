@@ -64,8 +64,9 @@ public class HomeActivity extends AppCompatActivity {
         for (int i = 0; i < longeur; i++) {
             mra.add(new MRA(new MorningRoutine("Morning Routine " + i), new Adresse("adresse" + i, "depart" + i, "arrivee" + i)));
         }
-        Tache t = new Tache("tache 1", 600);
-        mra.get(0).getMorningRoutine().ajouterTache(t);
+
+        /*Tache t = new Tache("tache 1", 600);
+        mra.get(0).getMorningRoutine().ajouterTache(t);*/
 
         return mra;
     }
@@ -100,11 +101,5 @@ public class HomeActivity extends AppCompatActivity {
         String json = gson.toJson(this.mrManager);
         editor.putString("MRManager", json);
         editor.apply();
-    }
-
-    @Override
-    protected void onPause() {
-        this.saveMRManager();
-        super.onPause();
     }
 }

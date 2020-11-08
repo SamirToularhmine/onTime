@@ -152,7 +152,7 @@ public class EditMRFragment extends Fragment {
     }
 
     private void sauvegarder() {
-        Context context = this.getContext();
+        Context context = getActivity().getApplicationContext();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -163,9 +163,9 @@ public class EditMRFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
+    public void onStop() {
         this.sauvegarder();
-        super.onPause();
+        super.onStop();
     }
 
     private void saveMR(){

@@ -73,6 +73,7 @@ public class ListMRFragment extends Fragment {
         String json = this.sharedPreferences.getString("MRManager", "");
         this.mrManager = gson.fromJson(json, MRManager.class);
 
+
         TextView heureReveil = view.findViewById(R.id.heureReveil);
         if(heureReveil != null){
             heureReveil.setText(Toolbox.formaterHeure(Toolbox.getHourFromSecondes(this.mrManager.getHeureArrivee()), Toolbox.getMinutesFromSecondes(this.mrManager.getHeureArrivee())));
@@ -128,9 +129,9 @@ public class ListMRFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        Context context = getContext();
-        this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+    public void onStart() {
+        Context context1 = getActivity().getApplicationContext();
+        this.sharedPreferences = context1.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
 
         MorningRoutine morningRoutine;
         int position = this.sharedPreferences.getInt("position", -2);
@@ -154,6 +155,20 @@ public class ListMRFragment extends Fragment {
                 .remove("morning_routine")
                 .remove("position")
                 .apply();
-        super.onResume();
+
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        Context context = this.getActivity().getApplicationContext();
+        this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = this.sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(this.mrManager);
+        editor.putString("MRManager", json);
+        editor.apply();
+
+        super.onStop();
     }
 }
