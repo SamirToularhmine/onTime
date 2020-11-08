@@ -7,39 +7,29 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.onTime.R;
-import com.example.onTime.modele.Adresse;
 import com.example.onTime.modele.MRA;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
-import com.example.onTime.modele.Tache;
 import com.example.onTime.modele.Toolbox;
 import com.example.onTime.morning_routine.MorningRoutineActivity;
-import com.example.onTime.mra.HomeActivity;
 import com.example.onTime.mra.ItemTouchHelperMRA;
 import com.example.onTime.mra.MorningRoutineAdressAdapter;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 

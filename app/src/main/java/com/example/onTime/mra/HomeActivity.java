@@ -7,16 +7,10 @@ import androidx.navigation.ui.NavigationUI;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import com.example.onTime.R;
 import com.example.onTime.modele.Adresse;
@@ -25,9 +19,6 @@ import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import com.example.onTime.modele.Toolbox;
-import com.example.onTime.morning_routine.MorningRoutineActivity;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

@@ -1,41 +1,37 @@
 package com.example.onTime.fragments;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Layout;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.example.onTime.R;
 import com.example.onTime.modele.MorningRoutine;
+import com.example.onTime.modele.Tache;
 import com.example.onTime.morning_routine.ItemTouchHelperTache;
+import com.example.onTime.morning_routine.MorningRoutineActivity;
 import com.example.onTime.morning_routine.TacheAdapter;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 public class EditMRFragment extends Fragment {
 
@@ -91,6 +87,41 @@ public class EditMRFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
+        FloatingActionButton ct = getActivity().findViewById(R.id.floating_action_button);
+        ct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater factory = LayoutInflater.from(EditMRFragment.this.getContext());
+                final View textEntryView = factory.inflate(R.layout.ajout_tache, null);
+
+                final EditText nomTache = textEntryView.findViewById(R.id.nomtachecreate);
+                final NumberPicker duree = textEntryView.findViewById(R.id.duree);
+                duree.setMinValue(0);
+                duree.setMaxValue(60);
+
+                final AlertDialog.Builder alert = new AlertDialog.Builder(EditMRFragment.this.getContext());
+
+                alert.setTitle("Enter the Text:")
+                        .setView(textEntryView)
+                        .setPositiveButton("Save",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        Tache t = new Tache(nomTache.getText().toString(),duree.getValue()*60);
+                                        laMorningRoutine.ajouterTache(t);
+                                        tacheAdapter.notifyDataSetChanged();
+                                        EditMRFragment.this.sauvegarder();
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int whichButton) {
+                                    }
+                                });
+                alert.show();
+            }
+        });
+
         final EditText titre = view.findViewById(R.id.titreMorningRoutine);
         titre.setText(this.laMorningRoutine.getNom());
 
@@ -102,7 +133,7 @@ public class EditMRFragment extends Fragment {
                     //Clear focus here from edittext
                     titre.clearFocus();
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
-                    saveMR();
+                    sauvegarder();
                 }
                 return false;
             }
@@ -114,13 +145,31 @@ public class EditMRFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
-                    saveMR();
+                    sauvegarder();
                 }
             }
         });
     }
 
+    private void sauvegarder() {
+        Context context = this.getContext();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String jsonMorningRoutine = gson.toJson(this.laMorningRoutine);
+        editor.putString("morning_routine", jsonMorningRoutine);
+        editor.putInt("position", positionMorningRoutine);
+        editor.apply();
+    }
+
+    @Override
+    public void onPause() {
+        this.sauvegarder();
+        super.onPause();
+    }
+
     private void saveMR(){
         NavHostFragment.findNavController(this).getPreviousBackStackEntry().getSavedStateHandle().set("morning_routine", this.laMorningRoutine);
         NavHostFragment.findNavController(this).getPreviousBackStackEntry().getSavedStateHandle().set("position", this.positionMorningRoutine);
-    }}
+    }
+}

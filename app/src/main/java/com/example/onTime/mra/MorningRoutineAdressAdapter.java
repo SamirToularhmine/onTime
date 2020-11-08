@@ -1,6 +1,5 @@
 package com.example.onTime.mra;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,20 +9,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
-import com.example.onTime.fragments.EditMRFragment;
 import com.example.onTime.modele.MRA;
 import com.example.onTime.modele.MorningRoutine;
-import com.example.onTime.morning_routine.MorningRoutineActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 import java.util.List;
