@@ -4,5 +4,7 @@
     <!-- The background color, preferably the same as your normal theme -->
     <item android:drawable="@color/colorPrimary"/>
     <item android:drawable="@drawable/ic_launcher_alarm_foreground"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:height="200dp"
+        android:width="200dp"/>
 </layer-list>
