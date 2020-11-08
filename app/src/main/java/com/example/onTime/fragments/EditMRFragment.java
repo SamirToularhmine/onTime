@@ -60,7 +60,7 @@ public class EditMRFragment extends Fragment {
                              Bundle savedInstanceState) {
         this.laMorningRoutine = (MorningRoutine) getArguments().get("morning_routine");
         this.positionMorningRoutine = getArguments().getInt("position");
-
+        sauvegarder();
         return inflater.inflate(R.layout.fragment_edit_m_r, container, false);
     }
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context=".fragments.ListMRFragment">
 
     <LinearLayout
@@ -50,7 +50,7 @@
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/morning_routine_adress_recycler_view"
@@ -72,7 +72,6 @@
                 app:backgroundTint="@color/colorPrimary"
                 app:srcCompat="@drawable/ic_add_24px"
                 app:tint="@color/colorAccent"
-                android:onClick="createMorningRoutine"
                 android:contentDescription="TODO" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

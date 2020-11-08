@@ -7,10 +7,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.SavedStateHandle;
+import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -97,7 +99,7 @@ public class ListMRFragment extends Fragment {
             @Override
             public void onChanged(MorningRoutine mr) {
                 if(livePosition.getValue() != null){
-                    ListMRFragment.this.editMR(mr, livePosition.getValue());
+                    editMR(mr, livePosition.getValue());
                 }
             }
         });
@@ -111,10 +113,22 @@ public class ListMRFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MorningRoutineActivity.class);
-                ListMRFragment.this.startActivityForResult(intent, 1);
+                creerNouvelleMorningRoutine(v, new MorningRoutine("Nouvelle Morning Routine à changer"));
             }
         });
+    }
+
+
+    public void creerNouvelleMorningRoutine(View view, MorningRoutine morningRoutine) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("morning_routine", morningRoutine);
+        bundle.putInt("position", -1);
+
+        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+
+        NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+        navController.navigate(R.id.editMRFragment, bundle);
     }
 
     public void editMR(MorningRoutine mr, int position) {
@@ -129,7 +143,7 @@ public class ListMRFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
+    public void onResume() {
         Context context1 = getActivity().getApplicationContext();
         this.sharedPreferences = context1.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
 
@@ -138,7 +152,7 @@ public class ListMRFragment extends Fragment {
 
         Gson gson = new Gson();
         String json = this.sharedPreferences.getString("morning_routine", "");
-        if (json != "") {
+        if (!json.equals("")) {
             morningRoutine = gson.fromJson(json, MorningRoutine.class);
             if (position == -1) {
                 this.mrManager.ajouterMorningRoutine(morningRoutine);
@@ -156,7 +170,7 @@ public class ListMRFragment extends Fragment {
                 .remove("position")
                 .apply();
 
-        super.onStart();
+        super.onResume();
     }
 
     @Override
