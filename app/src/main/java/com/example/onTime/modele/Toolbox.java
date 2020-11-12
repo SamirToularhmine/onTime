@@ -127,6 +127,6 @@ import java.util.concurrent.ExecutionException;
             sb.append(secondes).append("s");
         }
 
-        return sb.toString()
+        return sb.toString();
     }
 }
