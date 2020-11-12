@@ -78,10 +78,6 @@ public class EditMRFragment extends Fragment {
         this.tacheAdapter = new TacheAdapter(this.laMorningRoutine.getListeTaches());
         this.recyclerView.setAdapter(this.tacheAdapter);
 
-        // On sépare chaque ligne de notre liste par un trait
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
         // drag and drop + swipe
         ItemTouchHelperTache itemTouchHelperTache = new ItemTouchHelperTache(getActivity(), this.tacheAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);

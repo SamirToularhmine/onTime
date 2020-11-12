@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
 import com.example.onTime.modele.Tache;
+import com.example.onTime.modele.Toolbox;
 
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
     public void onBindViewHolder(@NonNull final TacheViewHolder holder, int position) {
         Tache tache = listTache.get(position);
         holder.nomTache.setText(tache.getNom());
-        holder.duree.setText(String.valueOf(tache.getDuree()));
+        holder.duree.setText(Toolbox.secondesToMinSecString(tache.getDuree()));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
