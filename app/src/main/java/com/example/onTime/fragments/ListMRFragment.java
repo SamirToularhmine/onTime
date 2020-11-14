@@ -75,12 +75,6 @@ public class ListMRFragment extends Fragment {
         String json = this.sharedPreferences.getString("MRManager", "");
         this.mrManager = gson.fromJson(json, MRManager.class);
 
-
-        TextView heureReveil = view.findViewById(R.id.heureReveil);
-        if(heureReveil != null){
-            heureReveil.setText(Toolbox.formaterHeure(Toolbox.getHourFromSecondes(this.mrManager.getHeureArrivee()), Toolbox.getMinutesFromSecondes(this.mrManager.getHeureArrivee())));
-        }
-
         this.recyclerView = view.findViewById(R.id.morning_routine_adress_recycler_view);
 
         this.layoutManager = new LinearLayoutManager(getActivity());
@@ -88,7 +82,6 @@ public class ListMRFragment extends Fragment {
 
         this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRA(), this);
         this.recyclerView.setAdapter(this.morningRoutineAdressAdapter);
-
 
         // We use a String here, but any type that can be put in a Bundle is supported
         SavedStateHandle handle = NavHostFragment.findNavController(this).getCurrentBackStackEntry().getSavedStateHandle();

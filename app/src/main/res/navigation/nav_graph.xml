@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/listMRFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/editMRFragment"
@@ -28,4 +28,10 @@
         android:name="com.example.onTime.fragments.ManageFragment"
         android:label="fragment_manage"
         tools:layout="@layout/fragment_manage"/>
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.onTime.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home"/>
 </navigation>

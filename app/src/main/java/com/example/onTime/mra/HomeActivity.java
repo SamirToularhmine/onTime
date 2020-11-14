@@ -62,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
         List<MRA> mra = new ArrayList<>();
 
         for (int i = 0; i < longeur; i++) {
-            mra.add(new MRA(new MorningRoutine("Morning Routine " + i), new Adresse("adresse" + i, "depart" + i, "arrivee" + i)));
+            mra.add(new MRA(new MorningRoutine("Morning Routine " + i), new Adresse("adresse" + i, "depart" + i, "arrivee" + i), 0));
         }
 
         /*Tache t = new Tache("tache 1", 600);
