@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,10 @@ import com.example.onTime.modele.Tache;
 import com.example.onTime.morning_routine.ItemTouchHelperTache;
 import com.example.onTime.morning_routine.MorningRoutineActivity;
 import com.example.onTime.morning_routine.TacheAdapter;
+import com.google.android.material.datepicker.MaterialTextInputPicker;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
 public class EditMRFragment extends Fragment {
@@ -90,16 +94,17 @@ public class EditMRFragment extends Fragment {
                 LayoutInflater factory = LayoutInflater.from(EditMRFragment.this.getContext());
                 final View textEntryView = factory.inflate(R.layout.ajout_tache, null);
 
-                final EditText nomTache = textEntryView.findViewById(R.id.nomtachecreate);
+                TextInputLayout nomTacheLayout = textEntryView.findViewById(R.id.nomtachecreate);
+                final EditText nomTache = nomTacheLayout.getEditText();
                 final NumberPicker duree = textEntryView.findViewById(R.id.duree);
                 duree.setMinValue(0);
                 duree.setMaxValue(60);
 
-                final AlertDialog.Builder alert = new AlertDialog.Builder(EditMRFragment.this.getContext());
+                final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(EditMRFragment.this.getContext());
 
-                alert.setTitle("Enter the Text:")
+                alert.setTitle("Créer une nouvelle tache :")
                         .setView(textEntryView)
-                        .setPositiveButton("Save",
+                        .setPositiveButton("Sauvegarder",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         Tache t = new Tache(nomTache.getText().toString(),duree.getValue()*60);
@@ -108,7 +113,7 @@ public class EditMRFragment extends Fragment {
                                         EditMRFragment.this.sauvegarder();
                                     }
                                 })
-                        .setNegativeButton("Cancel",
+                        .setNegativeButton("Annuler",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,
                                                         int whichButton) {
