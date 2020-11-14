@@ -64,16 +64,95 @@
                     android:divider="@android:color/transparent">
                 </androidx.recyclerview.widget.RecyclerView>
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/floating_action_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_margin="16dp"
-                    app:backgroundTint="@color/colorPrimary"
-                    app:srcCompat="@drawable/ic_add_24px"
-                    app:tint="@color/colorAccent"
-                    android:contentDescription="TODO" />
+                <LinearLayout
+                    android:id="@+id/empty_taches"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Vous n'avez encore aucune tâche à faire lors de votre Morning Routine"
+                        android:textAlignment="center"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/host_action_tache"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_margin="16dp"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:srcCompat="@drawable/ic_add_24px"
+                        android:textColor="@color/colorAccent"
+                        app:tint="@color/colorAccent"
+                        android:contentDescription="TODO"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/creer_tache"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_margin="16dp"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:srcCompat="@drawable/ic_new_24dp"
+                        app:tint="@color/colorAccent"
+                        android:contentDescription="TODO"
+                        app:fabSize="mini"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toTopOf="@+id/host_action_tache"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <TextView
+                        android:id="@+id/creer_tache_texte"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Créer une nouvelle tache"
+                        android:layout_marginEnd="8dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/creer_tache"
+                        app:layout_constraintEnd_toStartOf="@+id/creer_tache"
+                        app:layout_constraintTop_toTopOf="@+id/creer_tache"
+                        />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/choisir_tache"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_margin="16dp"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:srcCompat="@drawable/ic_task"
+                        app:tint="@color/colorAccent"
+                        app:fabSize="mini"
+                        android:visibility="invisible"
+                        android:contentDescription="TODO"
+                        app:layout_constraintBottom_toTopOf="@+id/creer_tache"
+                        app:layout_constraintBottom_toBottomOf="@+id/creer_tache"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <TextView
+                        android:id="@+id/choisir_tache_texte"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Choisir une tache existante"
+                        android:layout_marginEnd="8dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/choisir_tache"
+                        app:layout_constraintEnd_toStartOf="@+id/choisir_tache"
+                        app:layout_constraintTop_toTopOf="@+id/choisir_tache"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </LinearLayout>
