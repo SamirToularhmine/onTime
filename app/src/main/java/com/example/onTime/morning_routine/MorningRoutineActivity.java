@@ -66,9 +66,9 @@ public class MorningRoutineActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         // drag and drop + swipe
-        ItemTouchHelperTache itemTouchHelperTache = new ItemTouchHelperTache(this, this.tacheAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        //ItemTouchHelperTache itemTouchHelperTache = new ItemTouchHelperTache(this, this.tacheAdapter);
+        //ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
+        //itemTouchHelper.attachToRecyclerView(recyclerView);
 
        /* //Perdre le focus lorsqu'on clique sur ok lors du changement de titre
         titre.setOnEditorActionListener(new TextView.OnEditorActionListener(){

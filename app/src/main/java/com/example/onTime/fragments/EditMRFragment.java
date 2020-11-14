@@ -1,6 +1,5 @@
 package com.example.onTime.fragments;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -9,14 +8,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.InputType;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,11 +28,8 @@ import com.example.onTime.R;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
 import com.example.onTime.morning_routine.ItemTouchHelperTache;
-import com.example.onTime.morning_routine.MorningRoutineActivity;
 import com.example.onTime.morning_routine.TacheAdapter;
-import com.google.android.material.datepicker.MaterialTextInputPicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
@@ -98,7 +90,7 @@ public class EditMRFragment extends Fragment {
         }
 
         // drag and drop + swipe
-        ItemTouchHelperTache itemTouchHelperTache = new ItemTouchHelperTache(getActivity(), this.tacheAdapter);
+        ItemTouchHelperTache itemTouchHelperTache = new ItemTouchHelperTache(getActivity(), this.tacheAdapter, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
@@ -270,7 +262,7 @@ public class EditMRFragment extends Fragment {
         });
     }
 
-    private void sauvegarder() {
+    public void sauvegarder() {
         Context context = getActivity().getApplicationContext();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -287,8 +279,4 @@ public class EditMRFragment extends Fragment {
         super.onStop();
     }
 
-    private void saveMR(){
-        NavHostFragment.findNavController(this).getPreviousBackStackEntry().getSavedStateHandle().set("morning_routine", this.laMorningRoutine);
-        NavHostFragment.findNavController(this).getPreviousBackStackEntry().getSavedStateHandle().set("position", this.positionMorningRoutine);
-    }
 }

@@ -61,9 +61,7 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Tache tacheClicked = listTache.get(holder.getAdapterPosition());
                 modifierTache(holder.itemView, holder);
-                //Toast.makeText(v.getContext(), "Selected : " + tacheClicked.getNom(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -112,5 +110,7 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
     public int getItemCount() {
         return listTache.size();
     }
+
+
 
 }
