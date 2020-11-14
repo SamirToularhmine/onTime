@@ -4,22 +4,22 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Classe qui represente le lien entre une morning routine et une adresse
+ * Classe qui represente le lien entre une morning routine et un trajet
  */
-public class MRA implements Parcelable {
+public class MRT implements Parcelable {
 
     private MorningRoutine morningRoutine;
-    private Adresse adresse;
+    private Trajet trajet;
 
     /**
      * Constructeur d'une MRA
      *
      * @param morningRoutine est une morning routine existante
-     * @param adresse        est une adresse existante
+     * @param trajet        est un trajet existant
      */
-    public MRA(MorningRoutine morningRoutine, Adresse adresse) {
+    public MRT(MorningRoutine morningRoutine, Trajet trajet) {
         this.morningRoutine = morningRoutine;
-        this.adresse = adresse;
+        this.trajet = trajet;
     }
 
     /**
@@ -27,26 +27,26 @@ public class MRA implements Parcelable {
      *
      * @param morningRoutine est une morning routine existante
      */
-    public MRA(MorningRoutine morningRoutine) {
+    public MRT(MorningRoutine morningRoutine) {
         this.morningRoutine = morningRoutine;
-        this.adresse = null;
+        this.trajet = null;
     }
 
-    public static final Parcelable.Creator<MRA> CREATOR = new Parcelable.Creator<MRA>() {
+    public static final Parcelable.Creator<MRT> CREATOR = new Parcelable.Creator<MRT>() {
         @Override
-        public MRA createFromParcel(Parcel in) {
-            return new MRA(in);
+        public MRT createFromParcel(Parcel in) {
+            return new MRT(in);
         }
 
         @Override
-        public MRA[] newArray(int size) {
-            return new MRA[size];
+        public MRT[] newArray(int size) {
+            return new MRT[size];
         }
     };
 
-    protected MRA(Parcel in) {
+    protected MRT(Parcel in) {
         morningRoutine = (MorningRoutine) in.readValue(MorningRoutine.class.getClassLoader());
-        adresse = (Adresse) in.readValue(Adresse.class.getClassLoader());
+        trajet = (Trajet) in.readValue(Trajet.class.getClassLoader());
     }
 
     @Override
@@ -57,7 +57,7 @@ public class MRA implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(morningRoutine);
-        dest.writeValue(adresse);
+        dest.writeValue(trajet);
     }
 
 
@@ -69,16 +69,16 @@ public class MRA implements Parcelable {
         this.morningRoutine = morningRoutine;
     }
 
-    public Adresse getAdresse() {
-        return this.adresse;
+    public Trajet getTrajet() {
+        return this.trajet;
     }
 
-    public void setAdresse(Adresse adresse) {
-        this.adresse = adresse;
+    public void setTrajet(Trajet trajet) {
+        this.trajet = trajet;
     }
 
     @Override
     public String toString() {
-        return morningRoutine + " | " + adresse;
+        return morningRoutine + " | " + trajet;
     }
 }

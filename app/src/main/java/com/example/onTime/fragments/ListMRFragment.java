@@ -1,7 +1,6 @@
 package com.example.onTime.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -24,17 +23,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.onTime.R;
-import com.example.onTime.modele.MRA;
+import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Toolbox;
-import com.example.onTime.morning_routine.MorningRoutineActivity;
-import com.example.onTime.mra.ItemTouchHelperMRA;
-import com.example.onTime.mra.MorningRoutineAdressAdapter;
+import com.example.onTime.mrt.ItemTouchHelperMRT;
+import com.example.onTime.mrt.MorningRoutineAdressAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class ListMRFragment extends Fragment {
 
@@ -86,7 +82,7 @@ public class ListMRFragment extends Fragment {
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRA(), this);
+        this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRT(), this);
         this.recyclerView.setAdapter(this.morningRoutineAdressAdapter);
 
 
@@ -105,7 +101,7 @@ public class ListMRFragment extends Fragment {
         });
 
         // drag and drop + swipe
-        ItemTouchHelperMRA itemTouchHelperTache = new ItemTouchHelperMRA(getActivity(), this.morningRoutineAdressAdapter);
+        ItemTouchHelperMRT itemTouchHelperTache = new ItemTouchHelperMRT(getActivity(), this.morningRoutineAdressAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
@@ -134,10 +130,10 @@ public class ListMRFragment extends Fragment {
     public void editMR(MorningRoutine mr, int position) {
         if (position == -1 ){
             this.mrManager.ajouterMorningRoutine(mr);
-            morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRA().size());
+            morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRT().size());
         }else{
-            MRA mra = this.mrManager.getListMRA().get(position);
-            mra.setMorningRoutine(mr);
+            MRT MRT = this.mrManager.getListMRT().get(position);
+            MRT.setMorningRoutine(mr);
             morningRoutineAdressAdapter.notifyItemChanged(position);
         }
     }
@@ -156,11 +152,11 @@ public class ListMRFragment extends Fragment {
             morningRoutine = gson.fromJson(json, MorningRoutine.class);
             if (position == -1) {
                 this.mrManager.ajouterMorningRoutine(morningRoutine);
-                morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRA().size());
+                morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRT().size());
             } else {
                 if (position >= 0) {
-                    MRA mra = this.mrManager.getListMRA().get(position);
-                    mra.setMorningRoutine(morningRoutine);
+                    MRT MRT = this.mrManager.getListMRT().get(position);
+                    MRT.setMorningRoutine(morningRoutine);
                     morningRoutineAdressAdapter.notifyItemChanged(position);
                 }
             }

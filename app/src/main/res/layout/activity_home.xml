@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="0dp"
-    tools:context=".mra.HomeActivity">
+    tools:context=".mrt.HomeActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

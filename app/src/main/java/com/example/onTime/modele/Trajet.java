@@ -4,41 +4,41 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Classe Adresse composée du nom qui sera affiché et de l'adresse
+ * Classe Trajet composée du nom qui sera affiché et des adresses de départ et d'arrivée
  */
-public class Adresse implements Parcelable{
+public class Trajet implements Parcelable{
 
     private String nom;
     private String adresseDepart;
     private String adresseArrivee;
 
     /**
-     * Constructeur pour le nom et l'adresse
-     * @param nom est le nom donné à une adresse
+     * Constructeur pour le nom et les adresses
+     * @param nom est le nom donné à un trajet
      * @param adresseDepart est l'adresse complète de départ
      * @param adresseArrivee est l'adresse complète d'arrivée
      */
-    public Adresse(String nom, String adresseDepart, String adresseArrivee) {
+    public Trajet(String nom, String adresseDepart, String adresseArrivee) {
         this.nom = nom;
         this.adresseDepart = adresseDepart;
         this.adresseArrivee = adresseArrivee;
     }
 
-    protected Adresse(Parcel in) {
+    protected Trajet(Parcel in) {
         nom = in.readString();
         adresseDepart = in.readString();
         adresseArrivee = in.readString();
     }
 
-    public static final Creator<Adresse> CREATOR = new Creator<Adresse>() {
+    public static final Creator<Trajet> CREATOR = new Creator<Trajet>() {
         @Override
-        public Adresse createFromParcel(Parcel in) {
-            return new Adresse(in);
+        public Trajet createFromParcel(Parcel in) {
+            return new Trajet(in);
         }
 
         @Override
-        public Adresse[] newArray(int size) {
-            return new Adresse[size];
+        public Trajet[] newArray(int size) {
+            return new Trajet[size];
         }
     };
 
@@ -60,14 +60,6 @@ public class Adresse implements Parcelable{
 
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public String getAdresse() {
-        return this.adresseArrivee;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresseArrivee = adresse;
     }
 
     public String getAdresseDepart() {
