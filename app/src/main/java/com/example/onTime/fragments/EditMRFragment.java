@@ -82,10 +82,12 @@ public class EditMRFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
+
         // drag and drop + swipe
-        ItemTouchHelperTache itemTouchHelperTache = new ItemTouchHelperTache(getActivity(), this.tacheAdapter);
+        ItemTouchHelperTache itemTouchHelperTache = new ItemTouchHelperTache(getActivity(), this.tacheAdapter, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
 
         FloatingActionButton ct = view.findViewById(R.id.floating_action_button);
         ct.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +153,7 @@ public class EditMRFragment extends Fragment {
         });
     }
 
-    private void sauvegarder() {
+    public void sauvegarder() {
         Context context = getActivity().getApplicationContext();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -168,8 +170,4 @@ public class EditMRFragment extends Fragment {
         super.onStop();
     }
 
-    private void saveMR(){
-        NavHostFragment.findNavController(this).getPreviousBackStackEntry().getSavedStateHandle().set("morning_routine", this.laMorningRoutine);
-        NavHostFragment.findNavController(this).getPreviousBackStackEntry().getSavedStateHandle().set("position", this.positionMorningRoutine);
-    }
 }
