@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frame_edit_mr"
@@ -11,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
 
         <com.example.onTime.WavyLinearLayout
             android:layout_width="match_parent"
@@ -77,6 +79,13 @@
                         android:textStyle="bold"/>
                 </LinearLayout>
 
+                <View
+                    android:id="@+id/shadowView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#F2FFFFFF"
+                    android:visibility="gone"/>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -112,17 +121,25 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
 
-                    <TextView
+                    <androidx.cardview.widget.CardView
                         android:id="@+id/creer_tache_texte"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Créer une nouvelle tache"
-                        android:layout_marginEnd="8dp"
-                        android:visibility="invisible"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="6dp"
                         app:layout_constraintBottom_toBottomOf="@+id/creer_tache"
                         app:layout_constraintEnd_toStartOf="@+id/creer_tache"
                         app:layout_constraintTop_toTopOf="@+id/creer_tache"
-                        />
+                        android:layout_marginEnd="8dp"
+                        android:visibility="invisible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Créer une nouvelle tache"
+                            android:layout_margin="3dp" />
+
+                    </androidx.cardview.widget.CardView>
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/choisir_tache"
@@ -140,22 +157,28 @@
                         app:layout_constraintBottom_toBottomOf="@+id/creer_tache"
                         app:layout_constraintEnd_toEndOf="parent" />
 
-                    <TextView
+                    <androidx.cardview.widget.CardView
                         android:id="@+id/choisir_tache_texte"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Choisir une tache existante"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="6dp"
                         android:layout_marginEnd="8dp"
                         android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="@+id/choisir_tache"
                         app:layout_constraintEnd_toStartOf="@+id/choisir_tache"
-                        app:layout_constraintTop_toTopOf="@+id/choisir_tache"
-                        />
+                        app:layout_constraintTop_toTopOf="@+id/choisir_tache">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:text="Choisir une tache existante" />
+
+                    </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </LinearLayout>
     </LinearLayout>
-
 </FrameLayout>
