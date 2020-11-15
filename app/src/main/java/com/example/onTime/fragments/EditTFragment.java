@@ -122,7 +122,6 @@ public class EditTFragment extends Fragment {
 
     @Override
     public void onStop() {
-        this.sauvegarder();
         super.onStop();
     }
 }
