@@ -90,7 +90,11 @@ public class HomeFragment extends Fragment {
         List<Tache> taches = new ArrayList<>();
         taches.add(t);
 
-        this.mra = new MRA(new MorningRoutine("qzdqzdqzd", taches));
+        MorningRoutine mr = new MorningRoutine("qzdqzdqzd", taches);
+        Adresse a = new Adresse("Maison-Face", "Maison", "Fac");
+
+        this.mra = new MRA(mr);
+        this.mra.setAdresse(a);
 
         TextView heureReveil = view.findViewById(R.id.heureReveil);
 
@@ -114,6 +118,9 @@ public class HomeFragment extends Fragment {
 
         TextView titre = view.findViewById(R.id.titreMorningRoutine);
         titre.setText(this.mra.getMorningRoutine().getNom());
+
+        TextView nomTrajet = view.findViewById(R.id.nom_trajet);
+        nomTrajet.setText(this.mra.getAdresse().getNom());
 
         TextView heureArrivee = view.findViewById(R.id.heureArrivee);
 
