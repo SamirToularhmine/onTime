@@ -93,6 +93,4 @@ public class MRManager implements Parcelable {
     public MRA removeMRA(int index) {
         return this.listMRA.remove(index);
     }
-
-
 }

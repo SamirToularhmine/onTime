@@ -1,46 +1,28 @@
 package com.example.onTime.fragments;
 
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.SavedStateHandle;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
 import com.example.onTime.modele.Adresse;
 import com.example.onTime.modele.MRA;
-import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
-import com.example.onTime.modele.Toolbox;
 import com.example.onTime.morning_routine.HomeTacheAdapter;
-import com.example.onTime.morning_routine.ItemTouchHelperTache;
-import com.example.onTime.morning_routine.TacheAdapter;
-import com.example.onTime.mra.ItemTouchHelperMRA;
-import com.example.onTime.mra.MorningRoutineAdressAdapter;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -53,6 +35,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private HomeTacheAdapter tacheAdapter;
     private SharedPreferences sharedPreferences;
+    private TextView heureArrivee;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -122,9 +105,9 @@ public class HomeFragment extends Fragment {
         TextView nomTrajet = view.findViewById(R.id.nom_trajet);
         nomTrajet.setText(this.mra.getAdresse().getNom());
 
-        TextView heureArrivee = view.findViewById(R.id.heureArrivee);
+        this.heureArrivee = view.findViewById(R.id.heureArrivee);
 
-        final TimePickerDialog dialog = new TimePickerDialog(
+        /*final TimePickerDialog dialog = new TimePickerDialog(
                 getContext(),
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
@@ -134,18 +117,38 @@ public class HomeFragment extends Fragment {
                 },
                 8,
                 30,
-                true);
+                true);*/
 
         heureArrivee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.show();
+                v.setEnabled(false);
+
+                int currHeure = (int) HomeFragment.this.mra.getHeureArrivee() / 3600;
+                int currMinutes = (int) (HomeFragment.this.mra.getHeureArrivee() % 3600) / 60;
+
+                final MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
+                        .setTimeFormat(TimeFormat.CLOCK_24H)
+                        .setHour(currHeure)
+                        .setMinute(currMinutes)
+                        .setTitleText("Je veux arriver pour").build();
+
+                materialTimePicker.show(getActivity().getSupportFragmentManager(), "fragment_tag");
+
+                materialTimePicker.addOnPositiveButtonClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int heure = materialTimePicker.getHour();
+                        int minutes = materialTimePicker.getMinute();
+                        String heureArrivee = heure == 0 && minutes == 0 ? "00H00" : heure + "H" + minutes;
+                        HomeFragment.this.heureArrivee.setText(heureArrivee);
+                        HomeFragment.this.mra.setHeureArrivee((minutes * 60) + (heure * 3600));
+                    }
+                });
+
+                v.setEnabled(true);
             }
         });
-    }
-
-    private void onTimeSet(int newHour, int newMinute){
-
     }
 
     private void hideRecyclerView(){
