@@ -34,6 +34,7 @@ import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
 import com.example.onTime.modele.Toolbox;
+import com.example.onTime.morning_routine.HomeTacheAdapter;
 import com.example.onTime.morning_routine.ItemTouchHelperTache;
 import com.example.onTime.morning_routine.TacheAdapter;
 import com.example.onTime.mra.ItemTouchHelperMRA;
@@ -50,7 +51,7 @@ public class HomeFragment extends Fragment {
     private MRA mra;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private TacheAdapter tacheAdapter;
+    private HomeTacheAdapter tacheAdapter;
     private SharedPreferences sharedPreferences;
 
     public HomeFragment() {
@@ -102,7 +103,7 @@ public class HomeFragment extends Fragment {
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.tacheAdapter = new TacheAdapter(this.mra.getMorningRoutine().getListeTaches());
+        this.tacheAdapter = new HomeTacheAdapter(this.mra.getMorningRoutine().getListeTaches());
         this.recyclerView.setAdapter(this.tacheAdapter);
 
         if(this.mra.getMorningRoutine().getListeTaches().isEmpty()){
