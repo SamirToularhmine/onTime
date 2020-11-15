@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
 import com.example.onTime.modele.MRT;
+import com.example.onTime.fragments.ListMRFragment;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
@@ -25,12 +26,14 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
     private int positionSuppr;
     private MRT supprMRT;
     private final Drawable icon;
+    private ListMRFragment listMRFragment;
     final ColorDrawable background = new ColorDrawable(Color.parseColor("#CA4242"));
 
-    public ItemTouchHelperMRT(Context context, MorningRoutineAdressAdapter morningRoutineAdressAdapter) {
+    public ItemTouchHelperMRT(Context context, MorningRoutineAdressAdapter morningRoutineAdressAdapter, ListMRFragment listMRFragment) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.morningRoutineAdressAdapter = morningRoutineAdressAdapter;
         icon = ContextCompat.getDrawable(context, R.drawable.ic_delete_24px);
+        this.listMRFragment = listMRFragment;
     }
 
     @Override
@@ -44,6 +47,7 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
     public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
         Collections.swap(morningRoutineAdressAdapter.getList(), viewHolder.getAdapterPosition(), target.getAdapterPosition());
         morningRoutineAdressAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        this.listMRFragment.sauvegarder();
         return true;
     }
 
@@ -54,6 +58,7 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
         this.supprMRT = morningRoutineAdressAdapter.getList().get(position);
         morningRoutineAdressAdapter.getList().remove(position);
         morningRoutineAdressAdapter.notifyItemRemoved(position);
+        this.listMRFragment.sauvegarder();
         showUndoSnackbar(viewHolder);
     }
 
@@ -64,6 +69,7 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
             public void onClick(View v) {
                 morningRoutineAdressAdapter.getList().add(positionSuppr, supprMRT);
                 morningRoutineAdressAdapter.notifyItemInserted(positionSuppr);
+                ItemTouchHelperMRA.this.listMRFragment.sauvegarder();
             }
         });
         snackbar.show();

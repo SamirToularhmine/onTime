@@ -32,6 +32,8 @@ import com.example.onTime.mrt.MorningRoutineAdressAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class ListMRFragment extends Fragment {
 
     private MRManager mrManager;
@@ -140,6 +142,7 @@ public class ListMRFragment extends Fragment {
 
     @Override
     public void onResume() {
+
         Context context1 = getActivity().getApplicationContext();
         this.sharedPreferences = context1.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
 
@@ -165,12 +168,18 @@ public class ListMRFragment extends Fragment {
                 .remove("morning_routine")
                 .remove("position")
                 .apply();
-
+        sauvegarder();
         super.onResume();
     }
 
     @Override
     public void onStop() {
+        sauvegarder();
+
+        super.onStop();
+    }
+
+    public void sauvegarder(){
         Context context = this.getActivity().getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = this.sharedPreferences.edit();
@@ -178,7 +187,5 @@ public class ListMRFragment extends Fragment {
         String json = gson.toJson(this.mrManager);
         editor.putString("MRManager", json);
         editor.apply();
-
-        super.onStop();
     }
 }
