@@ -166,7 +166,7 @@ public class EditMRFragment extends Fragment {
 
     @Override
     public void onStop() {
-        this.sauvegarder();
+        //this.sauvegarder();
         super.onStop();
     }
 

@@ -105,7 +105,7 @@ public class ListMRFragment extends Fragment {
         });
 
         // drag and drop + swipe
-        ItemTouchHelperMRA itemTouchHelperTache = new ItemTouchHelperMRA(getActivity(), this.morningRoutineAdressAdapter);
+        ItemTouchHelperMRA itemTouchHelperTache = new ItemTouchHelperMRA(getActivity(), this.morningRoutineAdressAdapter, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
@@ -144,6 +144,7 @@ public class ListMRFragment extends Fragment {
 
     @Override
     public void onResume() {
+
         Context context1 = getActivity().getApplicationContext();
         this.sharedPreferences = context1.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
 
@@ -169,12 +170,18 @@ public class ListMRFragment extends Fragment {
                 .remove("morning_routine")
                 .remove("position")
                 .apply();
-
+        sauvegarder();
         super.onResume();
     }
 
     @Override
     public void onStop() {
+        sauvegarder();
+
+        super.onStop();
+    }
+
+    public void sauvegarder(){
         Context context = this.getActivity().getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = this.sharedPreferences.edit();
@@ -182,7 +189,5 @@ public class ListMRFragment extends Fragment {
         String json = gson.toJson(this.mrManager);
         editor.putString("MRManager", json);
         editor.apply();
-
-        super.onStop();
     }
 }
