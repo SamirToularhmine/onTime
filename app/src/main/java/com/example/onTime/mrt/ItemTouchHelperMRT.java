@@ -69,7 +69,7 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
             public void onClick(View v) {
                 morningRoutineAdressAdapter.getList().add(positionSuppr, supprMRT);
                 morningRoutineAdressAdapter.notifyItemInserted(positionSuppr);
-                ItemTouchHelperMRA.this.listMRFragment.sauvegarder();
+                ItemTouchHelperMRT.this.listMRFragment.sauvegarder();
             }
         });
         snackbar.show();
