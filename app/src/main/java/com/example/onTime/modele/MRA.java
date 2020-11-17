@@ -3,6 +3,8 @@ package com.example.onTime.modele;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -13,6 +15,7 @@ public class MRA implements Parcelable {
     private MorningRoutine morningRoutine;
     private Adresse adresse;
     private long heureArrivee;
+    private List<Long> listeHeuresDebutTaches;
 
     /**
      * Constructeur d'une MRA
@@ -91,20 +94,48 @@ public class MRA implements Parcelable {
 
     public void setHeureArrivee(long heureArrivee) {
         this.heureArrivee = heureArrivee;
+        this.listeHeuresDebutTaches = null;
     }
 
     /**
-     * Méthode qui donne l'heure de réveil en prenant en compte le temps des tâches et le temps de trajet
-     * @return l'heure de réveil en secondes par rapport à minuit
-     * @throws ExecutionException erreur lors de l'exécution de la requête
-     * @throws InterruptedException interruption lors de l'exécution de la requête
+     * Méthode qui va calculer toutes les horaires relatifs à la morning routine, c'est à dire :
+     * - L'heure de réveil
+     * - L'heure de début de chaque tâche
+     * - L'heure où l'utilisateur doit commencer le trajet
      */
-    public long getHeureReveil() throws ExecutionException, InterruptedException {
-        long res = this.heureArrivee; // on part de l'heure d'arrivée
-        res -= this.getTempsTotalTaches(); // on y supprime le temps des tâches
+    public void calculerToutesLesHoraires() throws ExecutionException, InterruptedException {
         long dateHeureArrivee = Toolbox.getDateFromHeureArrivee(this.heureArrivee);
-        res -= Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.adresse.getAdresseDepart(), this.adresse.getAdresseArrivee()); // et le temps de trajet
-        return res;
+        long timeOfTravelWithTraffic = Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.adresse.getAdresseDepart(), this.adresse.getAdresseArrivee());
+        long dateHeureDepartTrajet = dateHeureArrivee - timeOfTravelWithTraffic;
+        long dateHeureReveil = dateHeureDepartTrajet - this.getTempsTotalTaches();
+        this.listeHeuresDebutTaches = new ArrayList<>();
+        this.listeHeuresDebutTaches.add(dateHeureReveil);
+        long tempsPourSeReveiller = 180; // le temps entre le réveil et la première tâche
+        for (Tache tache : this.morningRoutine.getListeTaches()) {
+            if (this.listeHeuresDebutTaches.size() == 1) {
+                this.listeHeuresDebutTaches.add(this.listeHeuresDebutTaches.get(this.listeHeuresDebutTaches.size()-1) + tache.getDuree() + tempsPourSeReveiller);
+            }
+            else {
+                this.listeHeuresDebutTaches.add(this.listeHeuresDebutTaches.get(this.listeHeuresDebutTaches.size()-1) + tache.getDuree());
+            }
+        }
+        this.listeHeuresDebutTaches.add(dateHeureDepartTrajet);
+    }
+
+    /**
+     * Méthode qui donne la liste de toutes les horaires relatifs au couple Morning Routine + Trajet
+     * Premier élément : heure de réveil
+     * Dernier élément : heure où il faut partir de l'adresse de départ
+     * Entre les deux : toutes les horaires de début des tâches
+     * @return la liste de toutes les horaires comme décrit au dessus
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public List<Long> getListeHeuresDebutTaches() throws ExecutionException, InterruptedException {
+        if (this.listeHeuresDebutTaches == null) {
+            this.calculerToutesLesHoraires();
+        }
+        return this.listeHeuresDebutTaches;
     }
 
     public Adresse getAdresse() {
@@ -113,6 +144,7 @@ public class MRA implements Parcelable {
 
     public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
+        this.listeHeuresDebutTaches = null; // réinitialisation de la liste des temps car les lieux de départ/arrivée ont changé !
     }
 
     @Override
