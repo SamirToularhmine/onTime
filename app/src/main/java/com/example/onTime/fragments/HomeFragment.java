@@ -90,21 +90,20 @@ public class HomeFragment extends Fragment {
         Gson gson = new Gson();
 
         String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
-        this.mra = gson.fromJson(jsonMRA, MRA.class);
 
         String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
         this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
 
 
-        Tache t = new Tache("Tache 1", 12);
-        List<Tache> taches = new ArrayList<>();
-        taches.add(t);
+        if (jsonMRA.equals("")) {
+            MorningRoutine mr = new MorningRoutine("qzdqzdqzd");
+            Adresse a = new Adresse("Maison-Fac", "Maison", "Fac");
 
-        MorningRoutine mr = new MorningRoutine("qzdqzdqzd", taches);
-        Adresse a = new Adresse("Maison-Face", "Maison", "Fac");
-
-        this.mra = new MRA(mr);
-        this.mra.setAdresse(a);
+            this.mra = new MRA(mr);
+            this.mra.setAdresse(a);
+        }else{
+            this.mra = gson.fromJson(jsonMRA, MRA.class);
+        }
 
         TextView heureReveil = view.findViewById(R.id.heureReveil);
 
@@ -134,36 +133,15 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                ArrayList<String> st = new ArrayList<>();
-
-
-                alert.setTitle("Choisir une Morning Routine et un trajet")
+                alert.setTitle("Choisir une Morning Routine")
                         .setAdapter(new HomeMorningRoutineAdressAdapter(HomeFragment.this.getContext(), HomeFragment.this.mrManager.getListMRA(), HomeFragment.this), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Log.d("CLICK", "onClick: " + which);
+
                             }
-                        })
-                        .setPositiveButton("Sauvegarder",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {/*
-                                        Tache t = new Tache(nomTache.getText().toString(),duree.getValue()*60);
-                                        laMorningRoutine.ajouterTache(t);
-                                        tacheAdapter.notifyDataSetChanged();
-                                        if(EditMRFragment.this.laMorningRoutine.getListeTaches().size() == 1){
-                                            EditMRFragment.this.showRecyclerView();
-                                        }
-                                        EditMRFragment.this.sauvegarder();
-                                        EditMRFragment.this.hideMenu();
-                                        */
-                                    }
-                                })
-                        .setNegativeButton("Annuler",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int whichButton) {
-                                    }
-                                });
+
+                        }).setPositiveButton("OK", null);
                 alert.show();
             }
         });
@@ -241,6 +219,20 @@ public class HomeFragment extends Fragment {
         }
 
     }
+
+    @Override
+    public void onResume() {
+        Context context = this.getActivity().getApplicationContext();
+        this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
+        this.mra = gson.fromJson(jsonMRA, MRA.class);
+
+        String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
+        this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
+        super.onResume();
+    }
+
 
 
     /*@Override

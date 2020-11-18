@@ -162,12 +162,17 @@ public class ListMRFragment extends Fragment {
                 .remove("morning_routine")
                 .remove("position")
                 .apply();
-
+        //this.save();
         super.onResume();
     }
 
     @Override
     public void onStop() {
+        this.save();
+        super.onStop();
+    }
+
+    private void save(){
         Context context = this.getActivity().getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = this.sharedPreferences.edit();
@@ -175,7 +180,5 @@ public class ListMRFragment extends Fragment {
         String json = gson.toJson(this.mrManager);
         editor.putString("MRManager", json);
         editor.apply();
-
-        super.onStop();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.onTime.mra;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.example.onTime.R;
 import com.example.onTime.fragments.HomeFragment;
 import com.example.onTime.modele.MRA;
 import com.example.onTime.modele.MorningRoutine;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -29,10 +31,12 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRA> {
 
     private List<MRA> listMRA;
     private HomeFragment homeFragment;
+    private Context context;
 
 
     public HomeMorningRoutineAdressAdapter(@NonNull Context context, List<MRA> listMRA, HomeFragment homeFragment) {
         super(context, 0, listMRA);
+        this.context = context;
         this.listMRA = listMRA;
         this.homeFragment = homeFragment;
     }
@@ -56,8 +60,16 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRA> {
             public void onClick(View v) {
                 int position = (Integer)v.getTag();
                 MRA mra = getItem(position);
-                Log.d("click", "onClick: "+ mra.getMorningRoutine().getNom());
+                //Log.d("CLICK", "onClick: "+ mra.getMorningRoutine().getNom());
                 HomeMorningRoutineAdressAdapter.this.homeFragment.changerCurrentMr(mra);
+                SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+                Gson gson = new Gson();
+                String jsonMRA = gson.toJson(mra);
+                sharedPreferences.edit()
+                        .putString("CurrentMRA", jsonMRA)
+                        .putInt("CurrentMRAPosition", position)
+                        .apply();
+
             }
         });
 
