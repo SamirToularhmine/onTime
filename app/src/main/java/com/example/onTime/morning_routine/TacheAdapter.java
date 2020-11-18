@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
+import com.example.onTime.fragments.EditMRFragment;
 import com.example.onTime.modele.Tache;
 
 
@@ -21,9 +22,11 @@ import java.util.List;
 
 public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHolder> {
     private List<Tache> listTache;
+    private EditMRFragment editMRFragment;
 
-    public TacheAdapter(List<Tache> listTache) {
+    public TacheAdapter(List<Tache> listTache, EditMRFragment editMRFragment) {
         this.listTache = listTache;
+        this.editMRFragment = editMRFragment;
     }
 
     public List<Tache> getList() {
@@ -92,6 +95,7 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
                                 tacheClicked.setNom(nomTache.getText().toString());
                                 tacheClicked.setDuree(duree.getValue() * 60);
                                 TacheAdapter.this.notifyItemChanged(position);
+                                TacheAdapter.this.editMRFragment.sauvegarder();
                             }
                         })
                 .setNegativeButton("Cancel",

@@ -75,7 +75,7 @@ public class EditMRFragment extends Fragment {
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.tacheAdapter = new TacheAdapter(this.laMorningRoutine.getListeTaches());
+        this.tacheAdapter = new TacheAdapter(this.laMorningRoutine.getListeTaches(), this);
         this.recyclerView.setAdapter(this.tacheAdapter);
 
         // On sépare chaque ligne de notre liste par un trait
