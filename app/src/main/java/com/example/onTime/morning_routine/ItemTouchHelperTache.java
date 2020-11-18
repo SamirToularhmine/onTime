@@ -71,6 +71,7 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
             public void onClick(View v) {
                 tacheAdapter.getList().add(positionSuppr, tacheSuppr);
                 tacheAdapter.notifyItemInserted(positionSuppr);
+                ItemTouchHelperTache.this.editMRFragment.sauvegarder();
             }
         });
         snackbar.show();

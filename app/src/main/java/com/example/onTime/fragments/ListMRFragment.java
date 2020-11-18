@@ -137,6 +137,7 @@ public class ListMRFragment extends Fragment {
 
     @Override
     public void onResume() {
+
         Context context1 = getActivity().getApplicationContext();
         this.sharedPreferences = context1.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
 
@@ -162,17 +163,19 @@ public class ListMRFragment extends Fragment {
                 .remove("morning_routine")
                 .remove("position")
                 .apply();
-        //this.save();
+        sauvegarder();
         super.onResume();
     }
 
     @Override
     public void onStop() {
-        this.save();
+        this.sauvegarder();
         super.onStop();
     }
 
-    private void save(){
+
+
+    public void sauvegarder(){
         Context context = this.getActivity().getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = this.sharedPreferences.edit();
