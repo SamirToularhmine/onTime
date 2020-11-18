@@ -36,6 +36,19 @@ public class MRA implements Parcelable {
         this.adresse = null;
     }
 
+
+    /**
+     * Constructeur d'une MRA
+     *
+     * @param morningRoutine est une morning routine existante
+     * @param adresse est une adresse existante
+     */
+    public MRA(MorningRoutine morningRoutine, Adresse adresse) {
+        this.morningRoutine = morningRoutine;
+        this.adresse = adresse;
+    }
+
+
     public static final Parcelable.Creator<MRA> CREATOR = new Parcelable.Creator<MRA>() {
         @Override
         public MRA createFromParcel(Parcel in) {

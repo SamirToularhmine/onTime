@@ -155,6 +155,7 @@ public class ListMRFragment extends Fragment {
                 if (position >= 0) {
                     MRA mra = this.mrManager.getListMRA().get(position);
                     mra.setMorningRoutine(morningRoutine);
+
                     morningRoutineAdressAdapter.notifyItemChanged(position);
                 }
             }
@@ -163,7 +164,7 @@ public class ListMRFragment extends Fragment {
                 .remove("morning_routine")
                 .remove("position")
                 .apply();
-        sauvegarder();
+        this.sauvegarder();
         super.onResume();
     }
 

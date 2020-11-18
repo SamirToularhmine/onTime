@@ -83,6 +83,12 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
                     .remove("CurrentMRA")
                     .apply();
         }
+        if (position < currentMRAPosition){
+            sharedPreferences.edit()
+                    .putInt("CurrentMRAPosition", currentMRAPosition - 1) // changer le current position lors d'un swipe d'un élément au dessus de celui ci
+                    .apply();
+            this.currentMRAPositionSuppr = currentMRAPosition -1; // pas sûr de l'utilisté de cette ligne
+        }
         showUndoSnackbar(viewHolder);
     }
 

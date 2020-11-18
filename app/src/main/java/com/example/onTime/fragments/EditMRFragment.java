@@ -25,6 +25,9 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.example.onTime.R;
+import com.example.onTime.modele.Adresse;
+import com.example.onTime.modele.MRA;
+import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
 import com.example.onTime.morning_routine.ItemTouchHelperTache;
@@ -268,6 +271,19 @@ public class EditMRFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String jsonMorningRoutine = gson.toJson(this.laMorningRoutine);
+
+        if (positionMorningRoutine == sharedPreferences.getInt("CurrentMRAPosition", -3)){
+            String json = sharedPreferences.getString("MRManager", "");
+            MRManager mrManager = gson.fromJson(json, MRManager.class);
+
+            Adresse a = mrManager.getListMRA().get(positionMorningRoutine).getAdresse();
+
+            MRA mra = new MRA(this.laMorningRoutine, a);
+
+
+            editor.putString("CurrentMRA", gson.toJson(mra));
+        }
+
         editor.putString("morning_routine", jsonMorningRoutine);
         editor.putInt("position", positionMorningRoutine);
         editor.apply();
