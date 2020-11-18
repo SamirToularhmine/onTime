@@ -98,7 +98,7 @@ public class ListMRFragment extends Fragment {
         });
 
         // drag and drop + swipe
-        ItemTouchHelperMRA itemTouchHelperTache = new ItemTouchHelperMRA(getActivity(), this.morningRoutineAdressAdapter);
+        ItemTouchHelperMRA itemTouchHelperTache = new ItemTouchHelperMRA(getActivity(), this.morningRoutineAdressAdapter, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
