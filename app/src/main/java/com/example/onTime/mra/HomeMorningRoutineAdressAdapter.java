@@ -54,7 +54,6 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRA> {
         mr.setTag(position);
 
 
-
         mr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +61,7 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRA> {
                 MRA mra = getItem(position);
                 //Log.d("CLICK", "onClick: "+ mra.getMorningRoutine().getNom());
                 HomeMorningRoutineAdressAdapter.this.homeFragment.changerCurrentMr(mra);
+
                 SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
                 Gson gson = new Gson();
                 String jsonMRA = gson.toJson(mra);
