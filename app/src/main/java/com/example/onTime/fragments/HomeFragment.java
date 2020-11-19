@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import com.example.onTime.modele.Adresse;
 import com.example.onTime.modele.MRA;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
+import com.example.onTime.modele.Toolbox;
 import com.example.onTime.morning_routine.HomeTacheAdapter;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
@@ -27,6 +29,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class HomeFragment extends Fragment {
 
@@ -35,7 +38,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private HomeTacheAdapter tacheAdapter;
     private SharedPreferences sharedPreferences;
-    private TextView heureArrivee;
+    private TextView heureReveil, heureArrivee;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -74,14 +77,14 @@ public class HomeFragment extends Fragment {
         taches.add(t);
 
         MorningRoutine mr = new MorningRoutine("qzdqzdqzd", taches);
-        Adresse a = new Adresse("Maison-Face", "Maison", "Fac");
+        Adresse a = new Adresse("Maison-Face", "Semoy", "Orléans");
 
         this.mra = new MRA(mr);
         this.mra.setAdresse(a);
 
-        TextView heureReveil = view.findViewById(R.id.heureReveil);
+        this.heureReveil = view.findViewById(R.id.heureReveil);
 
-        if(heureReveil != null){
+        if(this.heureReveil != null){
             //heureReveil.setText(Toolbox.formaterHeure(Toolbox.getHourFromSecondes(this.mrManager.getHeureArrivee()), Toolbox.getMinutesFromSecondes(this.mrManager.getHeureArrivee())));
         }
 
@@ -143,12 +146,34 @@ public class HomeFragment extends Fragment {
                         String heureArrivee = heure == 0 && minutes == 0 ? "00H00" : heure + "H" + minutes;
                         HomeFragment.this.heureArrivee.setText(heureArrivee);
                         HomeFragment.this.mra.setHeureArrivee((minutes * 60) + (heure * 3600));
+                        HomeFragment.this.updateTempsDebutTaches();
                     }
                 });
 
                 v.setEnabled(true);
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.updateTempsDebutTaches();
+    }
+
+    private void updateTempsDebutTaches() {
+        try {
+            Toast.makeText(getView().getContext(), "Calcul du temps des tâches...", Toast.LENGTH_SHORT).show();
+            List<Long> listeHeuresDebutTaches = this.mra.getListeHeuresDebutTaches();
+            Long secondesEntreMinuitEtReveil = Toolbox.getHeureFromEpoch(listeHeuresDebutTaches.get(0));
+            int heures = Toolbox.getHourFromSecondes(secondesEntreMinuitEtReveil);
+            int minutes = Toolbox.getMinutesFromSecondes(secondesEntreMinuitEtReveil);
+            String affichageHeureReveil = heures + ":" + minutes;
+            this.heureReveil.setText(affichageHeureReveil);
+            Toast.makeText(getView().getContext(), "Calcul réussi " + affichageHeureReveil, Toast.LENGTH_SHORT).show();
+        } catch (ExecutionException | InterruptedException e) {
+            Toast.makeText(getView().getContext(), "Erreur lors de la récupération du temps des tâches", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void hideRecyclerView(){
