@@ -166,6 +166,7 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getView().getContext(), "Calcul du temps des tâches...", Toast.LENGTH_SHORT).show();
             List<Long> listeHeuresDebutTaches = this.mra.getListeHeuresDebutTaches();
             Long secondesEntreMinuitEtReveil = Toolbox.getHeureFromEpoch(listeHeuresDebutTaches.get(0));
+            Toast.makeText(getView().getContext(), String.valueOf(secondesEntreMinuitEtReveil), Toast.LENGTH_SHORT).show();
             int heures = Toolbox.getHourFromSecondes(secondesEntreMinuitEtReveil);
             int minutes = Toolbox.getMinutesFromSecondes(secondesEntreMinuitEtReveil);
             String affichageHeureReveil = heures + ":" + minutes;

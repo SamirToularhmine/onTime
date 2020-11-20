@@ -105,8 +105,8 @@ public class MRA implements Parcelable {
      */
     public void calculerToutesLesHoraires() throws ExecutionException, InterruptedException {
         long dateHeureArrivee = Toolbox.getDateFromHeureArrivee(this.heureArrivee);
-        long timeOfTravelWithTraffic = Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.adresse.getAdresseDepart(), this.adresse.getAdresseArrivee());
-        long dateHeureDepartTrajet = dateHeureArrivee - timeOfTravelWithTraffic;
+        long travelTimeInMinutes = Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.adresse.getAdresseDepart(), this.adresse.getAdresseArrivee()) * 60;
+        long dateHeureDepartTrajet = dateHeureArrivee - travelTimeInMinutes;
         long dateHeureReveil = dateHeureDepartTrajet - this.getTempsTotalTaches();
         this.listeHeuresDebutTaches = new ArrayList<>();
         this.listeHeuresDebutTaches.add(dateHeureReveil);
