@@ -17,6 +17,7 @@ import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.Trajet;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
+import com.example.onTime.modele.Tache;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
@@ -61,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
         List<MRT> MRT = new ArrayList<>();
 
         for (int i = 0; i < longeur; i++) {
-            MRT.add(new MRT(new MorningRoutine("Morning Routine " + i), new Trajet("trajet" + i, "depart" + i, "arrivee" + i)));
+            MRT.add(new MRT(new MorningRoutine("Morning Routine " + i), new Trajet("trajet" + i, "depart" + i, "arrivee" + i), 0));
         }
 
         /*Tache t = new Tache("tache 1", 600);

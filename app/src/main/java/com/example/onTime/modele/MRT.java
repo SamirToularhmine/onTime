@@ -20,7 +20,7 @@ public class MRT implements Parcelable {
      * @param morningRoutine est une morning routine existante
      * @param trajet        est un trajet existant
      */
-    public MRA(MorningRoutine morningRoutine, Trajet trajet, long heureArrivee) {
+    public MRT(MorningRoutine morningRoutine, Trajet trajet, long heureArrivee) {
         this.morningRoutine = morningRoutine;
         this.trajet = trajet;
         this.heureArrivee = heureArrivee;
@@ -103,7 +103,7 @@ public class MRT implements Parcelable {
         long res = this.heureArrivee; // on part de l'heure d'arrivée
         res -= this.getTempsTotalTaches(); // on y supprime le temps des tâches
         long dateHeureArrivee = Toolbox.getDateFromHeureArrivee(this.heureArrivee);
-        res -= Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.adresse.getAdresseDepart(), this.adresse.getAdresseArrivee()); // et le temps de trajet
+        res -= Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.trajet.getAdresseDepart(), this.trajet.getAdresseArrivee()); // et le temps de trajet
         return res;
     }
 

@@ -82,7 +82,7 @@ public class MRManager implements Parcelable {
     }
 
     public boolean ajouterMorningRoutine(MorningRoutine morningRoutine) {
-        MRT MRT = new MRT(morningRoutine, null);
+        MRT MRT = new MRT(morningRoutine, null, 0);
         return this.listMRT.add(MRT);
     }
 

@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
-import com.example.onTime.modele.Adresse;
-import com.example.onTime.modele.MRA;
+import com.example.onTime.modele.Trajet;
+import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
 import com.example.onTime.morning_routine.HomeTacheAdapter;
@@ -30,7 +30,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private MRA mra;
+    private MRT mra;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private HomeTacheAdapter tacheAdapter;
@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
-        this.mra = gson.fromJson(jsonMRA, MRA.class);
+        this.mra = gson.fromJson(jsonMRA, MRT.class);
 
 
         Tache t = new Tache("Tache 1", 12);
@@ -74,10 +74,10 @@ public class HomeFragment extends Fragment {
         taches.add(t);
 
         MorningRoutine mr = new MorningRoutine("qzdqzdqzd", taches);
-        Adresse a = new Adresse("Maison-Face", "Maison", "Fac");
+        Trajet a = new Trajet("Maison-Face", "Maison", "Fac");
 
-        this.mra = new MRA(mr);
-        this.mra.setAdresse(a);
+        this.mra = new MRT(mr);
+        this.mra.setTrajet(a);
 
         TextView heureReveil = view.findViewById(R.id.heureReveil);
 
@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment {
         titre.setText(this.mra.getMorningRoutine().getNom());
 
         TextView nomTrajet = view.findViewById(R.id.nom_trajet);
-        nomTrajet.setText(this.mra.getAdresse().getNom());
+        nomTrajet.setText(this.mra.getTrajet().getNom());
 
         this.heureArrivee = view.findViewById(R.id.heureArrivee);
 
