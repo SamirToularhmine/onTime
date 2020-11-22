@@ -98,7 +98,7 @@ import java.util.concurrent.ExecutionException;
         }
     }
 
-    static public long getTimeOfTravelWithTraffic(long arrivalTime, String adresseDepart, String adresseArrivee) throws ExecutionException, InterruptedException {
+    public static  long getTimeOfTravelWithTraffic(long arrivalTime, String adresseDepart, String adresseArrivee) throws ExecutionException, InterruptedException {
         GoogleMapsAPI googleMapsAPI = new GoogleMapsAPI(arrivalTime, adresseDepart, adresseArrivee);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future<Integer> future = executorService.submit(googleMapsAPI);
@@ -109,4 +109,24 @@ import java.util.concurrent.ExecutionException;
         Toast.makeText(context, message, displayTime).show();
     }
 
+    public static String secondesToMinSecString(long time){
+        long heures = time / 3600;
+        long minutes = (time % 3600) / 60;
+        long secondes = ((time % 3600) % 60);
+
+        StringBuilder sb = new StringBuilder();
+        if(heures > 0){
+            sb.append(heures).append("h");
+        }
+
+        if(minutes > 0){
+            sb.append(minutes).append("min");
+        }
+
+        if(secondes >= 0){
+            sb.append(secondes).append("s");
+        }
+
+        return sb.toString();
+    }
 }

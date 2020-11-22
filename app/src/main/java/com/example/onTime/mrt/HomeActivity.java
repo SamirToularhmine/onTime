@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String json = this.sharedPreferences.getString("MRManager", "");
         if (json.equals("")) {
-            List<MRT> MRTS = createMRA(18);
+            List<MRT> MRTS = createMRT(18);
             this.mrManager = new MRManager(16900, MRTS);
         } else {
             this.mrManager = gson.fromJson(json, MRManager.class);
@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNav, navController);
     }
 
-    private List<MRT> createMRA(int longeur){
+    private List<MRT> createMRT(int longeur){
         List<MRT> MRT = new ArrayList<>();
 
         for (int i = 0; i < longeur; i++) {

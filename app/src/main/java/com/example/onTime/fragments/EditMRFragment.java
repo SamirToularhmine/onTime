@@ -1,6 +1,5 @@
 package com.example.onTime.fragments;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -8,9 +7,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,8 +18,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -28,9 +31,11 @@ import com.example.onTime.R;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
 import com.example.onTime.morning_routine.ItemTouchHelperTache;
-import com.example.onTime.morning_routine.MorningRoutineActivity;
 import com.example.onTime.morning_routine.TacheAdapter;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
 public class EditMRFragment extends Fragment {
@@ -40,6 +45,9 @@ public class EditMRFragment extends Fragment {
     private TacheAdapter tacheAdapter;
     private MorningRoutine laMorningRoutine;
     private int positionMorningRoutine;
+    private boolean isMenuShown;
+    private Animation showTacheMenu;
+    private Animation hideTacheMenu;
 
     public EditMRFragment() {
         // Required empty public constructor
@@ -72,57 +80,25 @@ public class EditMRFragment extends Fragment {
         if (this.laMorningRoutine == null)
             this.laMorningRoutine = new MorningRoutine("Premiere morning routine");
 
+
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
         this.tacheAdapter = new TacheAdapter(this.laMorningRoutine.getListeTaches());
         this.recyclerView.setAdapter(this.tacheAdapter);
 
-        // On sépare chaque ligne de notre liste par un trait
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
+        if(this.laMorningRoutine.getListeTaches().isEmpty()){
+            this.hideRecyclerView();
+        }else{
+            this.showRecyclerView();
+        }
 
         // drag and drop + swipe
         ItemTouchHelperTache itemTouchHelperTache = new ItemTouchHelperTache(getActivity(), this.tacheAdapter, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-
-        FloatingActionButton ct = view.findViewById(R.id.floating_action_button);
-        ct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater factory = LayoutInflater.from(EditMRFragment.this.getContext());
-                final View textEntryView = factory.inflate(R.layout.ajout_tache, null);
-
-                final EditText nomTache = textEntryView.findViewById(R.id.nomtachecreate);
-                final NumberPicker duree = textEntryView.findViewById(R.id.duree);
-                duree.setMinValue(0);
-                duree.setMaxValue(60);
-
-                final AlertDialog.Builder alert = new AlertDialog.Builder(EditMRFragment.this.getContext());
-
-                alert.setTitle("Enter the Text:")
-                        .setView(textEntryView)
-                        .setPositiveButton("Save",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        Tache t = new Tache(nomTache.getText().toString(),duree.getValue()*60);
-                                        laMorningRoutine.ajouterTache(t);
-                                        tacheAdapter.notifyDataSetChanged();
-                                        EditMRFragment.this.sauvegarder();
-                                    }
-                                })
-                        .setNegativeButton("Cancel",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int whichButton) {
-                                    }
-                                });
-                alert.show();
-            }
-        });
+        this.initMenu(view);
 
         final EditText titre = view.findViewById(R.id.titreMorningRoutine);
         titre.setText(this.laMorningRoutine.getNom());
@@ -149,6 +125,158 @@ public class EditMRFragment extends Fragment {
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
                     sauvegarder();
                 }
+            }
+        });
+
+        View blur = view.findViewById(R.id.shadowView);
+        blur.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditMRFragment.this.hideMenu();
+            }
+        });
+    }
+
+    private void hideRecyclerView(){
+        View v = this.getView();
+
+        LinearLayout emptyTaches = v.findViewById(R.id.empty_taches);
+
+        this.recyclerView.setVisibility(View.GONE);
+        emptyTaches.setVisibility(View.VISIBLE);
+    }
+
+    private void showRecyclerView(){
+        View v = this.getView();
+
+        LinearLayout emptyTaches = v.findViewById(R.id.empty_taches);
+
+        this.recyclerView.setVisibility(View.VISIBLE);
+        emptyTaches.setVisibility(View.GONE);
+    }
+
+    private void showModfierTacheDialog(){
+        View v = this.getView();
+
+        LayoutInflater factory = LayoutInflater.from(EditMRFragment.this.getContext());
+        final View textEntryView = factory.inflate(R.layout.ajout_tache, null);
+
+        TextInputLayout nomTacheLayout = textEntryView.findViewById(R.id.nomtachecreate);
+        final EditText nomTache = nomTacheLayout.getEditText();
+        final NumberPicker duree = textEntryView.findViewById(R.id.duree);
+        duree.setMinValue(0);
+        duree.setMaxValue(60);
+
+        final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(EditMRFragment.this.getContext());
+
+        AlertDialog alertDialog =
+                alert.setTitle("Créer une nouvelle tache :")
+                .setView(textEntryView)
+                .setPositiveButton("Sauvegarder",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Tache t = new Tache(nomTache.getText().toString(),duree.getValue()*60);
+                                laMorningRoutine.ajouterTache(t);
+                                tacheAdapter.notifyDataSetChanged();
+                                if(EditMRFragment.this.laMorningRoutine.getListeTaches().size() == 1){
+                                    EditMRFragment.this.showRecyclerView();
+                                }
+                                EditMRFragment.this.sauvegarder();
+                                EditMRFragment.this.hideMenu();
+                            }
+                        })
+                .setNegativeButton("Annuler",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                            }
+                        })
+                .create();
+
+        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        alertDialog.show();
+    }
+
+    private void showMenu(){
+        View view = this.getView();
+        View blur = view.findViewById(R.id.shadowView);
+
+        FloatingActionButton mainActionButton = view.findViewById(R.id.host_action_tache);
+
+        FloatingActionButton creerTacheActionButton = view.findViewById(R.id.creer_tache);
+        CardView creerTacheText = view.findViewById(R.id.creer_tache_texte);
+
+        FloatingActionButton choisirTacheActionButton = view.findViewById(R.id.choisir_tache);
+        CardView choisirTacheText = view.findViewById(R.id.choisir_tache_texte);
+
+        mainActionButton.startAnimation(EditMRFragment.this.showTacheMenu);
+
+        blur.setVisibility(View.VISIBLE);
+        blur.getBackground().setAlpha(170);
+        creerTacheActionButton.show();
+        creerTacheText.setVisibility(View.VISIBLE);
+
+        choisirTacheActionButton.show();
+        choisirTacheText.setVisibility(View.VISIBLE);
+
+        EditMRFragment.this.isMenuShown = true;
+    }
+
+    private void hideMenu(){
+        View view = this.getView();
+        View blur = view.findViewById(R.id.shadowView);
+
+        FloatingActionButton mainActionButton = view.findViewById(R.id.host_action_tache);
+
+        FloatingActionButton creerTacheActionButton = view.findViewById(R.id.creer_tache);
+        CardView creerTacheText = view.findViewById(R.id.creer_tache_texte);
+
+        FloatingActionButton choisirTacheActionButton = view.findViewById(R.id.choisir_tache);
+        CardView choisirTacheText = view.findViewById(R.id.choisir_tache_texte);
+
+        mainActionButton.startAnimation(EditMRFragment.this.hideTacheMenu);
+        //mainActionButton.shrink();
+
+        blur.setVisibility(View.INVISIBLE);
+        blur.getBackground().setAlpha(0);
+        creerTacheActionButton.hide();
+        creerTacheText.setVisibility(View.INVISIBLE);
+
+        choisirTacheActionButton.hide();
+        choisirTacheText.setVisibility(View.INVISIBLE);
+
+        EditMRFragment.this.isMenuShown = false;
+    }
+
+    private void initMenu(View view){
+        //final ExtendedFloatingActionButton mainActionButton = view.findViewById(R.id.host_action_tache);
+        final FloatingActionButton mainActionButton = view.findViewById(R.id.host_action_tache);
+
+        final  FloatingActionButton creerTacheActionButton = view.findViewById(R.id.creer_tache);
+
+        this.showTacheMenu = AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate_cw);
+        this.hideTacheMenu = AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate_acw);
+
+        //mainActionButton.shrink();
+
+        this.isMenuShown = false;
+
+        mainActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!EditMRFragment.this.isMenuShown) {
+                    EditMRFragment.this.showMenu();
+                } else {
+                    EditMRFragment.this.hideMenu();
+                }
+            }
+        });
+
+        creerTacheActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditMRFragment.this.hideMenu();
+                EditMRFragment.this.showModfierTacheDialog();
             }
         });
     }
