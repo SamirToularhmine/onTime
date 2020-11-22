@@ -31,10 +31,12 @@ import java.util.List;
 public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewHolder> {
     private List<Trajet> listTrajet;
     private int positionTrajet, positionMRT;
+    private boolean onlyShowList;
 
-    public TrajetAdapter(List<Trajet> listTrajet, int positionMRT) {
+    public TrajetAdapter(List<Trajet> listTrajet, int positionMRT, boolean onlyShowList) {
         this.listTrajet = listTrajet;
         this.positionMRT = positionMRT;
+        this.onlyShowList = onlyShowList;
     }
 
     public List<Trajet> getList() {
@@ -69,6 +71,9 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
         holder.nomTrajet.setText(trajet.getNom());
         holder.adresseDepart.setText(trajet.getAdresseDepart());
         holder.adresseArrivee.setText(trajet.getAdresseArrivee());
+        if (onlyShowList) {
+            holder.boutonSelectionner.setVisibility(View.GONE);
+        }
 
 
         // l'utilisateur veut modifier le trajet

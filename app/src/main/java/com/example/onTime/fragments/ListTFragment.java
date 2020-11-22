@@ -44,6 +44,7 @@ public class ListTFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private TrajetAdapter trajetAdapter;
     private int position;
+    private boolean onlyShowList; // false si l'utilisateur veut associer un trajet à une morning routine, true sinon
 
     public ListTFragment() {
         // Required empty public constructor
@@ -62,7 +63,14 @@ public class ListTFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.position = getArguments().getInt("position");
+        try {
+            this.position = getArguments().getInt("position");
+            this.onlyShowList = false; // si on peut récupérer l'argument position cela signifie qu'il faut montrer les boutons "sélectionner"
+        }
+        catch (NullPointerException e) { // si on n'y arrive pas c'est juste que l'utilisateur veut voir la liste des trajets sans l'aspect sélection
+            this.position = -1;
+            this.onlyShowList = true;
+        }
         return inflater.inflate(R.layout.fragment_list_trajets, container, false);
     }
 
@@ -89,7 +97,7 @@ public class ListTFragment extends Fragment {
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.trajetAdapter = new TrajetAdapter(this.listeTrajets, this.position);
+        this.trajetAdapter = new TrajetAdapter(this.listeTrajets, this.position, this.onlyShowList);
         this.recyclerView.setAdapter(this.trajetAdapter);
 
         ItemTouchHelperTrajet itemTouchHelperTrajet = new ItemTouchHelperTrajet(getActivity(), this.trajetAdapter);
