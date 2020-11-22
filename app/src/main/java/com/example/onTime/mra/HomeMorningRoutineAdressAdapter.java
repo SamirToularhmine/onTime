@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -32,7 +33,6 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRA> {
     private List<MRA> listMRA;
     private HomeFragment homeFragment;
     private Context context;
-
 
     public HomeMorningRoutineAdressAdapter(@NonNull Context context, List<MRA> listMRA, HomeFragment homeFragment) {
         super(context, 0, listMRA);
@@ -54,25 +54,6 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRA> {
         mr.setTag(position);
 
 
-        mr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = (Integer)v.getTag();
-                MRA mra = getItem(position);
-                //Log.d("CLICK", "onClick: "+ mra.getMorningRoutine().getNom());
-                HomeMorningRoutineAdressAdapter.this.homeFragment.changerCurrentMr(mra);
-
-                SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-                Gson gson = new Gson();
-                String jsonMRA = gson.toJson(mra);
-                sharedPreferences.edit()
-                        .putString("CurrentMRA", jsonMRA)
-                        .putInt("CurrentMRAPosition", position)
-                        .apply();
-
-            }
-        });
-
         if (mra != null) {
             if (mra.getMorningRoutine() != null)
                 mr.setText(mra.getMorningRoutine().getNom());
@@ -84,6 +65,23 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRA> {
     }
 
 
+    public MRA getMra(int which) {
+        return this.listMRA.get(which);
+    }
 
+    public void choisirMRA(int position) {
+        MRA mra = getItem(position);
+        //Log.d("CLICK", "onClick: "+ mra.getMorningRoutine().getNom());
+        HomeMorningRoutineAdressAdapter.this.homeFragment.changerCurrentMr(mra);
 
+        SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String jsonMRA = gson.toJson(mra);
+        sharedPreferences.edit()
+                .putString("CurrentMRA", jsonMRA)
+                .putInt("CurrentMRAPosition", position)
+                .apply();
+
+    }
 }
+

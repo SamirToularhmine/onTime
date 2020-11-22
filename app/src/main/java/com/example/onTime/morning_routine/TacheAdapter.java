@@ -24,11 +24,9 @@ import java.util.List;
 
 public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHolder> {
     private List<Tache> listTache;
-    private EditMRFragment editMRFragment;
 
     public TacheAdapter(List<Tache> listTache, EditMRFragment editMRFragment) {
         this.listTache = listTache;
-        this.editMRFragment = editMRFragment;
     }
 
     public List<Tache> getList() {
@@ -97,7 +95,6 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
                                 tacheClicked.setNom(nomTache.getText().toString());
                                 tacheClicked.setDuree(duree.getValue() * 60);
                                 TacheAdapter.this.notifyItemChanged(position);
-                                TacheAdapter.this.editMRFragment.sauvegarder();
                             }
                         })
                 .setNegativeButton("Annuler",

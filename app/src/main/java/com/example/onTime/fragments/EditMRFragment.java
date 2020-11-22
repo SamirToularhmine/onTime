@@ -7,11 +7,15 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -67,7 +72,7 @@ public class EditMRFragment extends Fragment {
                              Bundle savedInstanceState) {
         this.laMorningRoutine = (MorningRoutine) getArguments().get("morning_routine");
         this.positionMorningRoutine = getArguments().getInt("position");
-        sauvegarder();
+        //sauvegarder();
         return inflater.inflate(R.layout.fragment_edit_m_r, container, false);
     }
 
@@ -110,7 +115,7 @@ public class EditMRFragment extends Fragment {
                     //Clear focus here from edittext
                     titre.clearFocus();
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
-                    sauvegarder();
+                    //sauvegarder();
                 }
                 return false;
             }
@@ -122,14 +127,29 @@ public class EditMRFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
-                    sauvegarder();
+                    //sauvegarder();
                 }
+            }
+        });
+
+        Button retour = view.findViewById(R.id.boutton_retour);
+
+        retour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sauvegarder();
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+
+                NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(R.id.listMRFragment);
             }
         });
     }
 
     private void hideRecyclerView(){
         View v = this.getView();
+
 
         LinearLayout emptyTaches = v.findViewById(R.id.empty_taches);
 
@@ -171,7 +191,7 @@ public class EditMRFragment extends Fragment {
                                 if(EditMRFragment.this.laMorningRoutine.getListeTaches().size() == 1){
                                     EditMRFragment.this.showRecyclerView();
                                 }
-                                EditMRFragment.this.sauvegarder();
+                                //EditMRFragment.this.sauvegarder();
                                 EditMRFragment.this.hideMenu();
                             }
                         })
@@ -291,8 +311,9 @@ public class EditMRFragment extends Fragment {
 
     @Override
     public void onStop() {
-        //this.sauvegarder();
         super.onStop();
     }
+
+
 
 }

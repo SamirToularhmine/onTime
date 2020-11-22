@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="4dp"
-        app:cardElevation="6dp">
+        app:cardElevation="6dp"
+        android:focusable="false">
 
             <TextView
                 android:id="@+id/home_morning_routine"
@@ -19,9 +20,7 @@
                 android:layout_height="50dp"
                 android:gravity="center"
                 android:text="Morning routine"
-                android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:focusable="true"
                 />
 
     </androidx.cardview.widget.CardView>

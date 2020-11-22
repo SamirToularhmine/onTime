@@ -82,12 +82,15 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
                     .remove("CurrentMRAPosition") // changer le current position lors d'un swipe d'un élément
                     .remove("CurrentMRA")
                     .apply();
+        }else{
+            this.currentMRAPositionSuppr = -2;
+
         }
         if (position < currentMRAPosition){
             sharedPreferences.edit()
                     .putInt("CurrentMRAPosition", currentMRAPosition - 1) // changer le current position lors d'un swipe d'un élément au dessus de celui ci
                     .apply();
-            this.currentMRAPositionSuppr = currentMRAPosition -1; // pas sûr de l'utilisté de cette ligne
+            //this.currentMRAPositionSuppr = currentMRAPositionSuppr -1;
         }
         showUndoSnackbar(viewHolder);
     }
@@ -101,13 +104,21 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
                 morningRoutineAdressAdapter.notifyItemInserted(positionSuppr);
                 ItemTouchHelperMRA.this.listMRFragment.sauvegarder();
                 SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+                Gson gson = new Gson();
+
                 if (positionSuppr == ItemTouchHelperMRA.this.currentMRAPositionSuppr){
-                    Gson gson = new Gson();
 
                     sharedPreferences.edit()
                             .putInt("CurrentMRAPosition", positionSuppr) // rajouter la current mornging routine si c'est elle qui a été suppr
                             .putString("CurrentMRA", gson.toJson(supprMRA))
                             .apply();
+                }
+                int currentMRAPosition = sharedPreferences.getInt("CurrentMRAPosition", -2);
+                if(positionSuppr <= currentMRAPosition){
+                    sharedPreferences.edit()
+                            .putInt("CurrentMRAPosition", currentMRAPosition + 1) // rajouter la current mornging routine si c'est elle qui a été suppr
+                            .apply();
+                    //ItemTouchHelperMRA.this.currentMRAPositionSuppr = currentMRAPosition +1; // pas sûr de l'utilité de cette ligne
                 }
             }
         });

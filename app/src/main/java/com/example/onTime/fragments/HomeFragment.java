@@ -1,5 +1,6 @@
 package com.example.onTime.fragments;
 
+
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,9 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -128,22 +131,25 @@ public class HomeFragment extends Fragment {
 
         CardView cardView = view.findViewById(R.id.card_mr_trajet);
         final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(HomeFragment.this.getContext());
+        final HomeMorningRoutineAdressAdapter adapter = new HomeMorningRoutineAdressAdapter(HomeFragment.this.getContext(), HomeFragment.this.mrManager.getListMRA(), HomeFragment.this);
 
+        alert.setTitle("Choisir une Morning Routine")
 
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapter.choisirMRA(which);
+                        dialog.dismiss();
+                    }
+
+                });
+
+        final AlertDialog alertDialog = alert.create();
         cardView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                alert.setTitle("Choisir une Morning Routine")
-                        .setAdapter(new HomeMorningRoutineAdressAdapter(HomeFragment.this.getContext(), HomeFragment.this.mrManager.getListMRA(), HomeFragment.this), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Log.d("CLICK", "onClick: " + which);
-
-                            }
-
-                        }).setPositiveButton("OK", null);
-                alert.show();
+                alertDialog.show();
             }
         });
 
