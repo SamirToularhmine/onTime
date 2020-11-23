@@ -41,7 +41,7 @@ public class MorningRoutineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_morning_routine);
+       /* setContentView(R.layout.activity_morning_routine);
 
         this.recyclerView = findViewById(R.id.tache_recyclerview);
 
@@ -95,6 +95,7 @@ public class MorningRoutineActivity extends AppCompatActivity {
                 }
             }
         });*/
+
 
     }
 
