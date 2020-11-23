@@ -162,13 +162,13 @@ public class HomeFragment extends Fragment {
         if (this.mrt.getMorningRoutine() != null){
             this.titre.setText(this.mrt.getMorningRoutine().getNom());
         }else{
-            this.titre.setText("Morning routine pas définie");
+            this.titre.setText("Aucune morning routine définie");
         }
 
         if (this.mrt.getTrajet() != null)
             this.nomTrajet.setText(this.mrt.getTrajet().getNom());
         else
-            this.nomTrajet.setText("pas de trajet défini");
+            this.nomTrajet.setText("Aucun de trajet défini");
 
 
         this.heureArrivee = view.findViewById(R.id.heureArrivee);
@@ -194,7 +194,19 @@ public class HomeFragment extends Fragment {
                     public void onClick(View v) {
                         int heure = materialTimePicker.getHour();
                         int minutes = materialTimePicker.getMinute();
-                        String heureArrivee = heure == 0 && minutes == 0 ? "00H00" : heure + "H" + minutes;
+                        StringBuilder heureArrivee = new StringBuilder();
+                        if(heure < 10){
+                            heureArrivee.append("0").append(heure);
+                        }else{
+                            heureArrivee.append(heure);
+                        }
+                        heureArrivee.append(":");
+                        if(minutes < 10){
+                            heureArrivee.append("0").append(minutes);
+                        }else{
+                            heureArrivee.append(minutes);
+                        }
+                        heureArrivee.append(" H");
                         HomeFragment.this.heureArrivee.setText(heureArrivee);
                         if(HomeFragment.this.mrt != null){
                             HomeFragment.this.mrt.setHeureArrivee((minutes * 60) + (heure * 3600));
@@ -232,13 +244,13 @@ public class HomeFragment extends Fragment {
         if (this.mrt.getMorningRoutine() != null){
             this.titre.setText(this.mrt.getMorningRoutine().getNom());
         }else{
-            this.titre.setText("Morning routine pas définie");
+            this.titre.setText("Aucune morning routine définie");
         }
 
         if (this.mrt.getTrajet() != null)
             this.nomTrajet.setText(this.mrt.getTrajet().getNom());
         else
-            this.nomTrajet.setText("pas de trajet défini");
+            this.nomTrajet.setText("Aucun trajet défini");
 
         this.tacheAdapter = new HomeTacheAdapter(this.mrt.getMorningRoutine().getListeTaches());
         this.recyclerView.setAdapter(this.tacheAdapter);
@@ -263,19 +275,19 @@ public class HomeFragment extends Fragment {
         this.mrt = mrManager.getMRAfromId(idCurrentMRA);
 
         if (this.mrt == null){
-            this.nomTrajet.setText("pas de trajet défini");
-            this.titre.setText("Morning routine pas définie");
+            this.nomTrajet.setText("Aucun trajet défini");
+            this.titre.setText("Aucune morning routine définie");
         }else {
             if (this.mrt.getMorningRoutine() != null) {
                 this.titre.setText(this.mrt.getMorningRoutine().getNom());
             } else {
-                this.titre.setText("Morning routine pas définie");
+                this.titre.setText("Aucune morning routine définie");
             }
 
             if (this.mrt.getTrajet() != null)
                 this.nomTrajet.setText(this.mrt.getTrajet().getNom());
             else
-                this.nomTrajet.setText("pas de trajet défini");
+                this.nomTrajet.setText("Aucun trajet défini");
         }
         super.onResume();
     }
