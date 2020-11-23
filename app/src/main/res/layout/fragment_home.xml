@@ -110,6 +110,7 @@
                 android:paddingBottom="0dp">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_mr_trajet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardUseCompatPadding="true"

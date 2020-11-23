@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_listMRFragment_to_editMRFragment"
             app:destination="@id/editMRFragment" />
+        <action
+            android:id="@+id/action_listMRFragment_to_listAFragment"
+            app:destination="@id/listAFragment" />
     </fragment>
 
     <fragment
@@ -28,7 +31,20 @@
         android:name="com.example.onTime.fragments.ManageFragment"
         android:label="fragment_manage"
         tools:layout="@layout/fragment_manage"/>
-
+    <fragment
+        android:id="@+id/listAFragment"
+        android:name="com.example.onTime.fragments.ListTFragment"
+        android:label="fragment_list_addresses"
+        tools:layout="@layout/fragment_list_trajets" >
+        <action
+            android:id="@+id/action_listAFragment_to_editTFragment"
+            app:destination="@id/editTFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editTFragment"
+        android:name="com.example.onTime.fragments.EditTFragment"
+        android:label="fragment_edit_trajet"
+        tools:layout="@layout/fragment_edit_trajet" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.onTime.fragments.HomeFragment"

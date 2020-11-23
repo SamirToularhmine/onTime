@@ -12,19 +12,19 @@ import java.util.concurrent.ExecutionException;
  */
 public class MRManager implements Parcelable {
     private long heureArrivee;
-    private List<MRA> listMRA;
+    private List<MRT> listMRT;
 
     /**
      * Constructeur par défaut d'un MRManager qui crée une ArrayList et met l'heure d'arrivée à 11h
      */
     public MRManager() {
         this.heureArrivee = 39600; // 11h en secondes
-        this.listMRA = new ArrayList<>();
+        this.listMRT = new ArrayList<>();
     }
 
-    public MRManager(long heureArrivee, List<MRA> listMRA) {
+    public MRManager(long heureArrivee, List<MRT> listMRT) {
         this.heureArrivee = heureArrivee;
-        this.listMRA = listMRA;
+        this.listMRT = listMRT;
     }
 
     public static final Parcelable.Creator<MRManager> CREATOR = new Parcelable.Creator<MRManager>() {
@@ -42,10 +42,10 @@ public class MRManager implements Parcelable {
     protected MRManager(Parcel in) {
         heureArrivee = in.readLong();
         if (in.readByte() == 0x01) {
-            listMRA = new ArrayList<>();
-            in.readList(listMRA, MRA.class.getClassLoader());
+            listMRT = new ArrayList<>();
+            in.readList(listMRT, MRT.class.getClassLoader());
         } else {
-            listMRA = null;
+            listMRT = null;
         }
     }
 
@@ -57,11 +57,11 @@ public class MRManager implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(heureArrivee);
-        if (listMRA == null) {
+        if (listMRT == null) {
             dest.writeByte((byte) (0x00));
         } else {
             dest.writeByte((byte) (0x01));
-            dest.writeList(listMRA);
+            dest.writeList(listMRT);
         }
     }
 
@@ -73,24 +73,35 @@ public class MRManager implements Parcelable {
         this.heureArrivee = heureArrivee;
     }
 
-    public List<MRA> getListMRA() {
-        return listMRA;
+    public List<MRT> getListMRT() {
+        return listMRT;
     }
 
-    public boolean ajouterMRA(MRA mra) {
-        return this.listMRA.add(mra);
+    public boolean ajouterMRA(MRT MRT) {
+        return this.listMRT.add(MRT);
     }
 
-    public boolean ajouterMorningRoutine(MorningRoutine morningRoutine) {
-        MRA mra = new MRA(morningRoutine, null, 0);
-        return this.listMRA.add(mra);
+    public boolean ajouterMorningRoutine(MorningRoutine morningRoutine, int id) {
+        MRT MRT = new MRT(morningRoutine, null, 0, id);
+        return this.listMRT.add(MRT);
     }
 
-    public boolean removeMRA(MRA mra) {
-        return this.listMRA.remove(mra);
+    public MRT getMRAfromId(int id){
+        for (MRT mrt : this.listMRT) {
+            if (mrt.getId() == id){
+                return mrt;
+            }
+        }
+        return null;
     }
 
-    public MRA removeMRA(int index) {
-        return this.listMRA.remove(index);
+    public boolean removeMRA(MRT MRT) {
+        return this.listMRT.remove(MRT);
     }
+
+    public MRT removeMRA(int index) {
+        return this.listMRT.remove(index);
+    }
+
+
 }

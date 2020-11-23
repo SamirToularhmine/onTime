@@ -5,6 +5,4 @@
     <string name="descriptionString">Créer votre routine matinale n\'a jamais été aussi simple que sur onTime !</string>
     <string name="startString">Et si on démarrait ?</string>
     <string name="creerPremiereRoutineString">Créer ma première routine matinale !</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

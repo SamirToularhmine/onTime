@@ -9,11 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +26,16 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.example.onTime.R;
+import com.example.onTime.modele.Trajet;
+import com.example.onTime.modele.MRT;
+import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
 import com.example.onTime.morning_routine.ItemTouchHelperTache;
@@ -68,7 +76,7 @@ public class EditMRFragment extends Fragment {
                              Bundle savedInstanceState) {
         this.laMorningRoutine = (MorningRoutine) getArguments().get("morning_routine");
         this.positionMorningRoutine = getArguments().getInt("position");
-        sauvegarder();
+        //sauvegarder();
         return inflater.inflate(R.layout.fragment_edit_m_r, container, false);
     }
 
@@ -84,7 +92,7 @@ public class EditMRFragment extends Fragment {
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.tacheAdapter = new TacheAdapter(this.laMorningRoutine.getListeTaches());
+        this.tacheAdapter = new TacheAdapter(this.laMorningRoutine.getListeTaches(), this);
         this.recyclerView.setAdapter(this.tacheAdapter);
 
         if(this.laMorningRoutine.getListeTaches().isEmpty()){
@@ -111,7 +119,7 @@ public class EditMRFragment extends Fragment {
                     //Clear focus here from edittext
                     titre.clearFocus();
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
-                    sauvegarder();
+                    //sauvegarder();
                 }
                 return false;
             }
@@ -123,8 +131,22 @@ public class EditMRFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
-                    sauvegarder();
+                    //sauvegarder();
                 }
+            }
+        });
+
+        Button retour = view.findViewById(R.id.boutton_retour);
+
+        retour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sauvegarder();
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+
+                NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(R.id.listMRFragment);
             }
         });
 
@@ -139,6 +161,7 @@ public class EditMRFragment extends Fragment {
 
     private void hideRecyclerView(){
         View v = this.getView();
+
 
         LinearLayout emptyTaches = v.findViewById(R.id.empty_taches);
 
@@ -169,8 +192,7 @@ public class EditMRFragment extends Fragment {
 
         final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(EditMRFragment.this.getContext());
 
-        AlertDialog alertDialog =
-                alert.setTitle("Créer une nouvelle tache :")
+        alert.setTitle("Créer une nouvelle tache :")
                 .setView(textEntryView)
                 .setPositiveButton("Sauvegarder",
                         new DialogInterface.OnClickListener() {
@@ -181,7 +203,7 @@ public class EditMRFragment extends Fragment {
                                 if(EditMRFragment.this.laMorningRoutine.getListeTaches().size() == 1){
                                     EditMRFragment.this.showRecyclerView();
                                 }
-                                EditMRFragment.this.sauvegarder();
+                                //EditMRFragment.this.sauvegarder();
                                 EditMRFragment.this.hideMenu();
                             }
                         })
@@ -190,11 +212,8 @@ public class EditMRFragment extends Fragment {
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
                             }
-                        })
-                .create();
-
-        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        alertDialog.show();
+                        });
+        alert.show();
     }
 
     private void showMenu(){
@@ -287,6 +306,19 @@ public class EditMRFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String jsonMorningRoutine = gson.toJson(this.laMorningRoutine);
+
+        /*if (positionMorningRoutine == sharedPreferences.getInt("CurrentMRAPosition", -3)){
+            String json = sharedPreferences.getString("MRManager", "");
+            MRManager mrManager = gson.fromJson(json, MRManager.class);
+
+            Adresse a = mrManager.getListMRA().get(positionMorningRoutine).getAdresse();
+
+            MRA mra = new MRA(this.laMorningRoutine, a);
+
+
+            editor.putString("CurrentMRA", gson.toJson(mra));
+        }*/
+
         editor.putString("morning_routine", jsonMorningRoutine);
         editor.putInt("position", positionMorningRoutine);
         editor.apply();
@@ -294,8 +326,9 @@ public class EditMRFragment extends Fragment {
 
     @Override
     public void onStop() {
-        this.sauvegarder();
         super.onStop();
     }
+
+
 
 }
