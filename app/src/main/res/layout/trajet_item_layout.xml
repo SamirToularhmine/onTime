@@ -2,28 +2,78 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/nomtrajet"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:textSize="14sp"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ic_mr_manager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="6dp"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:focusable="true"
+        >
 
-    <TextView
-        android:id="@+id/adressedepart"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:textSize="14sp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="10dp">
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:orientation="vertical"
+               android:layout_weight="0.5"
+               android:gravity="center">
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   app:srcCompat="@drawable/ic_localization"
+                   />
+               <TextView
+                   android:id="@+id/adressedepart"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:textSize="14sp"
+                   android:textAlignment="center"/>
+           </LinearLayout>
 
-    <TextView
-        android:id="@+id/adressearrivee"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:textSize="14sp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_ot_trajet_curve"
+                android:layout_weight="0.25"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="0.5"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_localization"
+                    />
+                <TextView
+                    android:id="@+id/adressearrivee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:textAlignment="center"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/boutonmodifiertrajet"
