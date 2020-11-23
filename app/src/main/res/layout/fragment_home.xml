@@ -115,7 +115,10 @@
                     android:layout_height="wrap_content"
                     app:cardUseCompatPadding="true"
                     app:cardCornerRadius="4dp"
-                    app:cardElevation="6dp">
+                    app:cardElevation="6dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:focusable="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
