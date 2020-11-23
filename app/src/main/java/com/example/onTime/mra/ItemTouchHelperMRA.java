@@ -26,11 +26,12 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
 
 
     private MorningRoutineAdressAdapter morningRoutineAdressAdapter;
-    private int positionSuppr, currentMRAPositionSuppr;
+    private int positionSuppr, idCurrentMRA;
     private MRA supprMRA;
     private final Drawable icon;
     private ListMRFragment listMRFragment;
     private Context context ;
+    private boolean wasCurrent;
     final ColorDrawable background = new ColorDrawable(Color.parseColor("#CA4242"));
 
     public ItemTouchHelperMRA(Context context, MorningRoutineAdressAdapter morningRoutineAdressAdapter, ListMRFragment listMRFragment) {
@@ -39,6 +40,7 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
         icon = ContextCompat.getDrawable(context, R.drawable.ic_delete_24px);
         this.listMRFragment = listMRFragment;
         this.context = context;
+        this.wasCurrent = false;
     }
 
     @Override
@@ -52,22 +54,13 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
     public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
         Collections.swap(morningRoutineAdressAdapter.getList(), viewHolder.getAdapterPosition(), target.getAdapterPosition());
         morningRoutineAdressAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-        int currentMRAPosition = sharedPreferences.getInt("CurrentMRAPosition", -2);
-        if (viewHolder.getAdapterPosition() == currentMRAPosition){
-            sharedPreferences.edit()
-                    .putInt("CurrentMRAPosition", target.getAdapterPosition()) // changer le current position lors d'un swipe d'un élément
-                    .apply();
-        }
-
-
         this.listMRFragment.sauvegarder();
         return true;
     }
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+        this.wasCurrent = false;
         int position = viewHolder.getAdapterPosition();
         this.positionSuppr = position;
         this.supprMRA = morningRoutineAdressAdapter.getList().get(position);
@@ -75,22 +68,13 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
         morningRoutineAdressAdapter.notifyItemRemoved(position);
         this.listMRFragment.sauvegarder();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-        int currentMRAPosition = sharedPreferences.getInt("CurrentMRAPosition", -2);
-        if (position == currentMRAPosition){
-            this.currentMRAPositionSuppr = positionSuppr;
+        int idCurrentMRA = sharedPreferences.getInt("current_id_MRA", -2);
+        if (this.supprMRA.getId() == idCurrentMRA){
+            wasCurrent = true;
+            this.idCurrentMRA = idCurrentMRA;
             sharedPreferences.edit()
-                    .remove("CurrentMRAPosition") // changer le current position lors d'un swipe d'un élément
-                    .remove("CurrentMRA")
+                    .remove("current_id_MRA") // changer le current position lors d'un swipe d'un élément
                     .apply();
-        }else{
-            this.currentMRAPositionSuppr = -2;
-
-        }
-        if (position < currentMRAPosition){
-            sharedPreferences.edit()
-                    .putInt("CurrentMRAPosition", currentMRAPosition - 1) // changer le current position lors d'un swipe d'un élément au dessus de celui ci
-                    .apply();
-            //this.currentMRAPositionSuppr = currentMRAPositionSuppr -1;
         }
         showUndoSnackbar(viewHolder);
     }
@@ -103,22 +87,11 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
                 morningRoutineAdressAdapter.getList().add(positionSuppr, supprMRA);
                 morningRoutineAdressAdapter.notifyItemInserted(positionSuppr);
                 ItemTouchHelperMRA.this.listMRFragment.sauvegarder();
-                SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-                Gson gson = new Gson();
-
-                if (positionSuppr == ItemTouchHelperMRA.this.currentMRAPositionSuppr){
-
+                if (wasCurrent){
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
                     sharedPreferences.edit()
-                            .putInt("CurrentMRAPosition", positionSuppr) // rajouter la current mornging routine si c'est elle qui a été suppr
-                            .putString("CurrentMRA", gson.toJson(supprMRA))
+                            .putInt("current_id_MRA", supprMRA.getId())
                             .apply();
-                }
-                int currentMRAPosition = sharedPreferences.getInt("CurrentMRAPosition", -2);
-                if(positionSuppr <= currentMRAPosition){
-                    sharedPreferences.edit()
-                            .putInt("CurrentMRAPosition", currentMRAPosition + 1) // rajouter la current mornging routine si c'est elle qui a été suppr
-                            .apply();
-                    //ItemTouchHelperMRA.this.currentMRAPositionSuppr = currentMRAPosition +1; // pas sûr de l'utilité de cette ligne
                 }
             }
         });

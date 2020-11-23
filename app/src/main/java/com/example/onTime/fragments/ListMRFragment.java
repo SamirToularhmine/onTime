@@ -106,7 +106,7 @@ public class ListMRFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                creerNouvelleMorningRoutine(v, new MorningRoutine("Nouvelle Morning Routine à changer"));
+                creerNouvelleMorningRoutine(v, new MorningRoutine("Changer le titre"));
             }
         });
     }
@@ -126,7 +126,14 @@ public class ListMRFragment extends Fragment {
 
     public void editMR(MorningRoutine mr, int position) {
         if (position == -1 ){
-            this.mrManager.ajouterMorningRoutine(mr);
+            Context context = this.getActivity().getApplicationContext();
+            this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+            int idMax = this.sharedPreferences.getInt("id_max", 0);
+            int newIDMax = idMax + 1;
+            this.sharedPreferences.edit()
+                    .putInt("id_max", newIDMax)
+                    .apply();
+            this.mrManager.ajouterMorningRoutine(mr, newIDMax);
             morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRA().size());
         }else{
             MRA mra = this.mrManager.getListMRA().get(position);
@@ -149,7 +156,14 @@ public class ListMRFragment extends Fragment {
         if (!json.equals("")) {
             morningRoutine = gson.fromJson(json, MorningRoutine.class);
             if (position == -1) {
-                this.mrManager.ajouterMorningRoutine(morningRoutine);
+                Context context = this.getActivity().getApplicationContext();
+                this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+                int idMax = this.sharedPreferences.getInt("id_max", 0);
+                int newIDMax = idMax + 1;
+                this.sharedPreferences.edit()
+                        .putInt("id_max", newIDMax)
+                        .apply();
+                this.mrManager.ajouterMorningRoutine(morningRoutine, newIDMax);
                 morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRA().size());
             } else {
                 if (position >= 0) {

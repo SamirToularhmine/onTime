@@ -40,8 +40,8 @@ public class HomeActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String json = this.sharedPreferences.getString("MRManager", "");
         if (json.equals("")) {
-            List<MRA> mras = createMRA(18);
-            this.mrManager = new MRManager(16900, mras);
+            //List<MRA> mras = createMRA(18);
+            this.mrManager = new MRManager();
         } else {
             this.mrManager = gson.fromJson(json, MRManager.class);
         }
@@ -62,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
         List<MRA> mra = new ArrayList<>();
 
         for (int i = 0; i < longeur; i++) {
-            mra.add(new MRA(new MorningRoutine("Morning Routine " + i), new Adresse("adresse" + i, "depart" + i, "arrivee" + i), 0));
+            mra.add(new MRA(new MorningRoutine("Morning Routine " + i), new Adresse("adresse" + i, "depart" + i, "arrivee" + i), 0, i));
         }
 
         /*Tache t = new Tache("tache 1", 600);

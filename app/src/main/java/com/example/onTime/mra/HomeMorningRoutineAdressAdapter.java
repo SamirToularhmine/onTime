@@ -73,15 +73,12 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRA> {
         MRA mra = getItem(position);
         //Log.d("CLICK", "onClick: "+ mra.getMorningRoutine().getNom());
         HomeMorningRoutineAdressAdapter.this.homeFragment.changerCurrentMr(mra);
+        int idCurrentMRA = mra.getId();
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String jsonMRA = gson.toJson(mra);
         sharedPreferences.edit()
-                .putString("CurrentMRA", jsonMRA)
-                .putInt("CurrentMRAPosition", position)
+                .putInt("current_id_MRA", idCurrentMRA)
                 .apply();
-
     }
 }
 

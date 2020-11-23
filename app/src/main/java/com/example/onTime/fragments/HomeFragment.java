@@ -93,20 +93,20 @@ public class HomeFragment extends Fragment {
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
 
-        String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
+        //String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
+        int idCurrentMRA = this.sharedPreferences.getInt("current_id_MRA", -1);
 
         String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
         this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
 
 
-        if (jsonMRA.equals("")) {
+        if (idCurrentMRA == -1) {
             MorningRoutine mr = new MorningRoutine("qzdqzdqzd");
-            Adresse a = new Adresse("Maison-Fac", "Maison", "Fac");
+            Adresse a = new Adresse("Maison-Fac", "Maison", "Fac"); // delete àa ???????????
 
-            this.mra = new MRA(mr);
-            this.mra.setAdresse(a);
+            this.mra = new MRA(mr, a);
         }else{
-            this.mra = gson.fromJson(jsonMRA, MRA.class);
+            this.mra = mrManager.getMRAfromId(idCurrentMRA);
         }
 
         TextView heureReveil = view.findViewById(R.id.heureReveil);
@@ -213,7 +213,6 @@ public class HomeFragment extends Fragment {
 
     public void changerCurrentMr(MRA mra) {
         this.mra = mra;
-        View view = this.getView();
         //TextView titre = view.findViewById(R.id.titreMorningRoutine);
         if (this.mra.getMorningRoutine() != null){
             this.titre.setText(this.mra.getMorningRoutine().getNom());
@@ -242,11 +241,12 @@ public class HomeFragment extends Fragment {
         Context context = this.getActivity().getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
-        this.mra = gson.fromJson(jsonMRA, MRA.class);
-
+        int idCurrentMRA = this.sharedPreferences.getInt("current_id_MRA", -1);
+        //String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
         String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
         this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
+        this.mra = mrManager.getMRAfromId(idCurrentMRA);
+
         if (this.mra == null){
             this.nomTrajet.setText("pas de trajet défini");
             this.titre.setText("Morning routine pas définie");

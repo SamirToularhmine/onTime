@@ -1,9 +1,12 @@
 package com.example.onTime.modele;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Classe qui represente le lien entre une morning routine et une adresse
@@ -13,6 +16,7 @@ public class MRA implements Parcelable {
     private MorningRoutine morningRoutine;
     private Adresse adresse;
     private long heureArrivee;
+    private int id;
 
     /**
      * Constructeur d'une MRA
@@ -20,10 +24,11 @@ public class MRA implements Parcelable {
      * @param morningRoutine est une morning routine existante
      * @param adresse        est une adresse existante
      */
-    public MRA(MorningRoutine morningRoutine, Adresse adresse, long heureArrivee) {
+    public MRA(MorningRoutine morningRoutine, Adresse adresse, long heureArrivee, int id) {
         this.morningRoutine = morningRoutine;
         this.adresse = adresse;
         this.heureArrivee = heureArrivee;
+        this.id = id;
     }
 
     /**
@@ -62,8 +67,10 @@ public class MRA implements Parcelable {
     };
 
     protected MRA(Parcel in) {
-        morningRoutine = (MorningRoutine) in.readValue(MorningRoutine.class.getClassLoader());
-        adresse = (Adresse) in.readValue(Adresse.class.getClassLoader());
+        this.morningRoutine = (MorningRoutine) in.readValue(MorningRoutine.class.getClassLoader());
+        this.adresse = (Adresse) in.readValue(Adresse.class.getClassLoader());
+        this.heureArrivee = in.readLong();
+        this.id = in.readInt();
     }
 
     @Override
@@ -73,8 +80,10 @@ public class MRA implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(morningRoutine);
-        dest.writeValue(adresse);
+        dest.writeValue(this.morningRoutine);
+        dest.writeValue(this.adresse);
+        dest.writeLong(this.heureArrivee);
+        dest.writeInt(this.id);
     }
 
 
@@ -131,5 +140,9 @@ public class MRA implements Parcelable {
     @Override
     public String toString() {
         return morningRoutine + " | " + adresse;
+    }
+
+    public int getId() {
+        return id;
     }
 }

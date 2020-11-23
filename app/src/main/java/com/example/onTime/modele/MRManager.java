@@ -81,9 +81,18 @@ public class MRManager implements Parcelable {
         return this.listMRA.add(mra);
     }
 
-    public boolean ajouterMorningRoutine(MorningRoutine morningRoutine) {
-        MRA mra = new MRA(morningRoutine, null, 0);
+    public boolean ajouterMorningRoutine(MorningRoutine morningRoutine, int id) {
+        MRA mra = new MRA(morningRoutine, null, 0, id);
         return this.listMRA.add(mra);
+    }
+
+    public MRA getMRAfromId(int id){
+        for (MRA mra : this.listMRA) {
+            if (mra.getId() == id){
+                return mra;
+            }
+        }
+        return null;
     }
 
     public boolean removeMRA(MRA mra) {

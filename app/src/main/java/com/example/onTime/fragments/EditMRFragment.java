@@ -292,7 +292,7 @@ public class EditMRFragment extends Fragment {
         Gson gson = new Gson();
         String jsonMorningRoutine = gson.toJson(this.laMorningRoutine);
 
-        if (positionMorningRoutine == sharedPreferences.getInt("CurrentMRAPosition", -3)){
+        /*if (positionMorningRoutine == sharedPreferences.getInt("CurrentMRAPosition", -3)){
             String json = sharedPreferences.getString("MRManager", "");
             MRManager mrManager = gson.fromJson(json, MRManager.class);
 
@@ -302,7 +302,7 @@ public class EditMRFragment extends Fragment {
 
 
             editor.putString("CurrentMRA", gson.toJson(mra));
-        }
+        }*/
 
         editor.putString("morning_routine", jsonMorningRoutine);
         editor.putInt("position", positionMorningRoutine);
