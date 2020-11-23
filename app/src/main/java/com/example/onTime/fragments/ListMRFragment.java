@@ -24,13 +24,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.onTime.R;
-import com.example.onTime.modele.MRA;
+import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Toolbox;
 import com.example.onTime.morning_routine.MorningRoutineActivity;
-import com.example.onTime.mra.ItemTouchHelperMRA;
-import com.example.onTime.mra.MorningRoutineAdressAdapter;
+import com.example.onTime.mrt.ItemTouchHelperMRT;
+import com.example.onTime.mrt.MorningRoutineAdressAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
@@ -80,7 +80,7 @@ public class ListMRFragment extends Fragment {
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRA(), this);
+        this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRT(), this);
         this.recyclerView.setAdapter(this.morningRoutineAdressAdapter);
 
         // We use a String here, but any type that can be put in a Bundle is supported
@@ -98,7 +98,7 @@ public class ListMRFragment extends Fragment {
         });
 
         // drag and drop + swipe
-        ItemTouchHelperMRA itemTouchHelperTache = new ItemTouchHelperMRA(getActivity(), this.morningRoutineAdressAdapter);
+        ItemTouchHelperMRT itemTouchHelperTache = new ItemTouchHelperMRT(getActivity(), this.morningRoutineAdressAdapter, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
@@ -106,7 +106,7 @@ public class ListMRFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                creerNouvelleMorningRoutine(v, new MorningRoutine("Nouvelle Morning Routine à changer"));
+                creerNouvelleMorningRoutine(v, new MorningRoutine("Changer le titre"));
             }
         });
     }
@@ -126,17 +126,25 @@ public class ListMRFragment extends Fragment {
 
     public void editMR(MorningRoutine mr, int position) {
         if (position == -1 ){
-            this.mrManager.ajouterMorningRoutine(mr);
-            morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRA().size());
+            Context context = this.getActivity().getApplicationContext();
+            this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+            int idMax = this.sharedPreferences.getInt("id_max", 0);
+            int newIDMax = idMax + 1;
+            this.sharedPreferences.edit()
+                    .putInt("id_max", newIDMax)
+                    .apply();
+            this.mrManager.ajouterMorningRoutine(mr, newIDMax);
+            morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRT().size());
         }else{
-            MRA mra = this.mrManager.getListMRA().get(position);
-            mra.setMorningRoutine(mr);
+            MRT MRT = this.mrManager.getListMRT().get(position);
+            MRT.setMorningRoutine(mr);
             morningRoutineAdressAdapter.notifyItemChanged(position);
         }
     }
 
     @Override
     public void onResume() {
+
         Context context1 = getActivity().getApplicationContext();
         this.sharedPreferences = context1.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
 
@@ -148,12 +156,19 @@ public class ListMRFragment extends Fragment {
         if (!json.equals("")) {
             morningRoutine = gson.fromJson(json, MorningRoutine.class);
             if (position == -1) {
-                this.mrManager.ajouterMorningRoutine(morningRoutine);
-                morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRA().size());
+                Context context = this.getActivity().getApplicationContext();
+                this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+                int idMax = this.sharedPreferences.getInt("id_max", 0);
+                int newIDMax = idMax + 1;
+                this.sharedPreferences.edit()
+                        .putInt("id_max", newIDMax)
+                        .apply();
+                this.mrManager.ajouterMorningRoutine(morningRoutine, newIDMax);
+                morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRT().size());
             } else {
                 if (position >= 0) {
-                    MRA mra = this.mrManager.getListMRA().get(position);
-                    mra.setMorningRoutine(morningRoutine);
+                    MRT MRT = this.mrManager.getListMRT().get(position);
+                    MRT.setMorningRoutine(morningRoutine);
                     morningRoutineAdressAdapter.notifyItemChanged(position);
                 }
             }
@@ -162,12 +177,19 @@ public class ListMRFragment extends Fragment {
                 .remove("morning_routine")
                 .remove("position")
                 .apply();
-
+        this.sauvegarder();
         super.onResume();
     }
 
     @Override
     public void onStop() {
+        this.sauvegarder();
+        super.onStop();
+    }
+
+
+
+    public void sauvegarder(){
         Context context = this.getActivity().getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = this.sharedPreferences.edit();
@@ -175,7 +197,5 @@ public class ListMRFragment extends Fragment {
         String json = gson.toJson(this.mrManager);
         editor.putString("MRManager", json);
         editor.apply();
-
-        super.onStop();
     }
 }

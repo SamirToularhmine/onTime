@@ -1,4 +1,4 @@
-package com.example.onTime.mra;
+package com.example.onTime.mrt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.example.onTime.R;
-import com.example.onTime.modele.Adresse;
-import com.example.onTime.modele.MRA;
+import com.example.onTime.modele.MRT;
+import com.example.onTime.modele.Trajet;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
@@ -40,8 +40,8 @@ public class HomeActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String json = this.sharedPreferences.getString("MRManager", "");
         if (json.equals("")) {
-            List<MRA> mras = createMRA(18);
-            this.mrManager = new MRManager(16900, mras);
+            //List<MRT> mras = createMRA(18);
+            this.mrManager = new MRManager();
         } else {
             this.mrManager = gson.fromJson(json, MRManager.class);
         }
@@ -58,17 +58,17 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNav, navController);
     }
 
-    private List<MRA> createMRA(int longeur){
-        List<MRA> mra = new ArrayList<>();
+    private List<MRT> createMRT(int longeur){
+        List<MRT> MRT = new ArrayList<>();
 
         for (int i = 0; i < longeur; i++) {
-            mra.add(new MRA(new MorningRoutine("Morning Routine " + i), new Adresse("adresse" + i, "depart" + i, "arrivee" + i), 0));
+            MRT.add(new MRT(new MorningRoutine("Morning Routine " + i), new Trajet("adresse" + i, "depart" + i, "arrivee" + i), 0, i));
         }
 
         /*Tache t = new Tache("tache 1", 600);
         mra.get(0).getMorningRoutine().ajouterTache(t);*/
 
-        return mra;
+        return MRT;
     }
 
     @Override

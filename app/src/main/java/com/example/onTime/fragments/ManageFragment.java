@@ -53,5 +53,18 @@ public class ManageFragment extends Fragment {
                 navController.navigate(R.id.listMRFragment);
             }
         });
+
+        CardView mesDestinations = view.findViewById(R.id.card_view_mes_destinations);
+
+        mesDestinations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(R.id.listAFragment);
+            }
+        });
     }
+
+
 }
