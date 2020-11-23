@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
+import com.example.onTime.fragments.EditMRFragment;
 import com.example.onTime.modele.Tache;
 import com.example.onTime.modele.Toolbox;
 import com.google.android.material.textfield.TextInputLayout;
@@ -24,7 +25,7 @@ import java.util.List;
 public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHolder> {
     private List<Tache> listTache;
 
-    public TacheAdapter(List<Tache> listTache) {
+    public TacheAdapter(List<Tache> listTache, EditMRFragment editMRFragment) {
         this.listTache = listTache;
     }
 

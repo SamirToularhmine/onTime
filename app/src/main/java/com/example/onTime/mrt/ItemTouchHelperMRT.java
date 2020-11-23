@@ -1,10 +1,12 @@
 package com.example.onTime.mrt;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,7 @@ import com.example.onTime.R;
 import com.example.onTime.modele.MRT;
 import com.example.onTime.fragments.ListMRFragment;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 
 import java.util.Collections;
 
@@ -27,6 +30,8 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
     private MRT supprMRT;
     private final Drawable icon;
     private ListMRFragment listMRFragment;
+    private Context context;
+    private boolean wasCurrent;
     final ColorDrawable background = new ColorDrawable(Color.parseColor("#CA4242"));
 
     public ItemTouchHelperMRT(Context context, MorningRoutineAdressAdapter morningRoutineAdressAdapter, ListMRFragment listMRFragment) {
@@ -34,6 +39,8 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
         this.morningRoutineAdressAdapter = morningRoutineAdressAdapter;
         icon = ContextCompat.getDrawable(context, R.drawable.ic_delete_24px);
         this.listMRFragment = listMRFragment;
+        this.context = context;
+        this.wasCurrent = false;
     }
 
     @Override
@@ -53,12 +60,21 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+        this.wasCurrent = false;
         int position = viewHolder.getAdapterPosition();
         this.positionSuppr = position;
         this.supprMRT = morningRoutineAdressAdapter.getList().get(position);
         morningRoutineAdressAdapter.getList().remove(position);
         morningRoutineAdressAdapter.notifyItemRemoved(position);
         this.listMRFragment.sauvegarder();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+        int idCurrentMRT = sharedPreferences.getInt("current_id_MRA", -2);
+        if (this.supprMRT.getId() == idCurrentMRT){
+            wasCurrent = true;
+            sharedPreferences.edit()
+                    .remove("current_id_MRA") // changer le current position lors d'un swipe d'un élément
+                    .apply();
+        }
         showUndoSnackbar(viewHolder);
     }
 
@@ -70,6 +86,12 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
                 morningRoutineAdressAdapter.getList().add(positionSuppr, supprMRT);
                 morningRoutineAdressAdapter.notifyItemInserted(positionSuppr);
                 ItemTouchHelperMRT.this.listMRFragment.sauvegarder();
+                if (wasCurrent){
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+                    sharedPreferences.edit()
+                            .putInt("current_id_MRA", supprMRT.getId())
+                            .apply();
+                }
             }
         });
         snackbar.show();

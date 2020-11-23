@@ -1,9 +1,12 @@
 package com.example.onTime.modele;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Classe qui represente le lien entre une morning routine et un trajet
@@ -13,6 +16,7 @@ public class MRT implements Parcelable {
     private MorningRoutine morningRoutine;
     private Trajet trajet;
     private long heureArrivee;
+    private int id;
 
     /**
      * Constructeur d'une MRA
@@ -20,10 +24,11 @@ public class MRT implements Parcelable {
      * @param morningRoutine est une morning routine existante
      * @param trajet        est un trajet existant
      */
-    public MRT(MorningRoutine morningRoutine, Trajet trajet, long heureArrivee) {
+    public MRT(MorningRoutine morningRoutine, Trajet trajet, long heureArrivee, int id) {
         this.morningRoutine = morningRoutine;
         this.trajet = trajet;
         this.heureArrivee = heureArrivee;
+        this.id = id;
     }
 
     /**
@@ -35,6 +40,19 @@ public class MRT implements Parcelable {
         this.morningRoutine = morningRoutine;
         this.trajet = null;
     }
+
+
+    /**
+     * Constructeur d'une MRA
+     *
+     * @param morningRoutine est une morning routine existante
+     * @param trajet est un trajet existant
+     */
+    public MRT(MorningRoutine morningRoutine, Trajet trajet) {
+        this.morningRoutine = morningRoutine;
+        this.trajet = trajet;
+    }
+
 
     public static final Parcelable.Creator<MRT> CREATOR = new Parcelable.Creator<MRT>() {
         @Override
@@ -49,8 +67,10 @@ public class MRT implements Parcelable {
     };
 
     protected MRT(Parcel in) {
-        morningRoutine = (MorningRoutine) in.readValue(MorningRoutine.class.getClassLoader());
-        trajet = (Trajet) in.readValue(Trajet.class.getClassLoader());
+        this.morningRoutine = (MorningRoutine) in.readValue(MorningRoutine.class.getClassLoader());
+        this.trajet = (Trajet) in.readValue(Trajet.class.getClassLoader());
+        this.heureArrivee = in.readLong();
+        this.id = in.readInt();
     }
 
     @Override
@@ -60,8 +80,10 @@ public class MRT implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(morningRoutine);
-        dest.writeValue(trajet);
+        dest.writeValue(this.morningRoutine);
+        dest.writeValue(this.trajet);
+        dest.writeLong(this.heureArrivee);
+        dest.writeInt(this.id);
     }
 
 
@@ -118,5 +140,9 @@ public class MRT implements Parcelable {
     @Override
     public String toString() {
         return morningRoutine + " | " + trajet;
+    }
+
+    public int getId() {
+        return id;
     }
 }

@@ -49,7 +49,7 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
     public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
         Collections.swap(tacheAdapter.getList(), viewHolder.getAdapterPosition(), target.getAdapterPosition());
         tacheAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-        editMRFragment.sauvegarder();
+        //editMRFragment.sauvegarder();
         return true;
     }
 
@@ -60,7 +60,7 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
         this.tacheSuppr = tacheAdapter.getList().get(position);
         tacheAdapter.getList().remove(position);
         tacheAdapter.notifyItemRemoved(position);
-        editMRFragment.sauvegarder();
+        //editMRFragment.sauvegarder();
         showUndoSnackbar(viewHolder);
     }
 
@@ -71,7 +71,7 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
             public void onClick(View v) {
                 tacheAdapter.getList().add(positionSuppr, tacheSuppr);
                 tacheAdapter.notifyItemInserted(positionSuppr);
-                ItemTouchHelperTache.this.editMRFragment.sauvegarder();
+                //ItemTouchHelperTache.this.editMRFragment.sauvegarder();
             }
         });
         snackbar.show();
