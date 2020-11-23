@@ -200,17 +200,13 @@ public class HomeFragment extends Fragment {
 
     private void updateTempsDebutTaches() {
         try {
-            Toast.makeText(getView().getContext(), "Calcul du temps des tâches...", Toast.LENGTH_SHORT).show();
-            List<Long> listeHeuresDebutTaches = this.mra.getListeHeuresDebutTaches();
+            List<Long> listeHeuresDebutTaches = this.mrt.getListeHeuresDebutTaches();
             Long secondesEntreMinuitEtReveil = Toolbox.getHeureFromEpoch(listeHeuresDebutTaches.get(0));
-            Toast.makeText(getView().getContext(), String.valueOf(secondesEntreMinuitEtReveil), Toast.LENGTH_SHORT).show();
             int heures = Toolbox.getHourFromSecondes(secondesEntreMinuitEtReveil);
             int minutes = Toolbox.getMinutesFromSecondes(secondesEntreMinuitEtReveil);
             String affichageHeureReveil = heures + ":" + minutes;
             this.heureReveil.setText(affichageHeureReveil);
-            Toast.makeText(getView().getContext(), "Calcul réussi " + affichageHeureReveil, Toast.LENGTH_SHORT).show();
         } catch (ExecutionException | InterruptedException e) {
-            Toast.makeText(getView().getContext(), "Erreur lors de la récupération du temps des tâches", Toast.LENGTH_SHORT).show();
         }
     }
 

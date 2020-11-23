@@ -127,7 +127,7 @@ public class MRT implements Parcelable {
      */
     public void calculerToutesLesHoraires() throws ExecutionException, InterruptedException {
         long dateHeureArrivee = Toolbox.getDateFromHeureArrivee(this.heureArrivee);
-        long travelTimeInMinutes = Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.adresse.getAdresseDepart(), this.adresse.getAdresseArrivee()) * 60;
+        long travelTimeInMinutes = Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.trajet.getAdresseDepart(), this.trajet.getAdresseArrivee()) * 60;
         long dateHeureDepartTrajet = dateHeureArrivee - travelTimeInMinutes;
         long dateHeureReveil = dateHeureDepartTrajet - this.getTempsTotalTaches();
         this.listeHeuresDebutTaches = new ArrayList<>();
@@ -164,7 +164,7 @@ public class MRT implements Parcelable {
         return this.trajet;
     }
 
-    public void setAdresse(Trajet trajet) {
+    public void setTrajet(Trajet trajet) {
         this.trajet = trajet;
         this.listeHeuresDebutTaches = null; // réinitialisation de la liste des temps car les lieux de départ/arrivée ont changé !
     }
