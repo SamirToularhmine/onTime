@@ -46,11 +46,11 @@ public class MRT implements Parcelable {
      * Constructeur d'une MRA
      *
      * @param morningRoutine est une morning routine existante
-     * @param adresse est une adresse existante
+     * @param trajet est un trajet existant
      */
-    public MRA(MorningRoutine morningRoutine, Adresse adresse) {
+    public MRT(MorningRoutine morningRoutine, Trajet trajet) {
         this.morningRoutine = morningRoutine;
-        this.adresse = adresse;
+        this.trajet = trajet;
     }
 
 

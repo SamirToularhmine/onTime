@@ -1,4 +1,4 @@
-package com.example.onTime.mra;
+package com.example.onTime.mrt;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -22,29 +22,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
 import com.example.onTime.fragments.HomeFragment;
-import com.example.onTime.modele.MRA;
+import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.MorningRoutine;
 import com.google.gson.Gson;
 
 import java.util.List;
 
-public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRA> {
+public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRT> {
 
-    private List<MRA> listMRA;
+    private List<MRT> listMRT;
     private HomeFragment homeFragment;
     private Context context;
 
-    public HomeMorningRoutineAdressAdapter(@NonNull Context context, List<MRA> listMRA, HomeFragment homeFragment) {
-        super(context, 0, listMRA);
+    public HomeMorningRoutineAdressAdapter(@NonNull Context context, List<MRT> listMRT, HomeFragment homeFragment) {
+        super(context, 0, listMRT);
         this.context = context;
-        this.listMRA = listMRA;
+        this.listMRT = listMRT;
         this.homeFragment = homeFragment;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        MRA mra = getItem(position);
+        MRT mrt = getItem(position);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.home_mr_item_layout, parent, false);
@@ -54,9 +54,9 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRA> {
         mr.setTag(position);
 
 
-        if (mra != null) {
-            if (mra.getMorningRoutine() != null)
-                mr.setText(mra.getMorningRoutine().getNom());
+        if (mrt != null) {
+            if (mrt.getMorningRoutine() != null)
+                mr.setText(mrt.getMorningRoutine().getNom());
             else
                 mr.setText("pas défini");
         }
@@ -65,15 +65,15 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRA> {
     }
 
 
-    public MRA getMra(int which) {
-        return this.listMRA.get(which);
+    public MRT getMrt(int which) {
+        return this.listMRT.get(which);
     }
 
-    public void choisirMRA(int position) {
-        MRA mra = getItem(position);
+    public void choisirMRT(int position) {
+        MRT mrt = getItem(position);
         //Log.d("CLICK", "onClick: "+ mra.getMorningRoutine().getNom());
-        HomeMorningRoutineAdressAdapter.this.homeFragment.changerCurrentMr(mra);
-        int idCurrentMRA = mra.getId();
+        HomeMorningRoutineAdressAdapter.this.homeFragment.changerCurrentMr(mrt);
+        int idCurrentMRA = mrt.getId();
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         sharedPreferences.edit()

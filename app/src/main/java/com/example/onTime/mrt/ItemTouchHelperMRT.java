@@ -26,11 +26,11 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
 
 
     private MorningRoutineAdressAdapter morningRoutineAdressAdapter;
-    private int positionSuppr, idCurrentMRA;
-    private MRA supprMRT;
+    private int positionSuppr;
+    private MRT supprMRT;
     private final Drawable icon;
     private ListMRFragment listMRFragment;
-    private Context context ;
+    private Context context;
     private boolean wasCurrent;
     final ColorDrawable background = new ColorDrawable(Color.parseColor("#CA4242"));
 
@@ -68,10 +68,9 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
         morningRoutineAdressAdapter.notifyItemRemoved(position);
         this.listMRFragment.sauvegarder();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-        int idCurrentMRA = sharedPreferences.getInt("current_id_MRA", -2);
-        if (this.supprMRA.getId() == idCurrentMRA){
+        int idCurrentMRT = sharedPreferences.getInt("current_id_MRA", -2);
+        if (this.supprMRT.getId() == idCurrentMRT){
             wasCurrent = true;
-            this.idCurrentMRA = idCurrentMRA;
             sharedPreferences.edit()
                     .remove("current_id_MRA") // changer le current position lors d'un swipe d'un élément
                     .apply();
@@ -90,7 +89,7 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
                 if (wasCurrent){
                     SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
                     sharedPreferences.edit()
-                            .putInt("current_id_MRA", supprMRA.getId())
+                            .putInt("current_id_MRA", supprMRT.getId())
                             .apply();
                 }
             }

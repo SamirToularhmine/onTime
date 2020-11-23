@@ -164,7 +164,7 @@ public class ListMRFragment extends Fragment {
                         .putInt("id_max", newIDMax)
                         .apply();
                 this.mrManager.ajouterMorningRoutine(morningRoutine, newIDMax);
-                morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRA().size());
+                morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRT().size());
             } else {
                 if (position >= 0) {
                     MRT MRT = this.mrManager.getListMRT().get(position);

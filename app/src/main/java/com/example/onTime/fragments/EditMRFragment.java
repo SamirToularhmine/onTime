@@ -33,8 +33,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.example.onTime.R;
-import com.example.onTime.modele.Adresse;
-import com.example.onTime.modele.MRA;
+import com.example.onTime.modele.Trajet;
+import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
@@ -272,10 +272,6 @@ public class EditMRFragment extends Fragment {
         final FloatingActionButton mainActionButton = view.findViewById(R.id.host_action_tache);
 
         final  FloatingActionButton creerTacheActionButton = view.findViewById(R.id.creer_tache);
-        final  TextView creerTacheText = view.findViewById(R.id.creer_tache_texte);
-
-        final  FloatingActionButton choisirTacheActionButton = view.findViewById(R.id.choisir_tache);
-        final  TextView choisirTacheText = view.findViewById(R.id.choisir_tache_texte);
 
         this.showTacheMenu = AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate_cw);
         this.hideTacheMenu = AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate_acw);

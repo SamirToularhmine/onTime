@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
+import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.Trajet;
 import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.MorningRoutine;
@@ -43,9 +44,9 @@ import com.example.onTime.modele.Toolbox;
 import com.example.onTime.morning_routine.HomeTacheAdapter;
 import com.example.onTime.morning_routine.ItemTouchHelperTache;
 import com.example.onTime.morning_routine.TacheAdapter;
-import com.example.onTime.mra.HomeMorningRoutineAdressAdapter;
-import com.example.onTime.mra.ItemTouchHelperMRA;
-import com.example.onTime.mra.MorningRoutineAdressAdapter;
+import com.example.onTime.mrt.HomeMorningRoutineAdressAdapter;
+import com.example.onTime.mrt.ItemTouchHelperMRT;
+import com.example.onTime.mrt.MorningRoutineAdressAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -55,7 +56,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private MRT mra;
+    private MRT mrt;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private HomeTacheAdapter tacheAdapter;
@@ -93,7 +94,7 @@ public class HomeFragment extends Fragment {
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
-        this.mra = gson.fromJson(jsonMRA, MRT.class);
+        this.mrt = gson.fromJson(jsonMRA, MRT.class);
 
         //String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
         int idCurrentMRA = this.sharedPreferences.getInt("current_id_MRA", -1);
@@ -101,16 +102,13 @@ public class HomeFragment extends Fragment {
         String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
         this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
 
-        MorningRoutine mr = new MorningRoutine("qzdqzdqzd", taches);
-        Trajet a = new Trajet("Maison-Face", "Maison", "Fac");
-
         if (idCurrentMRA == -1) {
             MorningRoutine mr = new MorningRoutine("qzdqzdqzd");
-            Adresse a = new Adresse("Maison-Fac", "Maison", "Fac"); // delete àa ???????????
+            Trajet t = new Trajet("Maison-Fac", "Maison", "Fac"); // delete àa ???????????
 
-            this.mra = new MRA(mr, a);
+            this.mrt = new MRT(mr, t);
         }else{
-            this.mra = mrManager.getMRAfromId(idCurrentMRA);
+            this.mrt = mrManager.getMRAfromId(idCurrentMRA);
         }
 
         TextView heureReveil = view.findViewById(R.id.heureReveil);
@@ -124,10 +122,10 @@ public class HomeFragment extends Fragment {
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.tacheAdapter = new HomeTacheAdapter(this.mra.getMorningRoutine().getListeTaches());
+        this.tacheAdapter = new HomeTacheAdapter(this.mrt.getMorningRoutine().getListeTaches());
         this.recyclerView.setAdapter(this.tacheAdapter);
 
-        if (this.mra.getMorningRoutine().getListeTaches().isEmpty()) {
+        if (this.mrt.getMorningRoutine().getListeTaches().isEmpty()) {
             this.hideRecyclerView();
         } else {
             this.showRecyclerView();
@@ -135,14 +133,14 @@ public class HomeFragment extends Fragment {
 
         CardView cardView = view.findViewById(R.id.card_mr_trajet);
         final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(HomeFragment.this.getContext());
-        final HomeMorningRoutineAdressAdapter adapter = new HomeMorningRoutineAdressAdapter(HomeFragment.this.getContext(), HomeFragment.this.mrManager.getListMRA(), HomeFragment.this);
+        final HomeMorningRoutineAdressAdapter adapter = new HomeMorningRoutineAdressAdapter(HomeFragment.this.getContext(), HomeFragment.this.mrManager.getListMRT(), HomeFragment.this);
 
         alert.setTitle("Choisir une Morning Routine")
 
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        adapter.choisirMRA(which);
+                        adapter.choisirMRT(which);
                         dialog.dismiss();
                     }
 
@@ -159,14 +157,14 @@ public class HomeFragment extends Fragment {
 
         this.titre = view.findViewById(R.id.titreMorningRoutine);
         this.nomTrajet = view.findViewById(R.id.nom_trajet);
-        if (this.mra.getMorningRoutine() != null){
-            this.titre.setText(this.mra.getMorningRoutine().getNom());
+        if (this.mrt.getMorningRoutine() != null){
+            this.titre.setText(this.mrt.getMorningRoutine().getNom());
         }else{
             this.titre.setText("Morning routine pas définie");
         }
 
-        if (this.mra.getAdresse() != null)
-            this.nomTrajet.setText(this.mra.getAdresse().getNom());
+        if (this.mrt.getTrajet() != null)
+            this.nomTrajet.setText(this.mrt.getTrajet().getNom());
         else
             this.nomTrajet.setText("pas de trajet défini");
 
@@ -211,24 +209,24 @@ public class HomeFragment extends Fragment {
         emptyTaches.setVisibility(View.GONE);
     }
 
-    public void changerCurrentMr(MRA mra) {
-        this.mra = mra;
+    public void changerCurrentMr(MRT mrt) {
+        this.mrt = mrt;
         //TextView titre = view.findViewById(R.id.titreMorningRoutine);
-        if (this.mra.getMorningRoutine() != null){
-            this.titre.setText(this.mra.getMorningRoutine().getNom());
+        if (this.mrt.getMorningRoutine() != null){
+            this.titre.setText(this.mrt.getMorningRoutine().getNom());
         }else{
             this.titre.setText("Morning routine pas définie");
         }
 
-        if (this.mra.getAdresse() != null)
-            this.nomTrajet.setText(this.mra.getAdresse().getNom());
+        if (this.mrt.getTrajet() != null)
+            this.nomTrajet.setText(this.mrt.getTrajet().getNom());
         else
             this.nomTrajet.setText("pas de trajet défini");
 
-        this.tacheAdapter = new HomeTacheAdapter(this.mra.getMorningRoutine().getListeTaches());
+        this.tacheAdapter = new HomeTacheAdapter(this.mrt.getMorningRoutine().getListeTaches());
         this.recyclerView.setAdapter(this.tacheAdapter);
 
-        if (this.mra.getMorningRoutine().getListeTaches().isEmpty()) {
+        if (this.mrt.getMorningRoutine().getListeTaches().isEmpty()) {
             this.hideRecyclerView();
         } else {
             this.showRecyclerView();
@@ -245,20 +243,20 @@ public class HomeFragment extends Fragment {
         //String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
         String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
         this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
-        this.mra = mrManager.getMRAfromId(idCurrentMRA);
+        this.mrt = mrManager.getMRAfromId(idCurrentMRA);
 
-        if (this.mra == null){
+        if (this.mrt == null){
             this.nomTrajet.setText("pas de trajet défini");
             this.titre.setText("Morning routine pas définie");
         }else {
-            if (this.mra.getMorningRoutine() != null) {
-                this.titre.setText(this.mra.getMorningRoutine().getNom());
+            if (this.mrt.getMorningRoutine() != null) {
+                this.titre.setText(this.mrt.getMorningRoutine().getNom());
             } else {
                 this.titre.setText("Morning routine pas définie");
             }
 
-            if (this.mra.getAdresse() != null)
-                this.nomTrajet.setText(this.mra.getAdresse().getNom());
+            if (this.mrt.getTrajet() != null)
+                this.nomTrajet.setText(this.mrt.getTrajet().getNom());
             else
                 this.nomTrajet.setText("pas de trajet défini");
         }
