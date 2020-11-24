@@ -266,8 +266,10 @@ public class HomeFragment extends Fragment {
             this.titre.setText("Aucune morning routine définie");
         }
 
-        if (this.mrt.getTrajet() != null)
+        if (this.mrt.getTrajet() != null) {
             this.nomTrajet.setText(this.mrt.getTrajet().getNom());
+            this.updateTempsDebutTaches();
+        }
         else
             this.nomTrajet.setText("Aucun trajet défini");
 
