@@ -138,17 +138,18 @@ public class GoogleMapsAPI implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         long tempsTrajetSansTrafic = this.getTravelTimeWithoutTraffic(); // temps de trajet pour arriver à l'heure voulue sans prendre en compte le trafic
-        if (tempsTrajetSansTrafic != -1) { // s'il n'y a pas d'erreur
-            long heureDepart = this.arrivalTime - tempsTrajetSansTrafic;
-            long tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
-            long heureArriveeAvecTrafic = heureDepart + tempsTrajetAvecTrafic;
-            while (heureArriveeAvecTrafic > this.arrivalTime) {
-                heureDepart = heureDepart - 60; // on retire une minute à l'heure de départ
-                tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
-                heureArriveeAvecTrafic = heureDepart + tempsTrajetAvecTrafic;
+        long heureDepart = this.arrivalTime - tempsTrajetSansTrafic;
+        long tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
+        long heureArriveeAvecTrafic = heureDepart + tempsTrajetAvecTrafic;
+        while (heureArriveeAvecTrafic > this.arrivalTime) {
+            long delta = heureArriveeAvecTrafic - this.arrivalTime;
+            if (delta < 60) {
+                break;
             }
-            return Toolbox.getMinutesRoundedUpFromSecondes(tempsTrajetAvecTrafic);
+            heureDepart = heureDepart - delta; // on retire une minute à l'heure de départ
+            tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
+            heureArriveeAvecTrafic = heureDepart + tempsTrajetAvecTrafic;
         }
-        return -1;
+        return Toolbox.getMinutesRoundedUpFromSecondes(tempsTrajetAvecTrafic);
     }
 }
