@@ -106,7 +106,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingLeft="20dp"
-                android:paddingTop="20dp"
                 android:paddingRight="20dp"
                 android:paddingBottom="0dp">
 
@@ -116,31 +115,54 @@
                     android:layout_height="wrap_content"
                     app:cardUseCompatPadding="true"
                     app:cardCornerRadius="4dp"
-                    app:cardElevation="6dp">
+                    app:cardElevation="6dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:focusable="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/titreMorningRoutine"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorPrimary"
-                            android:gravity="center"
-                            android:textSize="24sp"/>
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_margin="5dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_alarm_on_24px"
+                                android:layout_gravity="center"
+                                />
+                            <TextView
+                                android:id="@+id/titreMorningRoutine"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:textSize="20sp"/>
+                        </LinearLayout>
 
                        <LinearLayout
                            android:layout_width="match_parent"
                            android:layout_height="match_parent"
-                           android:orientation="horizontal">
+                           android:orientation="horizontal"
+                           android:layout_margin="5dp">
+                           <ImageView
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               app:srcCompat="@drawable/ic_localization"
+                               android:layout_gravity="center"
+                               />
                            <TextView
                                android:id="@+id/nom_trajet"
                                android:layout_width="match_parent"
                                android:layout_height="wrap_content"
-                               android:textColor="@color/colorPrimary"
+                               android:layout_gravity="center"
                                android:gravity="center"
-                               android:textSize="24sp"/>
+                               android:textSize="20sp"/>
                        </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

@@ -49,6 +49,8 @@ import com.example.onTime.mrt.ItemTouchHelperMRT;
 import com.example.onTime.mrt.MorningRoutineAdressAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -161,35 +163,62 @@ public class HomeFragment extends Fragment {
         if (this.mrt.getMorningRoutine() != null){
             this.titre.setText(this.mrt.getMorningRoutine().getNom());
         }else{
-            this.titre.setText("Morning routine pas définie");
+            this.titre.setText("Aucune morning routine définie");
         }
 
         if (this.mrt.getTrajet() != null)
             this.nomTrajet.setText(this.mrt.getTrajet().getNom());
         else
-            this.nomTrajet.setText("pas de trajet défini");
+            this.nomTrajet.setText("Aucun de trajet défini");
 
 
         this.heureArrivee = view.findViewById(R.id.heureArrivee);
 
-        final TimePickerDialog dialog = new TimePickerDialog(
-                getContext(),
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-                    }
-                },
-                8,
-                30,
-                true);
-
         heureArrivee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.show();
+                v.setEnabled(false);
+
+                int currHeure = HomeFragment.this.mrt != null ? (int) HomeFragment.this.mrt.getHeureArrivee() / 3600 : 0;
+                int currMinutes = HomeFragment.this.mrt != null ? (int) (HomeFragment.this.mrt.getHeureArrivee() % 3600) / 60 : 0;
+
+                final MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
+                        .setTimeFormat(TimeFormat.CLOCK_24H)
+                        .setHour(currHeure)
+                        .setMinute(currMinutes)
+                        .setTitleText("Je veux arriver pour").build();
+
+                materialTimePicker.show(getActivity().getSupportFragmentManager(), "fragment_tag");
+
+                materialTimePicker.addOnPositiveButtonClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int heure = materialTimePicker.getHour();
+                        int minutes = materialTimePicker.getMinute();
+                        StringBuilder heureArrivee = new StringBuilder();
+                        if(heure < 10){
+                            heureArrivee.append("0").append(heure);
+                        }else{
+                            heureArrivee.append(heure);
+                        }
+                        heureArrivee.append(":");
+                        if(minutes < 10){
+                            heureArrivee.append("0").append(minutes);
+                        }else{
+                            heureArrivee.append(minutes);
+                        }
+                        heureArrivee.append(" H");
+                        HomeFragment.this.heureArrivee.setText(heureArrivee);
+                        if(HomeFragment.this.mrt != null){
+                            HomeFragment.this.mrt.setHeureArrivee((minutes * 60) + (heure * 3600));
+                        }
+                    }
+                });
+
+                v.setEnabled(true);
             }
         });
+
     }
 
     @Override
@@ -234,13 +263,13 @@ public class HomeFragment extends Fragment {
         if (this.mrt.getMorningRoutine() != null){
             this.titre.setText(this.mrt.getMorningRoutine().getNom());
         }else{
-            this.titre.setText("Morning routine pas définie");
+            this.titre.setText("Aucune morning routine définie");
         }
 
         if (this.mrt.getTrajet() != null)
             this.nomTrajet.setText(this.mrt.getTrajet().getNom());
         else
-            this.nomTrajet.setText("pas de trajet défini");
+            this.nomTrajet.setText("Aucun trajet défini");
 
         this.tacheAdapter = new HomeTacheAdapter(this.mrt.getMorningRoutine().getListeTaches());
         this.recyclerView.setAdapter(this.tacheAdapter);
@@ -265,19 +294,19 @@ public class HomeFragment extends Fragment {
         this.mrt = mrManager.getMRAfromId(idCurrentMRA);
 
         if (this.mrt == null){
-            this.nomTrajet.setText("pas de trajet défini");
-            this.titre.setText("Morning routine pas définie");
+            this.nomTrajet.setText("Aucun trajet défini");
+            this.titre.setText("Aucune morning routine définie");
         }else {
             if (this.mrt.getMorningRoutine() != null) {
                 this.titre.setText(this.mrt.getMorningRoutine().getNom());
             } else {
-                this.titre.setText("Morning routine pas définie");
+                this.titre.setText("Aucune morning routine définie");
             }
 
             if (this.mrt.getTrajet() != null)
                 this.nomTrajet.setText(this.mrt.getTrajet().getNom());
             else
-                this.nomTrajet.setText("pas de trajet défini");
+                this.nomTrajet.setText("Aucun trajet défini");
         }
         super.onResume();
     }
