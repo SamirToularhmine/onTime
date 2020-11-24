@@ -16,10 +16,10 @@
         android:layout_gravity="center"
         android:background="@color/colorAccent"
         android:orientation="horizontal"
-        android:paddingLeft="20dp"
+>        android:paddingLeft="20dp"
         android:paddingTop="40dp"
         android:paddingRight="20dp"
-        android:paddingBottom="50dp">
+        android:paddingBottom="50dp"
 
 
         <EditText

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/editMRFragment"
+        android:name="com.example.onTime.fragments.EditMRFragment"
+        android:label="fragment_edit_m_r"
+        tools:layout="@layout/fragment_edit_m_r" />
+    <fragment
+        android:id="@+id/listMRFragment"
+        android:name="com.example.onTime.fragments.ListMRFragment"
+        android:label="fragment_list_m_r"
+        tools:layout="@layout/fragment_list_m_r">
+        <action
+            android:id="@+id/action_listMRFragment_to_manageFragment"
+            app:destination="@id/manageFragment" />
+        <action
+            android:id="@+id/action_listMRFragment_to_editMRFragment"
+            app:destination="@id/editMRFragment" />
+        <action
+            android:id="@+id/action_listMRFragment_to_listAFragment"
+            app:destination="@id/listAFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/manageFragment"
+        android:name="com.example.onTime.fragments.ManageFragment"
+        android:label="fragment_manage"
+        tools:layout="@layout/fragment_manage"/>
+    <fragment
+        android:id="@+id/listAFragment"
+        android:name="com.example.onTime.fragments.ListTFragment"
+        android:label="fragment_list_addresses"
+        tools:layout="@layout/fragment_list_trajets" >
+        <action
+            android:id="@+id/action_listAFragment_to_editTFragment"
+            app:destination="@id/editTFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editTFragment"
+        android:name="com.example.onTime.fragments.EditTFragment"
+        android:label="fragment_edit_trajet"
+        tools:layout="@layout/fragment_edit_trajet" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.onTime.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home"/>
+</navigation>

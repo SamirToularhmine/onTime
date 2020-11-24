@@ -23,17 +23,10 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.example.onTime.MainActivity;
 import com.example.onTime.R;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class MorningRoutineActivity extends AppCompatActivity {
 
@@ -48,7 +41,7 @@ public class MorningRoutineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_morning_routine);
+       /* setContentView(R.layout.activity_morning_routine);
 
         this.recyclerView = findViewById(R.id.tache_recyclerview);
 
@@ -73,11 +66,11 @@ public class MorningRoutineActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         // drag and drop + swipe
-        ItemTouchHelperTache itemTouchHelperTache = new ItemTouchHelperTache(this, this.tacheAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        //ItemTouchHelperTache itemTouchHelperTache = new ItemTouchHelperTache(this, this.tacheAdapter);
+        //ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
+        //itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        //Perdre le focus lorsqu'on clique sur ok lors du changement de titre
+       /* //Perdre le focus lorsqu'on clique sur ok lors du changement de titre
         titre.setOnEditorActionListener(new TextView.OnEditorActionListener(){
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -101,7 +94,8 @@ public class MorningRoutineActivity extends AppCompatActivity {
                     MorningRoutineActivity.this.sauvegarder();
                 }
             }
-        });
+        });*/
+
 
     }
 
@@ -126,58 +120,23 @@ public class MorningRoutineActivity extends AppCompatActivity {
         return taches;
     }*/
 
-
-    public void creerTache(View view) {
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View textEntryView = factory.inflate(R.layout.ajout_tache, null);
-
-        final EditText nomTache = textEntryView.findViewById(R.id.nomtachecreate);
-        final NumberPicker duree = textEntryView.findViewById(R.id.duree);
-        duree.setMinValue(0);
-        duree.setMaxValue(60);
-
-        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-
-        alert.setTitle("Enter the Text:")
-                .setView(textEntryView)
-                .setPositiveButton("Save",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                Tache t = new Tache(nomTache.getText().toString(),duree.getValue()*60);
-                                laMorningRoutine.ajouterTache(t);
-                                tacheAdapter.notifyDataSetChanged();
-                                MorningRoutineActivity.this.sauvegarder();
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                            }
-                        });
-        alert.show();
-    }
-
-
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     @Override
+    public void finish() {
+        Intent i = new Intent();
+        i.putExtra("morning_routine", this.laMorningRoutine);
+        i.putExtra("position", positionMorningRoutine);
+        setResult(RESULT_OK, i);
+        super.finish();
+    }
+
+   /* @Override
     public void onPause() {
         this.sauvegarder();
         super.onPause();
-    }
-
-    private void sauvegarder() {
-        Context context = getApplicationContext();
-        SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String jsonMorningRoutine = gson.toJson(this.laMorningRoutine);
-        editor.putString("morning_routine", jsonMorningRoutine);
-        editor.putInt("position", positionMorningRoutine);
-        editor.apply();
-    }
+    }*/
 }

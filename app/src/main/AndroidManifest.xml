@@ -19,8 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".morning_routine.MorningRoutineActivity" />
-        <activity android:name=".mra.HomeActivity" />
+        <activity android:name=".morning_routine.MorningRoutineActivity"/>
+        <activity android:name=".mrt.HomeActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Destination" />
         <activity android:name=".MainActivity"/>
 

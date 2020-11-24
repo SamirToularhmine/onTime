@@ -14,7 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
+import com.example.onTime.fragments.EditMRFragment;
 import com.example.onTime.modele.Tache;
+import com.example.onTime.modele.Toolbox;
+import com.google.android.material.textfield.TextInputLayout;
 
 
 import java.util.List;
@@ -22,7 +25,7 @@ import java.util.List;
 public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHolder> {
     private List<Tache> listTache;
 
-    public TacheAdapter(List<Tache> listTache) {
+    public TacheAdapter(List<Tache> listTache, EditMRFragment editMRFragment) {
         this.listTache = listTache;
     }
 
@@ -54,14 +57,12 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
     public void onBindViewHolder(@NonNull final TacheViewHolder holder, int position) {
         Tache tache = listTache.get(position);
         holder.nomTache.setText(tache.getNom());
-        holder.duree.setText(String.valueOf(tache.getDuree()));
+        holder.duree.setText(Toolbox.secondesToMinSecString(tache.getDuree()));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Tache tacheClicked = listTache.get(holder.getAdapterPosition());
                 modifierTache(holder.itemView, holder);
-                //Toast.makeText(v.getContext(), "Selected : " + tacheClicked.getNom(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -75,7 +76,8 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
         final Tache tacheClicked = listTache.get(position);
 
 
-        final EditText nomTache = textEntryView.findViewById(R.id.nomtachecreate);
+        TextInputLayout nomTacheLayout = textEntryView.findViewById(R.id.nomtachecreate);
+        final EditText nomTache = nomTacheLayout.getEditText();
         final NumberPicker duree = textEntryView.findViewById(R.id.duree);
         nomTache.setText(tacheClicked.getNom());
 
@@ -83,12 +85,11 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
         duree.setMaxValue(60);
         duree.setValue((int) tacheClicked.getDuree() / 60);
 
-
         final AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
 
-        alert.setTitle("Enter the Text:")
+        alert.setTitle("Modifier la tache :")
                 .setView(textEntryView)
-                .setPositiveButton("Save",
+                .setPositiveButton("Sauvegarder",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 tacheClicked.setNom(nomTache.getText().toString());
@@ -96,7 +97,7 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
                                 TacheAdapter.this.notifyItemChanged(position);
                             }
                         })
-                .setNegativeButton("Cancel",
+                .setNegativeButton("Annuler",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
@@ -110,5 +111,7 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
     public int getItemCount() {
         return listTache.size();
     }
+
+
 
 }

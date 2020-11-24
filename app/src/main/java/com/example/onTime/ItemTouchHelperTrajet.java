@@ -1,4 +1,4 @@
-package com.example.onTime.mra;
+package com.example.onTime;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,24 +13,26 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
-import com.example.onTime.modele.MRA;
+import com.example.onTime.TrajetAdapter;
+import com.example.onTime.modele.MRT;
+import com.example.onTime.modele.Trajet;
+import com.example.onTime.mrt.MorningRoutineAdressAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
 
-public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
+public class ItemTouchHelperTrajet extends ItemTouchHelper.SimpleCallback {
 
 
-    private MorningRoutineAdressAdapter morningRoutineAdressAdapter;
+    private TrajetAdapter trajetAdapter;
     private int positionSuppr;
-    private MRA supprMRA;
+    private Trajet trajet;
     private final Drawable icon;
-    final ColorDrawable background = new ColorDrawable(Color.RED);
+    final ColorDrawable background = new ColorDrawable(Color.parseColor("#CA4242"));
 
-
-    public ItemTouchHelperMRA(Context context, MorningRoutineAdressAdapter morningRoutineAdressAdapter) {
+    public ItemTouchHelperTrajet(Context context, TrajetAdapter trajetAdapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        this.morningRoutineAdressAdapter = morningRoutineAdressAdapter;
+        this.trajetAdapter = trajetAdapter;
         icon = ContextCompat.getDrawable(context, R.drawable.ic_delete_24px);
     }
 
@@ -43,8 +45,8 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        Collections.swap(morningRoutineAdressAdapter.getList(), viewHolder.getAdapterPosition(), target.getAdapterPosition());
-        morningRoutineAdressAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        Collections.swap(trajetAdapter.getList(), viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        trajetAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
         return true;
     }
 
@@ -52,19 +54,19 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
         this.positionSuppr = position;
-        this.supprMRA = morningRoutineAdressAdapter.getList().get(position);
-        morningRoutineAdressAdapter.getList().remove(position);
-        morningRoutineAdressAdapter.notifyItemRemoved(position);
+        this.trajet = trajetAdapter.getList().get(position);
+        trajetAdapter.getList().remove(position);
+        trajetAdapter.notifyItemRemoved(position);
         showUndoSnackbar(viewHolder);
     }
 
     private void showUndoSnackbar(RecyclerView.ViewHolder viewHolder) {
-        Snackbar snackbar = Snackbar.make(viewHolder.itemView, "Suppression de " + supprMRA.getMorningRoutine().getNom(), Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(viewHolder.itemView, "Suppression de " + trajet.getNom(), Snackbar.LENGTH_SHORT);
         snackbar.setAction("Annuler", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                morningRoutineAdressAdapter.getList().add(positionSuppr, supprMRA);
-                morningRoutineAdressAdapter.notifyItemInserted(positionSuppr);
+                trajetAdapter.getList().add(positionSuppr, trajet);
+                trajetAdapter.notifyItemInserted(positionSuppr);
             }
         });
         snackbar.show();
@@ -94,7 +96,7 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
 
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
-                background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX), itemView.getBottom());
+                background.setBounds(itemView.getLeft(), itemView.getTop() + 25, itemView.getLeft() + ((int) dX), itemView.getBottom() - 25);
             } else { // Swiping to the left
                 if (dX * -1 > icon.getIntrinsicWidth()) {
                     iconLeft = itemView.getRight() - icon.getIntrinsicWidth();
@@ -107,7 +109,7 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
 
 
 
-                background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                background.setBounds(itemView.getRight() + (int) dX, itemView.getTop() + 25, itemView.getRight(), itemView.getBottom() - 25);
 
             }
 
@@ -118,6 +120,3 @@ public class ItemTouchHelperMRA extends ItemTouchHelper.SimpleCallback {
 
     }
 }
-
-
-

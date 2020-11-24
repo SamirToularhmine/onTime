@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_edit_mr"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.EditMRFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <com.example.onTime.WavyLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:paddingTop="40dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="50dp">
+
+            <EditText
+                android:id="@+id/titreMorningRoutine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:text="Morning Routine"
+                android:textColor="@color/colorAccent"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                tools:ignore="LabelFor" />
+
+            <Button
+                android:id="@+id/boutton_retour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="retour"
+                />
+        </com.example.onTime.WavyLinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="0dp">
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/coordinator_layout_tache"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tache_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:clipToPadding="false"
+                    android:divider="@android:color/transparent">
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <LinearLayout
+                    android:id="@+id/empty_taches"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Vous n'avez encore aucune tâche à faire lors de votre Morning Routine"
+                        android:textAlignment="center"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/shadowView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#F2FFFFFF"
+                    android:visibility="gone"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/host_action_tache"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_margin="16dp"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:srcCompat="@drawable/ic_add_24px"
+                        android:textColor="@color/colorAccent"
+                        app:tint="@color/colorAccent"
+                        android:contentDescription="TODO"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/creer_tache"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_margin="16dp"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:srcCompat="@drawable/ic_new_24dp"
+                        app:tint="@color/colorAccent"
+                        android:contentDescription="TODO"
+                        app:fabSize="mini"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toTopOf="@+id/host_action_tache"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/creer_tache_texte"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="6dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/creer_tache"
+                        app:layout_constraintEnd_toStartOf="@+id/creer_tache"
+                        app:layout_constraintTop_toTopOf="@+id/creer_tache"
+                        android:layout_marginEnd="8dp"
+                        android:visibility="invisible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Créer une nouvelle tache"
+                            android:layout_margin="3dp" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/choisir_tache"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_margin="16dp"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:srcCompat="@drawable/ic_task"
+                        app:tint="@color/colorAccent"
+                        app:fabSize="mini"
+                        android:visibility="invisible"
+                        android:contentDescription="TODO"
+                        app:layout_constraintBottom_toTopOf="@+id/creer_tache"
+                        app:layout_constraintBottom_toBottomOf="@+id/creer_tache"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/choisir_tache_texte"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="6dp"
+                        android:layout_marginEnd="8dp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/choisir_tache"
+                        app:layout_constraintEnd_toStartOf="@+id/choisir_tache"
+                        app:layout_constraintTop_toTopOf="@+id/choisir_tache">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:text="Choisir une tache existante" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
