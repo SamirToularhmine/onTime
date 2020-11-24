@@ -1,4 +1,4 @@
-package com.example.onTime.morning_routine;
+package com.example.onTime.adapters;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

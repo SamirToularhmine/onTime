@@ -1,36 +1,21 @@
 package com.example.onTime.fragments;
 
 
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.SavedStateHandle;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,22 +24,12 @@ import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.Trajet;
 import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.MorningRoutine;
-import com.example.onTime.modele.Tache;
-import com.example.onTime.modele.Toolbox;
-import com.example.onTime.morning_routine.HomeTacheAdapter;
-import com.example.onTime.morning_routine.ItemTouchHelperTache;
-import com.example.onTime.morning_routine.TacheAdapter;
-import com.example.onTime.mrt.HomeMorningRoutineAdressAdapter;
-import com.example.onTime.mrt.ItemTouchHelperMRT;
-import com.example.onTime.mrt.MorningRoutineAdressAdapter;
+import com.example.onTime.adapters.HomeTacheAdapter;
+import com.example.onTime.adapters.HomeMorningRoutineAdressAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.google.gson.Gson;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
 

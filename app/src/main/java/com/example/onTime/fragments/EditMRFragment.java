@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -17,12 +16,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
@@ -33,14 +30,10 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.example.onTime.R;
-import com.example.onTime.modele.Trajet;
-import com.example.onTime.modele.MRT;
-import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
-import com.example.onTime.morning_routine.ItemTouchHelperTache;
-import com.example.onTime.morning_routine.TacheAdapter;
-import com.google.android.material.card.MaterialCardView;
+import com.example.onTime.item_touch_helpers.ItemTouchHelperTache;
+import com.example.onTime.adapters.TacheAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;

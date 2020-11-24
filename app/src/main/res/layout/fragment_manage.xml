@@ -102,11 +102,14 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_mes_taches_recurrentes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardUseCompatPadding="true"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="6dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:focusable="true"
                 >
                 <LinearLayout

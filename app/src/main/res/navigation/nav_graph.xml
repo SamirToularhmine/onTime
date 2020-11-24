@@ -30,7 +30,11 @@
         android:id="@+id/manageFragment"
         android:name="com.example.onTime.fragments.ManageFragment"
         android:label="fragment_manage"
-        tools:layout="@layout/fragment_manage"/>
+        tools:layout="@layout/fragment_manage">
+        <action
+            android:id="@+id/action_manageFragment_to_listTachesRecurrentesFragment"
+            app:destination="@id/listTachesRecurrentesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/listAFragment"
         android:name="com.example.onTime.fragments.ListTFragment"
@@ -45,6 +49,12 @@
         android:name="com.example.onTime.fragments.EditTFragment"
         android:label="fragment_edit_trajet"
         tools:layout="@layout/fragment_edit_trajet" />
+    <fragment
+        android:id="@+id/listTachesRecurrentesFragment"
+        android:name="com.example.onTime.fragments.ListTachesRecurrentesFragment"
+        android:label="fragment_list_taches_recurrentes"
+        tools:layout="@layout/fragment_list_taches_recurrentes" >
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.onTime.fragments.HomeFragment"

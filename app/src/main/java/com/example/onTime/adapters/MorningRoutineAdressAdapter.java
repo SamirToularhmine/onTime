@@ -1,4 +1,4 @@
-package com.example.onTime.mrt;
+package com.example.onTime.adapters;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
