@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.example.onTime.mra.HomeActivity;
+import com.example.onTime.mrt.HomeActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
