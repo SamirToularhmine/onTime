@@ -177,8 +177,13 @@ public class MRT implements Parcelable {
      */
     private void calculerHeureDebutTrajet() throws ExecutionException, InterruptedException {
         long dateHeureArrivee = Toolbox.getDateFromHeureArrivee(this.heureArrivee);
-//        long travelTimeInMinutes = Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.trajet.getAdresseDepart(), this.trajet.getAdresseArrivee()) * 60;
-        long travelTimeInMinutes = 60 * 60;
+        long travelTimeInMinutes;
+        if (this.trajet != null) {
+            // long travelTimeInMinutes = Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.trajet.getAdresseDepart(), this.trajet.getAdresseArrivee()) * 60;
+            travelTimeInMinutes = 60 * 60;
+        } else {
+            travelTimeInMinutes = 0;
+        }
         this.heureDebutTrajet = dateHeureArrivee - travelTimeInMinutes;
     }
 
