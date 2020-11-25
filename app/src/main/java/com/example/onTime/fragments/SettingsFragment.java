@@ -84,7 +84,17 @@ public class SettingsFragment extends Fragment {
                 .setMessage("Etes-vous sûr ?")
                 .setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                sharedPreferences.edit().clear().apply();
+                sharedPreferences.edit()
+                        .remove("CurrentMRA")
+                        .remove("current_id_MRA")
+                        .remove("MRManager")
+                        //.remove("userHasFinishedInitialSetup")
+                        .remove("morning_routine")
+                        .remove("position")
+                        .remove("trajet")
+                        .remove("id_max")
+                        .remove("listeTrajets")
+                        .remove("notifyOnEachTaskStart").apply();
 
             }
         })
