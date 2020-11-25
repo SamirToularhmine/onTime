@@ -25,7 +25,7 @@ import java.util.List;
 public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHolder> {
     private List<Tache> listTache;
 
-    public TacheAdapter(List<Tache> listTache, EditMRFragment editMRFragment) {
+    public TacheAdapter(List<Tache> listTache) {
         this.listTache = listTache;
     }
 
