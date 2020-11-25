@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -216,6 +217,7 @@ public class HomeFragment extends Fragment {
                 MRT laMrt = HomeFragment.this.mrt;
 
                 try {
+
                     long heureReveil = laMrt.getHeureReveil();
 
                     long heuredepuisminuit = Toolbox.getHeureFromEpoch(heureReveil);
@@ -225,6 +227,8 @@ public class HomeFragment extends Fragment {
 
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
+                }catch (NullPointerException e){
+                    Toast.makeText(HomeFragment.this.getContext(), "PAS DE MORNING ROUTINE DÉFINIE", Toast.LENGTH_LONG).show();
                 }
 
 
