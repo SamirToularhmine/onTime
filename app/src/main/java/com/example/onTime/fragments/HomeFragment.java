@@ -1,5 +1,9 @@
 package com.example.onTime.fragments;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,8 +30,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.onTime.NotificationBroadcast;
 import com.example.onTime.R;
 import com.example.onTime.modele.MRManager;
+import com.example.onTime.modele.Tache;
 import com.example.onTime.modele.Toolbox;
 import com.example.onTime.modele.Trajet;
 import com.example.onTime.modele.MRT;
@@ -77,6 +83,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.createNotificationChannel();
 
         Context context = this.getActivity().getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
@@ -215,7 +222,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 MRT laMrt = HomeFragment.this.mrt;
-
                 try {
 
                     long heureReveil = laMrt.getHeureReveil();
@@ -224,6 +230,7 @@ public class HomeFragment extends Fragment {
                     int h = Toolbox.getHourFromSecondes(heuredepuisminuit);
                     int m = Toolbox.getMinutesFromSecondes(heuredepuisminuit);
                     setAlarm(h,m);
+                    createNotifs(heuredepuisminuit);
 
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
@@ -235,6 +242,36 @@ public class HomeFragment extends Fragment {
             }
         });
 
+    }
+
+    private void createNotifs(long heureReveilEpoch){
+        long decallageProchaineTache = 180 ;
+
+        for (Tache tache : this.mrt.getMorningRoutine().getListeTaches()) {
+            Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
+            intent.putExtra("CONTEXTE", tache.getNom());
+            intent.putExtra("ID", (int) decallageProchaineTache);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), (int)decallageProchaineTache, intent, 0);
+            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, heureReveilEpoch * 1000 + decallageProchaineTache * 1000, pendingIntent);
+            decallageProchaineTache += tache.getDuree();
+        }
+
+    }
+
+    private void createNotificationChannel(){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+
+            CharSequence name = "onTimeChannel";
+            String description = "Channel for onTIme";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = null;
+            channel = new NotificationChannel("notifyOnTime", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager =  getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     private void setAlarm(int heures, int minutes){

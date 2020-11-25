@@ -32,6 +32,8 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA9CNJHJG0sLfMww9DYyyanibNl_WzLC_4" />
+
+        <receiver android:name=".NotificationBroadcast"/>
     </application>
 
 </manifest>

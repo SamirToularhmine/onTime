@@ -14,11 +14,11 @@ public class NotificationBroadcast extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyOnTime")
                 .setSmallIcon(R.drawable.ic_alarm_on_24px)
                 .setContentTitle("Début d'une tâche")
-                .setContentText(intent.getStringExtra("CONTENT"))
+                .setContentText(intent.getStringExtra("CONTEXTE"))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
-        notificationManager.notify(200, builder.build());
+        notificationManager.notify(intent.getIntExtra("ID",200), builder.build());
     }
 }
