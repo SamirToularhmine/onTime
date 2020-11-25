@@ -65,6 +65,43 @@ public class MRT implements Parcelable {
     }
 
 
+    protected MRT(Parcel in) {
+        morningRoutine = (MorningRoutine) in.readValue(MorningRoutine.class.getClassLoader());
+        trajet = (Trajet) in.readValue(Trajet.class.getClassLoader());
+        heureArrivee = in.readLong();
+        id = in.readInt();
+        heureReveil = in.readLong();
+        if (in.readByte() == 0x01) {
+            listeHeuresDebutTaches = new ArrayList<Long>();
+            in.readList(listeHeuresDebutTaches, Long.class.getClassLoader());
+        } else {
+            listeHeuresDebutTaches = null;
+        }
+        heureDebutTrajet = in.readLong();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(morningRoutine);
+        dest.writeValue(trajet);
+        dest.writeLong(heureArrivee);
+        dest.writeInt(id);
+        dest.writeLong(heureReveil);
+        if (listeHeuresDebutTaches == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(listeHeuresDebutTaches);
+        }
+        dest.writeLong(heureDebutTrajet);
+    }
+
+    @SuppressWarnings("unused")
     public static final Parcelable.Creator<MRT> CREATOR = new Parcelable.Creator<MRT>() {
         @Override
         public MRT createFromParcel(Parcel in) {
@@ -76,26 +113,6 @@ public class MRT implements Parcelable {
             return new MRT[size];
         }
     };
-
-    protected MRT(Parcel in) {
-        this.morningRoutine = (MorningRoutine) in.readValue(MorningRoutine.class.getClassLoader());
-        this.trajet = (Trajet) in.readValue(Trajet.class.getClassLoader());
-        this.heureArrivee = in.readLong();
-        this.id = in.readInt();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(this.morningRoutine);
-        dest.writeValue(this.trajet);
-        dest.writeLong(this.heureArrivee);
-        dest.writeInt(this.id);
-    }
 
 
     public MorningRoutine getMorningRoutine() {
