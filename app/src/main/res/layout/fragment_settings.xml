@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
                         android:textSize="18sp"
-                        app:trackTint="@color/colorPrimary"
+                        android:theme="@style/OTSwitch"
                         android:text="Me notifier de chaque début de tâche"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
