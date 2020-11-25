@@ -234,7 +234,18 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 MRT laMrt = HomeFragment.this.mrt;
 
-                setAlarm(11,12);
+                try {
+                    long heureReveil = laMrt.getHeureReveil();
+
+                    long heuredepuisminuit = Toolbox.getHeureFromEpoch(heureReveil);
+                    int h = Toolbox.getHourFromSecondes(heuredepuisminuit);
+                    int m = Toolbox.getMinutesFromSecondes(heuredepuisminuit);
+                    setAlarm(h,m);
+
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+
 
             }
         });
@@ -257,15 +268,19 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateTempsDebutTaches() {
-        try {
+        /*try {
             List<Long> listeHeuresDebutTaches = this.mrt.getListeHeuresDebutTaches();
             Long secondesEntreMinuitEtReveil = Toolbox.getHeureFromEpoch(listeHeuresDebutTaches.get(0));
             int heures = Toolbox.getHourFromSecondes(secondesEntreMinuitEtReveil);
             int minutes = Toolbox.getMinutesFromSecondes(secondesEntreMinuitEtReveil);
             String affichageHeureReveil = heures + ":" + minutes;
             this.heureReveil.setText(affichageHeureReveil);
+
+
         } catch (ExecutionException | InterruptedException e) {
         }
+
+         */
     }
 
     private void hideRecyclerView() {
