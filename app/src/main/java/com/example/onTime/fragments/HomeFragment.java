@@ -168,7 +168,15 @@ public class HomeFragment extends Fragment {
         else
             this.nomTrajet.setText("Aucun de trajet défini");
 
+        this.setHeureArrivee(view);
 
+        this.setButtonReveil(view);
+
+
+
+    }
+
+    private void setHeureArrivee(View view){
         this.heureArrivee = view.findViewById(R.id.heureArrivee);
 
         heureArrivee.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +223,9 @@ public class HomeFragment extends Fragment {
                 v.setEnabled(true);
             }
         });
+    }
 
+    private void setButtonReveil(View view){
         Button buttonSetAlarm = view.findViewById(R.id.setAlarm);
 
         buttonSetAlarm.setOnClickListener(new View.OnClickListener() {
@@ -230,7 +240,7 @@ public class HomeFragment extends Fragment {
                     int h = Toolbox.getHourFromSecondes(heuredepuisminuit);
                     int m = Toolbox.getMinutesFromSecondes(heuredepuisminuit);
                     setAlarm(h,m);
-                    createNotifs(heuredepuisminuit);
+                    createNotifs(heureReveil);
 
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
@@ -241,7 +251,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
     }
 
     private void createNotifs(long heureReveilEpoch){
