@@ -39,7 +39,6 @@ public class ListTachesRecurrentesFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private SharedPreferences sharedPreferences;
     private TachesRecurrentesAdapter tachesRecurrentesAdapter;
-    private int position;
 
     public ListTachesRecurrentesFragment() {
         // Required empty public constructor
@@ -70,7 +69,7 @@ public class ListTachesRecurrentesFragment extends Fragment {
         Context context = this.getActivity().getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = this.sharedPreferences.getString("listeTaches", "");
+        String json = this.sharedPreferences.getString("listeTachesRec", "");
         if (json != "") {
             Type type = new TypeToken<List<Tache>>(){}.getType();
             this.listeTaches = gson.fromJson(json, type);
@@ -81,7 +80,7 @@ public class ListTachesRecurrentesFragment extends Fragment {
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.tachesRecurrentesAdapter = new TachesRecurrentesAdapter(this.listeTaches, this.position, this.getContext());
+        this.tachesRecurrentesAdapter = new TachesRecurrentesAdapter(this.listeTaches);
         this.recyclerView.setAdapter(this.tachesRecurrentesAdapter);
 
         ItemTouchHelperTacheRecurrentes itemTouchHelperTacheRecurrentes = new ItemTouchHelperTacheRecurrentes(getActivity(), this.tachesRecurrentesAdapter);
@@ -99,7 +98,6 @@ public class ListTachesRecurrentesFragment extends Fragment {
     }
 
     private void showCreerTacheRecurrente(){
-        View v = this.getView();
 
         LayoutInflater factory = LayoutInflater.from(ListTachesRecurrentesFragment.this.getContext());
         final View textEntryView = factory.inflate(R.layout.ajout_tache, null);
@@ -136,11 +134,11 @@ public class ListTachesRecurrentesFragment extends Fragment {
         Context context1 = getActivity().getApplicationContext();
         this.sharedPreferences = context1.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = this.sharedPreferences.getString("listeTaches", "");
+        String json = this.sharedPreferences.getString("listeTachesRec", "");
 
         if (json != "") {
             Type type = new TypeToken<List<Tache>>(){}.getType();
-            this.listeTaches = gson.fromJson(json, type);
+            //this.listeTaches = gson.fromJson(json, type);
         }
 
         super.onResume();
@@ -153,9 +151,8 @@ public class ListTachesRecurrentesFragment extends Fragment {
         SharedPreferences.Editor editor = this.sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(this.listeTaches);
-        editor.putString("listeTaches", json);
+        editor.putString("listeTachesRec", json);
         editor.apply();
-
         super.onStop();
     }
 }

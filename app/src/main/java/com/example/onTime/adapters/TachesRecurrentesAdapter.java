@@ -32,15 +32,11 @@ import java.util.List;
 
 public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurrentesAdapter.TachesRecurrentesViewHolder> {
     private List<Tache> listeTaches;
-    private int positionTacheRecurrente, positionMRT;
-    private boolean onlyShowList;
-    private AlertDialog dialog;
-    private Context contexte;
 
-    public TachesRecurrentesAdapter(List<Tache> listeTaches, int positionMRT, Context contexte) {
+
+    public TachesRecurrentesAdapter(List<Tache> listeTaches) {
         this.listeTaches = listeTaches;
-        this.positionMRT = positionMRT;
-        this.contexte = contexte;
+
     }
 
     public List<Tache> getList() {
@@ -69,8 +65,8 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
 
     @Override
     public void onBindViewHolder(@NonNull final TachesRecurrentesViewHolder holder, int position) {
-        this.positionTacheRecurrente = position;
-        Tache tache = this.listeTaches.get(this.positionTacheRecurrente);
+
+        Tache tache = this.listeTaches.get(position);
         holder.nomTache.setText(tache.getNom());
         holder.dureeTache.setText(String.valueOf(tache.getDuree()));
 
