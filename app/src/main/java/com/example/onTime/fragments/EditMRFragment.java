@@ -137,9 +137,7 @@ public class EditMRFragment extends Fragment {
                 sauvegarder();
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
 
-                NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-                NavController navController = navHostFragment.getNavController();
-                navController.navigate(R.id.listMRFragment);
+                activity.getSupportFragmentManager().popBackStack();
             }
         });
 
