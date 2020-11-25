@@ -92,7 +92,7 @@ public class EditMRFragment extends Fragment {
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.tacheAdapter = new TacheAdapter(this.laMorningRoutine.getListeTaches(), this);
+        this.tacheAdapter = new TacheAdapter(this.laMorningRoutine.getListeTaches());
         this.recyclerView.setAdapter(this.tacheAdapter);
 
         if(this.laMorningRoutine.getListeTaches().isEmpty()){

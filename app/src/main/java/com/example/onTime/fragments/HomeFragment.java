@@ -4,14 +4,17 @@ package com.example.onTime.fragments;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.AlarmClock;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -224,6 +227,27 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        Button buttonSetAlarm = view.findViewById(R.id.setAlarm);
+
+        buttonSetAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MRT laMrt = HomeFragment.this.mrt;
+
+                setAlarm(11,12);
+
+            }
+        });
+
+    }
+
+    private void setAlarm(int heures, int minutes){
+        Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
+        i.putExtra(AlarmClock.EXTRA_HOUR, heures);
+        i.putExtra(AlarmClock.EXTRA_MINUTES, minutes);
+        i.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+        i.putExtra(AlarmClock.EXTRA_MESSAGE, "Created by onTime");
+        startActivity(i);
     }
 
     @Override
@@ -325,34 +349,4 @@ public class HomeFragment extends Fragment {
 
 
 
-    /*@Override
-    public void onResume() {
-        Context context1 = getActivity().getApplicationContext();
-        this.sharedPreferences = context1.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-
-        MorningRoutine morningRoutine;
-        int position = this.sharedPreferences.getInt("position", -2);
-
-        Gson gson = new Gson();
-        String json = this.sharedPreferences.getString("morning_routine", "");
-        if (!json.equals("")) {
-            morningRoutine = gson.fromJson(json, MorningRoutine.class);
-            if (position == -1) {
-                this.mrManager.ajouterMorningRoutine(morningRoutine);
-                morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRA().size());
-            } else {
-                if (position >= 0) {
-                    MRA mra = this.mrManager.getListMRA().get(position);
-                    mra.setMorningRoutine(morningRoutine);
-                    morningRoutineAdressAdapter.notifyItemChanged(position);
-                }
-            }
-        }
-        this.sharedPreferences.edit()
-                .remove("morning_routine")
-                .remove("position")
-                .apply();
-
-        super.onResume();
-    }*/
 }
