@@ -94,6 +94,7 @@ public class SettingsFragment extends Fragment {
                         .remove("trajet")
                         .remove("id_max")
                         .remove("listeTrajets")
+                        .remove("listeTachesRec")
                         .remove("notifyOnEachTaskStart").apply();
 
             }

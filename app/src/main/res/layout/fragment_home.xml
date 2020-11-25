@@ -16,85 +16,106 @@
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:orientation="horizontal"
-            android:paddingTop="40dp"
             android:paddingLeft="20dp"
+            android:paddingTop="40dp"
             android:paddingRight="20dp"
             android:paddingBottom="50dp">
 
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="horizontal"
-              android:divider="@drawable/empty_tall_divider"
-              android:showDividers="middle">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@drawable/empty_tall_divider"
+                android:orientation="horizontal"
+                android:showDividers="middle">
 
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical"
-                  android:paddingBottom="2dp"
-                  android:layout_weight="1">
-                  <TextView
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:text="Je dois me réveiller à"
-                      android:textColor="@color/colorAccent"
-                      android:layout_weight="1"
-                      android:gravity="center"
-                      android:textSize="20sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="2dp">
 
-                      <TextView
-                          android:id="@+id/heureReveil"
-                          android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:gravity="center"
-                          android:text="00:00 H"
-                          android:layout_weight="1"
-                          android:textColor="@color/colorAccent"
-                          android:textSize="28sp"
-                          android:textStyle="bold" />
-              </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Je dois me réveiller à"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20sp" />
 
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:paddingBottom="0dp"
-                  android:layout_weight="1"
-                  android:layout_gravity="center">
-                  <TextView
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:text="Je veux arriver pour"
-                      android:gravity="center"
-                      android:textColor="@color/colorAccent"
-                      android:layout_weight="0.2"
-                      android:textSize="20sp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/heureReveil"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="00:00 H"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="28sp"
+                            android:textStyle="bold" />
 
-                  <androidx.cardview.widget.CardView
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      app:cardUseCompatPadding="true"
-                      app:cardCornerRadius="4dp"
-                      app:cardElevation="6dp">
-                      <TextView
-                          android:id="@+id/heureArrivee"
-                          android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:gravity="center"
-                          android:text="00:00 H"
-                          android:layout_weight="0.5"
-                          android:textColor="@color/colorPrimary"
-                          android:textSize="28sp"
-                          android:textStyle="bold"
-                          android:clickable="true"
-                          android:foreground="?android:attr/selectableItemBackground"
-                          android:focusable="true" />
+                        <Button
+                            android:id="@+id/setAlarm"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:drawableTop="@drawable/ic_baseline_notifications_24"
+                            android:layout_weight="2"
+                            />
 
-                  </androidx.cardview.widget.CardView>
-              </LinearLayout>
+                    </LinearLayout>
 
-          </LinearLayout>
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="0dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:gravity="center"
+                        android:text="Je veux arriver pour"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20sp" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="6dp"
+                        app:cardUseCompatPadding="true">
+
+                        <TextView
+                            android:id="@+id/heureArrivee"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:text="00:00 H"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="28sp"
+                            android:textStyle="bold" />
+
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+            </LinearLayout>
         </com.example.onTime.WavyLinearLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -113,57 +134,60 @@
                     android:id="@+id/card_mr_trajet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardUseCompatPadding="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="6dp"
-                    android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:focusable="true">
+                    app:cardUseCompatPadding="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:padding="5dp">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_margin="5dp">
+
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/ic_alarm_on_24px"
                                 android:layout_gravity="center"
-                                />
+                                app:srcCompat="@drawable/ic_alarm_on_24px" />
+
                             <TextView
                                 android:id="@+id/titreMorningRoutine"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
                                 android:layout_gravity="center"
-                                android:textSize="20sp"/>
+                                android:gravity="center"
+                                android:textSize="20sp" />
                         </LinearLayout>
 
-                       <LinearLayout
-                           android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:orientation="horizontal"
-                           android:layout_margin="5dp">
-                           <ImageView
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               app:srcCompat="@drawable/ic_localization"
-                               android:layout_gravity="center"
-                               />
-                           <TextView
-                               android:id="@+id/nom_trajet"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:layout_gravity="center"
-                               android:gravity="center"
-                               android:textSize="20sp"/>
-                       </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_localization" />
+
+                            <TextView
+                                android:id="@+id/nom_trajet"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:textSize="20sp" />
+                        </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -179,20 +203,20 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:clipToPadding="false"
-                        android:divider="@android:color/transparent">
-                    </androidx.recyclerview.widget.RecyclerView>
+                        android:divider="@android:color/transparent"></androidx.recyclerview.widget.RecyclerView>
 
                     <LinearLayout
                         android:id="@+id/empty_taches"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Vous n'avez encore aucune tâche à faire lors de votre Morning Routine"
                             android:textAlignment="center"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.coordinatorlayout.widget.CoordinatorLayout>
             </LinearLayout>
