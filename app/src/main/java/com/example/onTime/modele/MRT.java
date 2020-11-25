@@ -19,7 +19,9 @@ public class MRT implements Parcelable {
     private Trajet trajet;
     private long heureArrivee;
     private int id;
+    private long heureReveil;
     private List<Long> listeHeuresDebutTaches;
+    private long heureDebutTrajet;
 
     /**
      * Constructeur d'une MRA
@@ -32,6 +34,8 @@ public class MRT implements Parcelable {
         this.trajet = trajet;
         this.heureArrivee = heureArrivee;
         this.id = id;
+        this.resetHeureReveilDebutTaches();
+        this.resetHeureDebutTrajet();
     }
 
     /**
@@ -42,6 +46,8 @@ public class MRT implements Parcelable {
     public MRT(MorningRoutine morningRoutine) {
         this.morningRoutine = morningRoutine;
         this.trajet = null;
+        this.resetHeureReveilDebutTaches();
+        this.resetHeureDebutTrajet();
     }
 
 
@@ -54,9 +60,48 @@ public class MRT implements Parcelable {
     public MRT(MorningRoutine morningRoutine, Trajet trajet) {
         this.morningRoutine = morningRoutine;
         this.trajet = trajet;
+        this.resetHeureReveilDebutTaches();
+        this.resetHeureDebutTrajet();
     }
 
 
+    protected MRT(Parcel in) {
+        morningRoutine = (MorningRoutine) in.readValue(MorningRoutine.class.getClassLoader());
+        trajet = (Trajet) in.readValue(Trajet.class.getClassLoader());
+        heureArrivee = in.readLong();
+        id = in.readInt();
+        heureReveil = in.readLong();
+        if (in.readByte() == 0x01) {
+            listeHeuresDebutTaches = new ArrayList<Long>();
+            in.readList(listeHeuresDebutTaches, Long.class.getClassLoader());
+        } else {
+            listeHeuresDebutTaches = null;
+        }
+        heureDebutTrajet = in.readLong();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(morningRoutine);
+        dest.writeValue(trajet);
+        dest.writeLong(heureArrivee);
+        dest.writeInt(id);
+        dest.writeLong(heureReveil);
+        if (listeHeuresDebutTaches == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(listeHeuresDebutTaches);
+        }
+        dest.writeLong(heureDebutTrajet);
+    }
+
+    @SuppressWarnings("unused")
     public static final Parcelable.Creator<MRT> CREATOR = new Parcelable.Creator<MRT>() {
         @Override
         public MRT createFromParcel(Parcel in) {
@@ -69,26 +114,6 @@ public class MRT implements Parcelable {
         }
     };
 
-    protected MRT(Parcel in) {
-        this.morningRoutine = (MorningRoutine) in.readValue(MorningRoutine.class.getClassLoader());
-        this.trajet = (Trajet) in.readValue(Trajet.class.getClassLoader());
-        this.heureArrivee = in.readLong();
-        this.id = in.readInt();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(this.morningRoutine);
-        dest.writeValue(this.trajet);
-        dest.writeLong(this.heureArrivee);
-        dest.writeInt(this.id);
-    }
-
 
     public MorningRoutine getMorningRoutine() {
         return this.morningRoutine;
@@ -96,13 +121,14 @@ public class MRT implements Parcelable {
 
     public void setMorningRoutine(MorningRoutine morningRoutine) {
         this.morningRoutine = morningRoutine;
+        this.resetHeureReveilDebutTaches();
     }
 
     /**
      * Méthode qui donne la somme du temps des tâches de la morning routine en première position dans la liste
      * @return le temps total pour effectuer les tâches (en secondes)
      */
-    public long getTempsTotalTaches() {
+    private long getTempsTotalTaches() {
         long res = 0;
         for (Tache tache : this.morningRoutine.getListeTaches()) {
             res += tache.getDuree();
@@ -116,22 +142,25 @@ public class MRT implements Parcelable {
 
     public void setHeureArrivee(long heureArrivee) {
         this.heureArrivee = heureArrivee;
+        this.resetHeureReveilDebutTaches();
+        this.resetHeureDebutTrajet();
+    }
+
+    private void resetHeureReveilDebutTaches() {
+        this.heureReveil = -1;
         this.listeHeuresDebutTaches = null;
     }
 
+    private void resetHeureDebutTrajet() {
+        this.heureDebutTrajet = -1;
+    }
+
     /**
-     * Méthode qui va calculer toutes les horaires relatifs à la morning routine, c'est à dire :
-     * - L'heure de réveil
-     * - L'heure de début de chaque tâche
-     * - L'heure où l'utilisateur doit commencer le trajet
+     * Méthode qui calcule l'heure de réveil et chaque heure de début des tâches
      */
-    public void calculerToutesLesHoraires() throws ExecutionException, InterruptedException {
-        long dateHeureArrivee = Toolbox.getDateFromHeureArrivee(this.heureArrivee);
-        long travelTimeInMinutes = Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.trajet.getAdresseDepart(), this.trajet.getAdresseArrivee()) * 60;
-        long dateHeureDepartTrajet = dateHeureArrivee - travelTimeInMinutes;
-        long dateHeureReveil = dateHeureDepartTrajet - this.getTempsTotalTaches();
+    private void calculerHeureReveilTaches() {
+        this.heureReveil = this.heureDebutTrajet - this.getTempsTotalTaches();
         this.listeHeuresDebutTaches = new ArrayList<>();
-        this.listeHeuresDebutTaches.add(dateHeureReveil);
         long tempsPourSeReveiller = 180; // le temps entre le réveil et la première tâche
         for (Tache tache : this.morningRoutine.getListeTaches()) {
             if (this.listeHeuresDebutTaches.size() == 1) {
@@ -141,7 +170,21 @@ public class MRT implements Parcelable {
                 this.listeHeuresDebutTaches.add(this.listeHeuresDebutTaches.get(this.listeHeuresDebutTaches.size()-1) + tache.getDuree());
             }
         }
-        this.listeHeuresDebutTaches.add(dateHeureDepartTrajet);
+    }
+
+    /**
+     * Méthode qui calcule l'heure où l'utilisateur doit débuter son trajet pour être à l'heure à destination
+     */
+    private void calculerHeureDebutTrajet() throws ExecutionException, InterruptedException {
+        long dateHeureArrivee = Toolbox.getDateFromHeureArrivee(this.heureArrivee);
+        long travelTimeInMinutes;
+        if (this.trajet != null) {
+            // long travelTimeInMinutes = Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.trajet.getAdresseDepart(), this.trajet.getAdresseArrivee()) * 60;
+            travelTimeInMinutes = 60 * 60;
+        } else {
+            travelTimeInMinutes = 0;
+        }
+        this.heureDebutTrajet = dateHeureArrivee - travelTimeInMinutes;
     }
 
     /**
@@ -150,14 +193,32 @@ public class MRT implements Parcelable {
      * Dernier élément : heure où il faut partir de l'adresse de départ
      * Entre les deux : toutes les horaires de début des tâches
      * @return la liste de toutes les horaires comme décrit au dessus
-     * @throws ExecutionException
-     * @throws InterruptedException
      */
     public List<Long> getListeHeuresDebutTaches() throws ExecutionException, InterruptedException {
         if (this.listeHeuresDebutTaches == null) {
-            this.calculerToutesLesHoraires();
+            if (this.heureDebutTrajet == -1) {
+                this.calculerHeureDebutTrajet();
+            }
+            this.calculerHeureReveilTaches();
         }
         return this.listeHeuresDebutTaches;
+    }
+
+    public long getHeureDebutTrajet() throws ExecutionException, InterruptedException {
+        if (this.heureDebutTrajet == -1) {
+            this.calculerHeureDebutTrajet();
+        }
+        return this.heureDebutTrajet;
+    }
+
+    public long getHeureReveil() throws ExecutionException, InterruptedException {
+        if (this.heureReveil == -1) {
+            if (this.heureDebutTrajet == -1) {
+                this.calculerHeureDebutTrajet();
+            }
+            this.calculerHeureReveilTaches();
+        }
+        return this.heureReveil;
     }
 
     public Trajet getTrajet() {
@@ -166,7 +227,8 @@ public class MRT implements Parcelable {
 
     public void setTrajet(Trajet trajet) {
         this.trajet = trajet;
-        this.listeHeuresDebutTaches = null; // réinitialisation de la liste des temps car les lieux de départ/arrivée ont changé !
+        this.resetHeureReveilDebutTaches();
+        this.resetHeureDebutTrajet();
     }
 
     @Override
