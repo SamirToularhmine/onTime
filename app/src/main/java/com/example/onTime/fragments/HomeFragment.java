@@ -103,14 +103,19 @@ public class HomeFragment extends Fragment {
         int idCurrentMRA = this.sharedPreferences.getInt("current_id_MRA", -1);
 
         String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
-        this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
+        if (!jsonMRManager.equals("")) {
+            this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
+        } else {
+            this.mrManager = new MRManager();
+        }
+
 
         if (idCurrentMRA == -1) {
-            MorningRoutine mr = new MorningRoutine("qzdqzdqzd");
-            Trajet t = new Trajet("Maison-Fac", "Maison", "Fac"); // delete àa ???????????
+            MorningRoutine mr = new MorningRoutine("");
+            Trajet t = new Trajet("", "", ""); // delete àa ???????????
 
             this.mrt = new MRT(mr, t);
-        }else{
+        } else {
             this.mrt = mrManager.getMRAfromId(idCurrentMRA);
         }
 
@@ -292,7 +297,12 @@ public class HomeFragment extends Fragment {
         int idCurrentMRA = this.sharedPreferences.getInt("current_id_MRA", -1);
         //String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
         String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
-        this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
+        if (!jsonMRManager.equals("")) {
+            this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
+        } else {
+            this.mrManager = new MRManager();
+        }
+
         this.mrt = mrManager.getMRAfromId(idCurrentMRA);
 
         if (this.mrt == null){
