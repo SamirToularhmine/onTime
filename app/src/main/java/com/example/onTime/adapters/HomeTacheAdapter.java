@@ -16,9 +16,11 @@ import java.util.List;
 
 public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.TacheViewHolder> {
     private List<Tache> listTache;
+    private List<Long> listeHeuresDebut;
 
-    public HomeTacheAdapter(List<Tache> listTache) {
+    public HomeTacheAdapter(List<Tache> listTache, List<Long> listeHeureDebutTaches) {
         this.listTache = listTache;
+        this.listeHeuresDebut = listeHeureDebutTaches;
     }
 
     public List<Tache> getList() {
@@ -28,11 +30,13 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
     public static class TacheViewHolder extends RecyclerView.ViewHolder {
         TextView nomTache;
         TextView duree;
+        TextView heureDebut;
 
         public TacheViewHolder(View itemView) {
             super(itemView);
             nomTache = itemView.findViewById(R.id.nomtache);
             duree = itemView.findViewById(R.id.dureetache);
+            heureDebut = itemView.findViewById(R.id.labelHeureDebutTache);
         }
     }
 
@@ -48,7 +52,20 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
         Tache tache = listTache.get(position);
         holder.nomTache.setText(tache.getNom());
         holder.duree.setText(Toolbox.secondesToMinSecString(tache.getDuree()));
+
+        long heureDebutDepuisMinuit = Toolbox.getHeureFromEpoch(this.listeHeuresDebut.get(position));
+        String heures = String.valueOf(Toolbox.getHourFromSecondes(heureDebutDepuisMinuit));
+        String minutes = String.valueOf(Toolbox.getMinutesFromSecondes(heureDebutDepuisMinuit));
+        if (minutes.length() == 1) {
+            minutes = "0" + minutes;
+        }
+        String affichageHeure = heures+"H"+minutes;
+        holder.heureDebut.setText(affichageHeure);
     }
+
+//    public void updateHeuresDebut(List<long> listeHeuresDebut) {
+//        this.
+//    }
 
     @Override
     public int getItemCount() {
