@@ -34,7 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -44,7 +45,8 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="6dp"
-                app:cardUseCompatPadding="true">
+                app:cardUseCompatPadding="true"
+                android:layout_marginBottom="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -52,15 +54,14 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.SwitchCompat
+                    <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/switchNotificationsDebutTaches"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
-                        android:text="Me notifier de chaque début de tâche"
                         android:textSize="18sp"
-                        android:buttonTint="@color/colorAccent"/>
-
+                        app:trackTint="@color/colorPrimary"
+                        android:text="Me notifier de chaque début de tâche"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -70,7 +71,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Supprimer toutes mes données"
-                app:backgroundTint="#DC3D3D" />
+                app:backgroundTint="#DC3D3D"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
 
         </LinearLayout>
     </LinearLayout>
