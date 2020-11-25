@@ -1,32 +1,31 @@
 package com.example.onTime;
 
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.onTime.mrt.HomeActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_first_start);
+        setContentView(R.layout.activity_splash_screen);
 
-        // Enregistrement du fait que l'utilisateur a passé l'intro, pour plus ne lui montrer ensuite
         Context context = getApplicationContext();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         boolean userHasFinishedInitialSetup = sharedPreferences.getBoolean("userHasFinishedInitialSetup", false);
-        if (!userHasFinishedInitialSetup) {
-            sharedPreferences.edit().putBoolean("userHasFinishedInitialSetup", true).apply();
+        if (userHasFinishedInitialSetup) {
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+        } else {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
-    }
-
-    public void nextSetDestination(View view) {
-        Intent intent = new Intent(this, Destination.class);
-        startActivity(intent);
     }
 }

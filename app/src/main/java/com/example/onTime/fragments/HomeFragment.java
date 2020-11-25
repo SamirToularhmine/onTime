@@ -1,6 +1,5 @@
 package com.example.onTime.fragments;
 
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -21,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
 import com.example.onTime.modele.MRManager;
+import com.example.onTime.modele.Toolbox;
 import com.example.onTime.modele.Trajet;
 import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.MorningRoutine;
@@ -31,6 +31,9 @@ import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.google.gson.Gson;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 public class HomeFragment extends Fragment {
 
     private MRT mrt;
@@ -38,7 +41,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private HomeTacheAdapter tacheAdapter;
     private SharedPreferences sharedPreferences;
-    private TextView heureArrivee;
+    private TextView heureReveil, heureArrivee;
     private MRManager mrManager;
     private TextView titre, nomTrajet;
 
@@ -77,20 +80,25 @@ public class HomeFragment extends Fragment {
         int idCurrentMRA = this.sharedPreferences.getInt("current_id_MRA", -1);
 
         String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
-        this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
+        if (!jsonMRManager.equals("")) {
+            this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
+        } else {
+            this.mrManager = new MRManager();
+        }
+
 
         if (idCurrentMRA == -1) {
-            MorningRoutine mr = new MorningRoutine("qzdqzdqzd");
-            Trajet t = new Trajet("Maison-Fac", "Maison", "Fac"); // delete àa ???????????
+            MorningRoutine mr = new MorningRoutine("");
+            Trajet t = new Trajet("", "", ""); // delete àa ???????????
 
             this.mrt = new MRT(mr, t);
-        }else{
+        } else {
             this.mrt = mrManager.getMRAfromId(idCurrentMRA);
         }
 
-        TextView heureReveil = view.findViewById(R.id.heureReveil);
+        this.heureReveil = view.findViewById(R.id.heureReveil);
 
-        if (heureReveil != null) {
+        if (this.heureReveil != null) {
             //heureReveil.setText(Toolbox.formaterHeure(Toolbox.getHourFromSecondes(this.mrManager.getHeureArrivee()), Toolbox.getMinutesFromSecondes(this.mrManager.getHeureArrivee())));
         }
 
@@ -195,6 +203,24 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.updateTempsDebutTaches();
+    }
+
+    private void updateTempsDebutTaches() {
+        try {
+            List<Long> listeHeuresDebutTaches = this.mrt.getListeHeuresDebutTaches();
+            Long secondesEntreMinuitEtReveil = Toolbox.getHeureFromEpoch(listeHeuresDebutTaches.get(0));
+            int heures = Toolbox.getHourFromSecondes(secondesEntreMinuitEtReveil);
+            int minutes = Toolbox.getMinutesFromSecondes(secondesEntreMinuitEtReveil);
+            String affichageHeureReveil = heures + ":" + minutes;
+            this.heureReveil.setText(affichageHeureReveil);
+        } catch (ExecutionException | InterruptedException e) {
+        }
+    }
+
     private void hideRecyclerView() {
         View v = this.getView();
 
@@ -222,8 +248,10 @@ public class HomeFragment extends Fragment {
             this.titre.setText("Aucune morning routine définie");
         }
 
-        if (this.mrt.getTrajet() != null)
+        if (this.mrt.getTrajet() != null) {
             this.nomTrajet.setText(this.mrt.getTrajet().getNom());
+            this.updateTempsDebutTaches();
+        }
         else
             this.nomTrajet.setText("Aucun trajet défini");
 
@@ -246,7 +274,12 @@ public class HomeFragment extends Fragment {
         int idCurrentMRA = this.sharedPreferences.getInt("current_id_MRA", -1);
         //String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
         String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
-        this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
+        if (!jsonMRManager.equals("")) {
+            this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
+        } else {
+            this.mrManager = new MRManager();
+        }
+
         this.mrt = mrManager.getMRAfromId(idCurrentMRA);
 
         if (this.mrt == null){

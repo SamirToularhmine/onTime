@@ -98,6 +98,15 @@ import java.util.concurrent.ExecutionException;
         }
     }
 
+    /**
+     * Méthode qui renvoie l'heure en secondes depuis minuit à partir d'une date en secondes depuis le 1er janvier 70 minuit
+     * @param epoch une date/heure en format epoch
+     * @return cette même date/heure sans la partie date, juste les secondes depuis minuit
+     */
+    public static long getHeureFromEpoch(long epoch) {
+        return epoch % 86400;
+    }
+
     public static  long getTimeOfTravelWithTraffic(long arrivalTime, String adresseDepart, String adresseArrivee) throws ExecutionException, InterruptedException {
         GoogleMapsAPI googleMapsAPI = new GoogleMapsAPI(arrivalTime, adresseDepart, adresseArrivee);
         ExecutorService executorService = Executors.newSingleThreadExecutor();

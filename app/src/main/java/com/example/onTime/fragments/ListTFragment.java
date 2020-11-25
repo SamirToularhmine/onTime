@@ -83,8 +83,6 @@ public class ListTFragment extends Fragment {
         }
         else {
             this.listeTrajets = new ArrayList<>();
-            this.listeTrajets.add(new Trajet("Orléans - Marseille", "45000 Orléans", "13000 Marseille"));
-            this.listeTrajets.add(new Trajet("Orléans - Paris", "45000 Orléans", "75000 Paris"));
         }
 
         this.recyclerView = view.findViewById(R.id.trajet_recyclerview);

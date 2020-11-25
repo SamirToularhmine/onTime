@@ -66,8 +66,13 @@ public class ListMRFragment extends Fragment {
         Context context = this.getActivity().getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = this.sharedPreferences.getString("MRManager", "");
-        this.mrManager = gson.fromJson(json, MRManager.class);
+        String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
+        if (!jsonMRManager.equals("")) {
+            this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
+        } else {
+            this.mrManager = new MRManager();
+        }
+
 
         this.recyclerView = view.findViewById(R.id.morning_routine_adress_recycler_view);
 
