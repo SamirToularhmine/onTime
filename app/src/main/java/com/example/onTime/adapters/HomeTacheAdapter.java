@@ -10,21 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
 import com.example.onTime.modele.Tache;
+import com.example.onTime.modele.TacheHeureDebut;
 import com.example.onTime.modele.Toolbox;
 
 import java.util.List;
+import java.util.Map;
 
 public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.TacheViewHolder> {
-    private List<Tache> listTache;
-    private List<Long> listeHeuresDebut;
+    private List<TacheHeureDebut> listeTachesHeuresDebut;
 
-    public HomeTacheAdapter(List<Tache> listTache, List<Long> listeHeureDebutTaches) {
-        this.listTache = listTache;
-        this.listeHeuresDebut = listeHeureDebutTaches;
+    public HomeTacheAdapter(List<TacheHeureDebut> listeTachesHeuresDebut) {
+        this.listeTachesHeuresDebut = listeTachesHeuresDebut;
     }
 
-    public List<Tache> getList() {
-        return this.listTache;
+    public List<TacheHeureDebut> getList() {
+        return this.listeTachesHeuresDebut;
     }
 
     public static class TacheViewHolder extends RecyclerView.ViewHolder {
@@ -49,11 +49,11 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
 
     @Override
     public void onBindViewHolder(@NonNull final TacheViewHolder holder, int position) {
-        Tache tache = listTache.get(position);
+        Tache tache = this.listeTachesHeuresDebut.get(position).getTache();
         holder.nomTache.setText(tache.getNom());
         holder.duree.setText(Toolbox.secondesToMinSecString(tache.getDuree()));
 
-        long heureDebutDepuisMinuit = Toolbox.getHeureFromEpoch(this.listeHeuresDebut.get(position));
+        long heureDebutDepuisMinuit = Toolbox.getHeureFromEpoch(this.listeTachesHeuresDebut.get(position).getHeureDebut());
         String heures = String.valueOf(Toolbox.getHourFromSecondes(heureDebutDepuisMinuit));
         String minutes = String.valueOf(Toolbox.getMinutesFromSecondes(heureDebutDepuisMinuit));
         if (minutes.length() == 1) {
@@ -63,13 +63,17 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
         holder.heureDebut.setText(affichageHeure);
     }
 
-//    public void updateHeuresDebut(List<long> listeHeuresDebut) {
+    public void setListeTachesHeuresDebut(List<TacheHeureDebut> listeTachesHeuresDebut) {
+        this.listeTachesHeuresDebut = listeTachesHeuresDebut;
+    }
+
+    //    public void updateHeuresDebut(List<long> listeHeuresDebut) {
 //        this.
 //    }
 
     @Override
     public int getItemCount() {
-        return listTache.size();
+        return listeTachesHeuresDebut.size();
     }
 
 
