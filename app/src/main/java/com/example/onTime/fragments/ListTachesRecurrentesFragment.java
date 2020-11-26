@@ -45,8 +45,7 @@ public class ListTachesRecurrentesFragment extends Fragment {
     }
 
     public static ListTachesRecurrentesFragment newInstance() {
-        ListTachesRecurrentesFragment fragment = new ListTachesRecurrentesFragment();
-        return fragment;
+        return new ListTachesRecurrentesFragment();
     }
 
     @Override
@@ -70,7 +69,7 @@ public class ListTachesRecurrentesFragment extends Fragment {
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = this.sharedPreferences.getString("listeTachesRec", "");
-        if (json != "") {
+        if (!json.equals("")) {
             Type type = new TypeToken<List<Tache>>(){}.getType();
             this.listeTaches = gson.fromJson(json, type);
         }
@@ -127,21 +126,6 @@ public class ListTachesRecurrentesFragment extends Fragment {
                             }
                         });
         alert.show();
-    }
-
-    @Override
-    public void onResume() {
-        Context context1 = getActivity().getApplicationContext();
-        this.sharedPreferences = context1.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = this.sharedPreferences.getString("listeTachesRec", "");
-
-        if (json != "") {
-            Type type = new TypeToken<List<Tache>>(){}.getType();
-            //this.listeTaches = gson.fromJson(json, type);
-        }
-
-        super.onResume();
     }
 
     @Override

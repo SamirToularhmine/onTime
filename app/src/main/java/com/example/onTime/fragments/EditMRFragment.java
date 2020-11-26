@@ -7,11 +7,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +29,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.example.onTime.R;
+import com.example.onTime.adapters.SelectionMorningRecurrenteAdapter;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
 import com.example.onTime.item_touch_helpers.ItemTouchHelperTache;
@@ -38,6 +38,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditMRFragment extends Fragment {
 
@@ -55,8 +60,7 @@ public class EditMRFragment extends Fragment {
     }
 
     public static EditMRFragment newInstance() {
-        EditMRFragment fragment = new EditMRFragment();
-        return fragment;
+        return new EditMRFragment();
     }
 
     @Override
@@ -69,7 +73,6 @@ public class EditMRFragment extends Fragment {
                              Bundle savedInstanceState) {
         this.laMorningRoutine = (MorningRoutine) getArguments().get("morning_routine");
         this.positionMorningRoutine = getArguments().getInt("position");
-        //sauvegarder();
         return inflater.inflate(R.layout.fragment_edit_m_r, container, false);
     }
 
@@ -88,9 +91,9 @@ public class EditMRFragment extends Fragment {
         this.tacheAdapter = new TacheAdapter(this.laMorningRoutine.getListeTaches());
         this.recyclerView.setAdapter(this.tacheAdapter);
 
-        if(this.laMorningRoutine.getListeTaches().isEmpty()){
+        if (this.laMorningRoutine.getListeTaches().isEmpty()) {
             this.hideRecyclerView();
-        }else{
+        } else {
             this.showRecyclerView();
         }
 
@@ -105,10 +108,10 @@ public class EditMRFragment extends Fragment {
         titre.setText(this.laMorningRoutine.getNom());
 
         //Perdre le focus lorsqu'on clique sur ok lors du changement de titre
-        titre.setOnEditorActionListener(new TextView.OnEditorActionListener(){
+        titre.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE){
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     //Clear focus here from edittext
                     titre.clearFocus();
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
@@ -128,7 +131,6 @@ public class EditMRFragment extends Fragment {
                 }
             }
         });
-
         Button retour = view.findViewById(R.id.boutton_retour);
 
         retour.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +138,6 @@ public class EditMRFragment extends Fragment {
             public void onClick(View v) {
                 sauvegarder();
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
-
                 activity.getSupportFragmentManager().popBackStack();
             }
         });
@@ -150,28 +151,22 @@ public class EditMRFragment extends Fragment {
         });
     }
 
-    private void hideRecyclerView(){
+    private void hideRecyclerView() {
         View v = this.getView();
-
-
         LinearLayout emptyTaches = v.findViewById(R.id.empty_taches);
-
         this.recyclerView.setVisibility(View.GONE);
         emptyTaches.setVisibility(View.VISIBLE);
     }
 
-    private void showRecyclerView(){
+    private void showRecyclerView() {
         View v = this.getView();
-
         LinearLayout emptyTaches = v.findViewById(R.id.empty_taches);
-
         this.recyclerView.setVisibility(View.VISIBLE);
         emptyTaches.setVisibility(View.GONE);
     }
 
-    private void showModfierTacheDialog(){
-        View v = this.getView();
 
+    private void showModfierTacheDialog() {
         LayoutInflater factory = LayoutInflater.from(EditMRFragment.this.getContext());
         final View textEntryView = factory.inflate(R.layout.ajout_tache, null);
 
@@ -188,13 +183,11 @@ public class EditMRFragment extends Fragment {
                 .setPositiveButton("Sauvegarder",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                Tache t = new Tache(nomTache.getText().toString(),duree.getValue()*60);
-                                laMorningRoutine.ajouterTache(t);
-                                tacheAdapter.notifyDataSetChanged();
-                                if(EditMRFragment.this.laMorningRoutine.getListeTaches().size() == 1){
+                                Tache t = new Tache(nomTache.getText().toString(), duree.getValue() * 60);
+                                ajouterTache(t);
+                                if (EditMRFragment.this.laMorningRoutine.getListeTaches().size() == 1) {
                                     EditMRFragment.this.showRecyclerView();
                                 }
-                                //EditMRFragment.this.sauvegarder();
                                 EditMRFragment.this.hideMenu();
                             }
                         })
@@ -207,7 +200,7 @@ public class EditMRFragment extends Fragment {
         alert.show();
     }
 
-    private void showMenu(){
+    private void showMenu() {
         View view = this.getView();
         View blur = view.findViewById(R.id.shadowView);
 
@@ -232,7 +225,7 @@ public class EditMRFragment extends Fragment {
         EditMRFragment.this.isMenuShown = true;
     }
 
-    private void hideMenu(){
+    private void hideMenu() {
         View view = this.getView();
         View blur = view.findViewById(R.id.shadowView);
 
@@ -258,16 +251,16 @@ public class EditMRFragment extends Fragment {
         EditMRFragment.this.isMenuShown = false;
     }
 
-    private void initMenu(View view){
+    private void initMenu(View view) {
         //final ExtendedFloatingActionButton mainActionButton = view.findViewById(R.id.host_action_tache);
         final FloatingActionButton mainActionButton = view.findViewById(R.id.host_action_tache);
 
-        final  FloatingActionButton creerTacheActionButton = view.findViewById(R.id.creer_tache);
+        final FloatingActionButton creerTacheActionButton = view.findViewById(R.id.creer_tache);
+
+        final FloatingActionButton choisir_tacheActionButton = view.findViewById(R.id.choisir_tache);
 
         this.showTacheMenu = AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate_cw);
         this.hideTacheMenu = AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate_acw);
-
-        //mainActionButton.shrink();
 
         this.isMenuShown = false;
 
@@ -289,6 +282,15 @@ public class EditMRFragment extends Fragment {
                 EditMRFragment.this.showModfierTacheDialog();
             }
         });
+
+        final AlertDialog alertDialog = initialiserAlerte();
+        choisir_tacheActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditMRFragment.this.hideMenu();
+                alertDialog.show();
+            }
+        });
     }
 
     public void sauvegarder() {
@@ -297,19 +299,6 @@ public class EditMRFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String jsonMorningRoutine = gson.toJson(this.laMorningRoutine);
-
-        /*if (positionMorningRoutine == sharedPreferences.getInt("CurrentMRAPosition", -3)){
-            String json = sharedPreferences.getString("MRManager", "");
-            MRManager mrManager = gson.fromJson(json, MRManager.class);
-
-            Adresse a = mrManager.getListMRA().get(positionMorningRoutine).getAdresse();
-
-            MRA mra = new MRA(this.laMorningRoutine, a);
-
-
-            editor.putString("CurrentMRA", gson.toJson(mra));
-        }*/
-
         editor.putString("morning_routine", jsonMorningRoutine);
         editor.putInt("position", positionMorningRoutine);
         editor.apply();
@@ -321,5 +310,42 @@ public class EditMRFragment extends Fragment {
     }
 
 
+    public void ajouterTache(Tache tache) {
+        laMorningRoutine.ajouterTache(tache);
+        tacheAdapter.notifyItemInserted(laMorningRoutine.getListeTaches().size() - 1);
+    }
 
+    private List<Tache> recuperTachesRec(){
+
+        Context context = this.getActivity().getApplicationContext();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("listeTachesRec", "");
+        List<Tache> tachesRec = new ArrayList<>();
+        if (!json.equals("")) {
+            Type type = new TypeToken<List<Tache>>() {
+            }.getType();
+            tachesRec = gson.fromJson(json, type);
+        }
+        return tachesRec;
+    }
+
+    private AlertDialog initialiserAlerte(){
+        final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(EditMRFragment.this.getContext());
+        final SelectionMorningRecurrenteAdapter adapter = new SelectionMorningRecurrenteAdapter(EditMRFragment.this.getContext(), recuperTachesRec(), EditMRFragment.this);
+
+        alert.setTitle("Choisir une tâche récurrente")
+
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapter.choisirTache(which);
+                        dialog.dismiss();
+                    }
+
+                });
+
+        return alert.create();
+
+    }
 }
