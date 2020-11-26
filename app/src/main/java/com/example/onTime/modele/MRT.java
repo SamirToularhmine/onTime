@@ -159,17 +159,17 @@ public class MRT implements Parcelable {
      * Méthode qui calcule l'heure de réveil et chaque heure de début des tâches
      */
     private void calculerHeureReveilTaches() {
-        this.heureReveil = this.heureDebutTrajet - this.getTempsTotalTaches();
-        this.listeHeuresDebutTaches = new ArrayList<>();
         long tempsPourSeReveiller = 180; // le temps entre le réveil et la première tâche
+        this.heureReveil = this.heureDebutTrajet - this.getTempsTotalTaches() - 180;
+        this.listeHeuresDebutTaches = new ArrayList<>();
+
+        long decallage = tempsPourSeReveiller;
 
         if (!this.morningRoutine.getListeTaches().isEmpty()) { // on calcule les heures de début des tâches que si y'a des tâches dans la liste de tâches !!!
-            Tache tachePrecedante = this.morningRoutine.getListeTaches().get(0);
-            this.listeHeuresDebutTaches.add(this.heureReveil + tempsPourSeReveiller + tachePrecedante.getDuree());
-
-            for (int i  = 1; i < this.morningRoutine.getListeTaches().size(); i++) {
+            for (int i  = 0; i < this.morningRoutine.getListeTaches().size(); i++) {
                 Tache tache = this.morningRoutine.getListeTaches().get(i);
-                this.listeHeuresDebutTaches.add(this.listeHeuresDebutTaches.get(this.listeHeuresDebutTaches.size() - 1) + tache.getDuree());
+                this.listeHeuresDebutTaches.add(this.heureReveil + decallage);
+                decallage += tache.getDuree();
             }
         }
     }
