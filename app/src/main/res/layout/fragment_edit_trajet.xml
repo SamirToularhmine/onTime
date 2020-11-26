@@ -13,54 +13,56 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:orientation="vertical"
-        android:padding="30dp">
 
-
-
+        android:padding="20dp">
 
 
         <EditText
+            android:id="@+id/editTextTitreTrajet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextTitreTrajet"
             android:hint="Nom du trajet"
             android:padding="20dp"
             android:textAlignment="center"
             android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent"
             android:textSize="26sp"
-            android:textColorHint="@color/colorAccent"/>
+            android:singleLine="true"
+            android:background="@android:color/transparent"
+            android:imeOptions="actionDone"/>
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_gravity="center"
-        />
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center" />
 
     </com.example.onTime.WavyLinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_weight="1"
-        android:padding="20dp"
-        >
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <EditText
+            android:id="@+id/editTextDepartTrajet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
             android:hint="Point de départ"
-            android:id="@+id/editTextDepartTrajet"/>
+            android:singleLine="true"
+
+            android:imeOptions="actionDone"/>
 
         <EditText
+            android:id="@+id/editTextArriveeTrajet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextArriveeTrajet"
             android:hint="Point d'arrivée"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:imeOptions="actionDone"/>
 
     </LinearLayout>
 </LinearLayout>

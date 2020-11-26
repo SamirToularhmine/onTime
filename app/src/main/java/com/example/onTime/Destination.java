@@ -43,7 +43,7 @@ public class Destination extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_destination);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.map2);
         mapFragment.getMapAsync(this);
     }
 
