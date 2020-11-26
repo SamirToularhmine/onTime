@@ -10,29 +10,33 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
 import com.example.onTime.modele.Tache;
+import com.example.onTime.modele.TacheHeureDebut;
 import com.example.onTime.modele.Toolbox;
 
 import java.util.List;
+import java.util.Map;
 
 public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.TacheViewHolder> {
-    private List<Tache> listTache;
+    private List<TacheHeureDebut> listeTachesHeuresDebut;
 
-    public HomeTacheAdapter(List<Tache> listTache) {
-        this.listTache = listTache;
+    public HomeTacheAdapter(List<TacheHeureDebut> listeTachesHeuresDebut) {
+        this.listeTachesHeuresDebut = listeTachesHeuresDebut;
     }
 
-    public List<Tache> getList() {
-        return this.listTache;
+    public List<TacheHeureDebut> getList() {
+        return this.listeTachesHeuresDebut;
     }
 
     public static class TacheViewHolder extends RecyclerView.ViewHolder {
         TextView nomTache;
         TextView duree;
+        TextView heureDebut;
 
         public TacheViewHolder(View itemView) {
             super(itemView);
             nomTache = itemView.findViewById(R.id.nomtache);
             duree = itemView.findViewById(R.id.dureetache);
+            heureDebut = itemView.findViewById(R.id.labelHeureDebutTache);
         }
     }
 
@@ -45,14 +49,31 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
 
     @Override
     public void onBindViewHolder(@NonNull final TacheViewHolder holder, int position) {
-        Tache tache = listTache.get(position);
+        Tache tache = this.listeTachesHeuresDebut.get(position).getTache();
         holder.nomTache.setText(tache.getNom());
         holder.duree.setText(Toolbox.secondesToMinSecString(tache.getDuree()));
+
+        long heureDebutDepuisMinuit = Toolbox.getHeureFromEpoch(this.listeTachesHeuresDebut.get(position).getHeureDebut());
+        String heures = String.valueOf(Toolbox.getHourFromSecondes(heureDebutDepuisMinuit));
+        String minutes = String.valueOf(Toolbox.getMinutesFromSecondes(heureDebutDepuisMinuit));
+        if (minutes.length() == 1) {
+            minutes = "0" + minutes;
+        }
+        String affichageHeure = heures+"H"+minutes;
+        holder.heureDebut.setText(affichageHeure);
     }
+
+    public void setListeTachesHeuresDebut(List<TacheHeureDebut> listeTachesHeuresDebut) {
+        this.listeTachesHeuresDebut = listeTachesHeuresDebut;
+    }
+
+    //    public void updateHeuresDebut(List<long> listeHeuresDebut) {
+//        this.
+//    }
 
     @Override
     public int getItemCount() {
-        return listTache.size();
+        return listeTachesHeuresDebut.size();
     }
 
 

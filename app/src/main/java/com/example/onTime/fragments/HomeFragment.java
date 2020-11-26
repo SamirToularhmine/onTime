@@ -10,14 +10,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.AlarmClock;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +30,8 @@ import com.example.onTime.NotificationBroadcast;
 import com.example.onTime.R;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.Tache;
+import com.example.onTime.modele.Tache;
+import com.example.onTime.modele.TacheHeureDebut;
 import com.example.onTime.modele.Toolbox;
 import com.example.onTime.modele.Trajet;
 import com.example.onTime.modele.MRT;
@@ -45,7 +43,11 @@ import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 
 public class HomeFragment extends Fragment {
@@ -58,6 +60,7 @@ public class HomeFragment extends Fragment {
     private TextView heureReveil, heureArrivee;
     private MRManager mrManager;
     private TextView titre, nomTrajet;
+    private List<TacheHeureDebut> listeTachesHeuresDebut;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -122,7 +125,9 @@ public class HomeFragment extends Fragment {
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.tacheAdapter = new HomeTacheAdapter(this.mrt.getMorningRoutine().getListeTaches());
+        this.updateMapTachesHeuresDebut(); // à placer avant la déclaration du tacheAdapter
+
+        this.tacheAdapter = new HomeTacheAdapter(this.listeTachesHeuresDebut);
         this.recyclerView.setAdapter(this.tacheAdapter);
 
         if (this.mrt.getMorningRoutine().getListeTaches().isEmpty()) {
@@ -217,6 +222,10 @@ public class HomeFragment extends Fragment {
                         if(HomeFragment.this.mrt != null){
                             HomeFragment.this.mrt.setHeureArrivee((minutes * 60) + (heure * 3600));
                         }
+                        HomeFragment.this.updateHeureReveil();
+                        HomeFragment.this.updateMapTachesHeuresDebut();
+                        HomeFragment.this.tacheAdapter.setListeTachesHeuresDebut(HomeFragment.this.listeTachesHeuresDebut);
+                        HomeFragment.this.tacheAdapter.notifyDataSetChanged();
                     }
                 });
 
@@ -295,23 +304,36 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        this.updateTempsDebutTaches();
+        this.updateHeureReveil();
+        this.updateMapTachesHeuresDebut();
     }
 
-    private void updateTempsDebutTaches() {
-        /*try {
-            List<Long> listeHeuresDebutTaches = this.mrt.getListeHeuresDebutTaches();
-            Long secondesEntreMinuitEtReveil = Toolbox.getHeureFromEpoch(listeHeuresDebutTaches.get(0));
-            int heures = Toolbox.getHourFromSecondes(secondesEntreMinuitEtReveil);
-            int minutes = Toolbox.getMinutesFromSecondes(secondesEntreMinuitEtReveil);
-            String affichageHeureReveil = heures + ":" + minutes;
-            this.heureReveil.setText(affichageHeureReveil);
-
+    private void updateHeureReveil() {
+        try {
+            long heureReveil = Toolbox.getHeureFromEpoch(this.mrt.getHeureReveil());
+            String heures = String.valueOf(Toolbox.getHourFromSecondes(heureReveil));
+            String minutes = String.valueOf(Toolbox.getMinutesFromSecondes(heureReveil));
+            if (minutes.length() == 1) {
+                minutes = "0" + minutes;
+            }
+            this.heureReveil.setText(heures+":"+minutes);
 
         } catch (ExecutionException | InterruptedException e) {
+            Toast.makeText(getContext(), "Vérifiez votre connexion Internet", Toast.LENGTH_LONG).show();
         }
+    }
 
-         */
+    private void updateMapTachesHeuresDebut() {
+        try {
+            List<Tache> listeTaches = this.mrt.getMorningRoutine().getListeTaches();
+            List<Long> listeHeuresDebutTaches = this.mrt.getListeHeuresDebutTaches();
+            this.listeTachesHeuresDebut = new ArrayList<>();
+            for (int i = 0; i < listeTaches.size(); i++) {
+                this.listeTachesHeuresDebut.add(new TacheHeureDebut(listeTaches.get(i), listeHeuresDebutTaches.get(i)));
+            }
+        } catch (ExecutionException | InterruptedException e) {
+
+        }
     }
 
     private void hideRecyclerView() {
@@ -343,12 +365,12 @@ public class HomeFragment extends Fragment {
 
         if (this.mrt.getTrajet() != null) {
             this.nomTrajet.setText(this.mrt.getTrajet().getNom());
-            this.updateTempsDebutTaches();
+            this.updateMapTachesHeuresDebut();
         }
         else
             this.nomTrajet.setText("Aucun trajet défini");
 
-        this.tacheAdapter = new HomeTacheAdapter(this.mrt.getMorningRoutine().getListeTaches());
+        this.tacheAdapter = new HomeTacheAdapter(this.listeTachesHeuresDebut);
         this.recyclerView.setAdapter(this.tacheAdapter);
 
         if (this.mrt.getMorningRoutine().getListeTaches().isEmpty()) {
