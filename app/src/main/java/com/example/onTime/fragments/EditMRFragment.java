@@ -82,7 +82,7 @@ public class EditMRFragment extends Fragment {
 
         this.recyclerView = view.findViewById(R.id.tache_recyclerview);
         if (this.laMorningRoutine == null)
-            this.laMorningRoutine = new MorningRoutine("Premiere morning routine");
+            this.laMorningRoutine = new MorningRoutine("");
 
 
         this.layoutManager = new LinearLayoutManager(getActivity());
@@ -185,9 +185,6 @@ public class EditMRFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Tache t = new Tache(nomTache.getText().toString(), duree.getValue() * 60);
                                 ajouterTache(t);
-                                if (EditMRFragment.this.laMorningRoutine.getListeTaches().size() == 1) {
-                                    EditMRFragment.this.showRecyclerView();
-                                }
                                 EditMRFragment.this.hideMenu();
                             }
                         })
@@ -291,6 +288,8 @@ public class EditMRFragment extends Fragment {
                 alertDialog.show();
             }
         });
+
+
     }
 
     public void sauvegarder() {
@@ -313,6 +312,11 @@ public class EditMRFragment extends Fragment {
     public void ajouterTache(Tache tache) {
         laMorningRoutine.ajouterTache(tache);
         tacheAdapter.notifyItemInserted(laMorningRoutine.getListeTaches().size() - 1);
+        if (EditMRFragment.this.laMorningRoutine.getListeTaches().size() == 1) {
+            EditMRFragment.this.showRecyclerView();
+        }
+
+
     }
 
     private List<Tache> recuperTachesRec(){

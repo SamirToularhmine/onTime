@@ -55,7 +55,7 @@ public class EditTFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (this.trajet == null) {
-            this.trajet = new Trajet("nom", "départ", "arrivée");
+            this.trajet = new Trajet("", "", "");
         }
 
         // remplissage des champs du "formulaire"
