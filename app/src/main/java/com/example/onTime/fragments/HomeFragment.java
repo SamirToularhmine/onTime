@@ -203,7 +203,8 @@ public class HomeFragment extends Fragment {
                         }
                         HomeFragment.this.updateHeureReveil();
                         HomeFragment.this.updateTempsDebutTaches();
-                        HomeFragment.this.tacheAdapter.notifyDataSetChanged();
+                        HomeFragment.this.tacheAdapter = new HomeTacheAdapter(HomeFragment.this.mrt.getMorningRoutine().getListeTaches(), HomeFragment.this.listeHeureDebutTaches);
+                        HomeFragment.this.recyclerView.setAdapter(HomeFragment.this.tacheAdapter);
                     }
                 });
 
