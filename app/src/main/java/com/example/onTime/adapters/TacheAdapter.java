@@ -50,7 +50,7 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
     @NonNull
     @Override
     public TacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tache_item_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tache_item_layout_edit, parent, false);
         return new TacheViewHolder(view);
     }
 
