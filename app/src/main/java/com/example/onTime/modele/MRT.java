@@ -46,6 +46,7 @@ public class MRT implements Parcelable {
     public MRT(MorningRoutine morningRoutine) {
         this.morningRoutine = morningRoutine;
         this.trajet = null;
+        this.heureArrivee = 0;
         this.resetHeureReveilDebutTaches();
         this.resetHeureDebutTrajet();
     }
@@ -60,6 +61,7 @@ public class MRT implements Parcelable {
     public MRT(MorningRoutine morningRoutine, Trajet trajet) {
         this.morningRoutine = morningRoutine;
         this.trajet = trajet;
+        this.heureArrivee = 0;
         this.resetHeureReveilDebutTaches();
         this.resetHeureDebutTrajet();
     }
