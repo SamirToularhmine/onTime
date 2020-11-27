@@ -15,21 +15,18 @@ import android.view.ViewGroup;
 
 import com.example.onTime.R;
 
+/**
+ * Classe qui gère les fragments
+ */
 public class ManageFragment extends Fragment {
 
     public ManageFragment() {
         // Required empty public constructor
     }
 
-
     public static ManageFragment newInstance() {
         ManageFragment fragment = new ManageFragment();
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override

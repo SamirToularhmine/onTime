@@ -20,6 +20,9 @@ import com.example.onTime.R;
 
 import java.util.Objects;
 
+/**
+ * Fragment des paramètres
+ */
 public class SettingsFragment extends Fragment {
 
     private SharedPreferences sharedPreferences;
@@ -32,11 +35,6 @@ public class SettingsFragment extends Fragment {
     public static SettingsFragment newInstance() {
         SettingsFragment fragment = new SettingsFragment();
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -69,6 +67,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        //Boutton pour supprimer les données
         boutonSupprimerDonnees.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,6 +76,9 @@ public class SettingsFragment extends Fragment {
         });
     }
 
+    /**
+     * Lors de la supression des données, on supprime toutes les shared pref sauf userHasFinishedInitialSetup
+     */
     private void showDeleteDataConfirmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
                 .setTitle(R.string.supprimer_donnees)

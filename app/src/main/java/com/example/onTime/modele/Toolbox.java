@@ -85,9 +85,9 @@ import java.util.concurrent.ExecutionException;
 
     /**
      * Méthode qui prend une heure en secondes et qui retourne la date en epoch en secondes de l'heure d'arivee. Il faut ajouter la timezone à l'heure retournée
-     * Ex: S'il est 8h et que j'apelle cette fonction avec 39600 (11h en secondes) alors ça retourne la date d'aujourd'hui à 9h en GMT soit 11h dans la bonne timezone
+     * Ex: S'il est 8h et que j'apelle cette fonction avec 39600 (11h en secondes) alors ça retourne la date d'aujourd'hui à 11h
      * @param arrivee est l'heure d'arivee dans cette timezone
-     * @return la date en epoch en secondes de l'heure d'arivee. Il faut ajouter la timezone à l'heure retournée.
+     * @return la date en epoch en secondes de l'heure d'arivee. avec la timezone d'ajoutée
      */
     public static long getDateFromHeureArrivee(long arrivee) {
         Calendar rightNow = Calendar.getInstance();

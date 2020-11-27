@@ -19,6 +19,10 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
 
+
+/**
+ * Drag & drop + swipe sur un trajet
+ */
 public class ItemTouchHelperTrajet extends ItemTouchHelper.SimpleCallback {
 
 

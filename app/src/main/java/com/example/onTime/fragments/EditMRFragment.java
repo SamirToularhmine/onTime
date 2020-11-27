@@ -45,13 +45,16 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fragment qui gère une Morning routie avec toutes ses tâches
+ */
 public class EditMRFragment extends Fragment {
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView; // est la recycler view des tâches
     private RecyclerView.LayoutManager layoutManager;
-    private TacheAdapter tacheAdapter;
-    private MorningRoutine laMorningRoutine;
-    private int positionMorningRoutine;
+    private TacheAdapter tacheAdapter; //  gestion de la popup des tâches
+    private MorningRoutine laMorningRoutine; // morning routine du framgnet
+    private int positionMorningRoutine; // la position de la morning routine dans le MRmanager
     private boolean isMenuShown;
     private Animation showTacheMenu;
     private Animation hideTacheMenu;
@@ -113,10 +116,8 @@ public class EditMRFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    //Clear focus here from edittext
                     titre.clearFocus();
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
-                    //sauvegarder();
                 }
                 return false;
             }
@@ -129,7 +130,6 @@ public class EditMRFragment extends Fragment {
                 if (!hasFocus) {
                     titre.clearFocus();
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
-                    //sauvegarder();
                 }
             }
         });
@@ -170,6 +170,9 @@ public class EditMRFragment extends Fragment {
     }
 
 
+    /**
+     * Affiche le dialogue pour modifier une tâche
+     */
     private void showModfierTacheDialog() {
         LayoutInflater factory = LayoutInflater.from(EditMRFragment.this.getContext());
         final View textEntryView = factory.inflate(R.layout.ajout_tache, null);
@@ -201,6 +204,9 @@ public class EditMRFragment extends Fragment {
         alert.show();
     }
 
+    /**
+     * Affiche le menu afin de charger une tâche récurrente ou d'en créer une nouvelle
+     */
     private void showMenu() {
         View view = this.getView();
         View blur = view.findViewById(R.id.shadowView);
@@ -226,6 +232,9 @@ public class EditMRFragment extends Fragment {
         EditMRFragment.this.isMenuShown = true;
     }
 
+    /**
+     * Cache le  menu qui s'ouvre après un plus
+     */
     private void hideMenu() {
         View view = this.getView();
         View blur = view.findViewById(R.id.shadowView);
@@ -252,8 +261,11 @@ public class EditMRFragment extends Fragment {
         EditMRFragment.this.isMenuShown = false;
     }
 
+    /**
+     * Iniialise le menu a afficher
+     * @param view est la vue dans laquelle le menu sera affiché
+     */
     private void initMenu(View view) {
-        //final ExtendedFloatingActionButton mainActionButton = view.findViewById(R.id.host_action_tache);
         final FloatingActionButton mainActionButton = view.findViewById(R.id.host_action_tache);
 
         final FloatingActionButton creerTacheActionButton = view.findViewById(R.id.creer_tache);
@@ -296,6 +308,10 @@ public class EditMRFragment extends Fragment {
 
     }
 
+    /**
+     * Sauvegarde dans les shared pref la morning_routine ainsi que la position de celle-ci
+     * dans la liste des MRT du MRManager
+     */
     public void sauvegarder() {
         Context context = getActivity().getApplicationContext();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
@@ -307,12 +323,11 @@ public class EditMRFragment extends Fragment {
         editor.apply();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
 
-
+    /**
+     * Méthoed qui permet d'ajouter une tâche à la morning routine
+     * @param tache est la tâche à ajouter
+     */
     public void ajouterTache(Tache tache) {
         laMorningRoutine.ajouterTache(tache);
         tacheAdapter.notifyItemInserted(laMorningRoutine.getListeTaches().size() - 1);
@@ -323,8 +338,11 @@ public class EditMRFragment extends Fragment {
 
     }
 
+    /**
+     * Méthode qui récup_re les taches récurentes dans les sharedPref
+     * @return la liste des tâches récurrentes
+     */
     private List<Tache> recuperTachesRec(){
-
         Context context = this.getActivity().getApplicationContext();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
@@ -338,6 +356,10 @@ public class EditMRFragment extends Fragment {
         return tachesRec;
     }
 
+    /**
+     * Prépare le dialogue pour choisir une tâche récurrente
+     * @return l'alertDialog créé
+     */
     private AlertDialog initialiserAlerte(){
         final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(EditMRFragment.this.getContext());
         final SelectionMorningRecurrenteAdapter adapter = new SelectionMorningRecurrenteAdapter(EditMRFragment.this.getContext(), recuperTachesRec(), EditMRFragment.this);

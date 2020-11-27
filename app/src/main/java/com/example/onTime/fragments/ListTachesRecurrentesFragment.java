@@ -32,6 +32,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fragment des tâches récurrentes
+ */
 public class ListTachesRecurrentesFragment extends Fragment {
 
     private List<Tache> listeTaches;
@@ -49,14 +52,8 @@ public class ListTachesRecurrentesFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_list_taches_recurrentes, container, false);
     }
 
@@ -96,8 +93,10 @@ public class ListTachesRecurrentesFragment extends Fragment {
 
     }
 
+    /**
+     * Affiche la popup pour créer une nouvelle tâche récurente
+     */
     private void showCreerTacheRecurrente(){
-
         LayoutInflater factory = LayoutInflater.from(ListTachesRecurrentesFragment.this.getContext());
         final View textEntryView = factory.inflate(R.layout.ajout_tache, null);
 
