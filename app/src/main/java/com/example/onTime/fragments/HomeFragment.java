@@ -189,7 +189,8 @@ public class HomeFragment extends Fragment {
             long heuredepuisminuit = Toolbox.getHeureFromEpoch(this.mrt.getHeureArrivee());
             int h = Toolbox.getHourFromSecondes(heuredepuisminuit);
             int m = Toolbox.getMinutesFromSecondes(heuredepuisminuit);
-            this.heureArrivee.setText(h + ":" + m);
+            String minutes = m<10 ? "0"+m : String.valueOf(m);
+            this.heureArrivee.setText(h + ":" + minutes);
         } else {
             this.heureArrivee.setText("--:--");
         }
