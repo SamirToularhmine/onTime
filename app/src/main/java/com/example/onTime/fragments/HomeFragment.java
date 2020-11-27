@@ -238,6 +238,8 @@ public class HomeFragment extends Fragment {
                         }
                         HomeFragment.this.updateHeureReveil();
                         HomeFragment.this.updateMapTachesHeuresDebut();
+                        HomeFragment.this.tacheAdapter.setListeTachesHeuresDebut(HomeFragment.this.listeTachesHeuresDebut);
+                        HomeFragment.this.tacheAdapter.notifyDataSetChanged();
                         }
                 });
 
@@ -382,6 +384,7 @@ public class HomeFragment extends Fragment {
         public void changerCurrentMr (MRT mrt){
             this.mrt = mrt;
             this.tacheAdapter.setMrt(mrt);
+            this.mrt.setHeureArrivee(this.mrManager.getHeureArrivee());
             //TextView titre = view.findViewById(R.id.titreMorningRoutine);
             if (this.mrt.getMorningRoutine() != null) {
                 this.titre.setText(this.mrt.getMorningRoutine().getNom());
