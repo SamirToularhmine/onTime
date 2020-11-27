@@ -43,7 +43,7 @@ public class SelectionMorningRecurrenteAdapter extends ArrayAdapter<Tache> {
         if (tache != null) {
             titreTache.setText(tache.getNom());
         }else{
-            titreTache.setText("tache pas définie");
+            titreTache.setText(R.string.tache_pas_definie);
         }
         return convertView;
     }

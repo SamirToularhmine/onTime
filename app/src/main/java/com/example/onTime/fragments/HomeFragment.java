@@ -30,7 +30,6 @@ import com.example.onTime.NotificationBroadcast;
 import com.example.onTime.R;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.Tache;
-import com.example.onTime.modele.Tache;
 import com.example.onTime.modele.TacheHeureDebut;
 import com.example.onTime.modele.Toolbox;
 import com.example.onTime.modele.Trajet;
@@ -44,10 +43,7 @@ import com.google.android.material.timepicker.TimeFormat;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 
 public class HomeFragment extends Fragment {
@@ -140,7 +136,7 @@ public class HomeFragment extends Fragment {
         final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(HomeFragment.this.getContext());
         final HomeMorningRoutineAdressAdapter adapter = new HomeMorningRoutineAdressAdapter(HomeFragment.this.getContext(), HomeFragment.this.mrManager.getListMRT(), HomeFragment.this);
 
-        alert.setTitle("Choisir une Morning Routine")
+        alert.setTitle(R.string.choisir_morning_routine)
 
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
@@ -165,13 +161,13 @@ public class HomeFragment extends Fragment {
         if (this.mrt.getMorningRoutine() != null){
             this.titre.setText(this.mrt.getMorningRoutine().getNom());
         }else{
-            this.titre.setText("Aucune morning routine définie");
+            this.titre.setText(R.string.aucune_mr_definie);
         }
 
         if (this.mrt.getTrajet() != null)
             this.nomTrajet.setText(this.mrt.getTrajet().getNom());
         else
-            this.nomTrajet.setText("Aucun de trajet défini");
+            this.nomTrajet.setText(R.string.acun_trajet_defini);
 
         this.setHeureArrivee(view);
 
@@ -196,7 +192,7 @@ public class HomeFragment extends Fragment {
                         .setTimeFormat(TimeFormat.CLOCK_24H)
                         .setHour(currHeure)
                         .setMinute(currMinutes)
-                        .setTitleText("Je veux arriver pour").build();
+                        .setTitleText(R.string.je_veux_arriver_pour).build();
 
                 materialTimePicker.show(getActivity().getSupportFragmentManager(), "fragment_tag");
 
@@ -254,7 +250,7 @@ public class HomeFragment extends Fragment {
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }catch (NullPointerException e){
-                    Toast.makeText(HomeFragment.this.getContext(), "PAS DE MORNING ROUTINE DÉFINIE", Toast.LENGTH_LONG).show();
+                    Toast.makeText(HomeFragment.this.getContext(), R.string.aucune_mr_definie, Toast.LENGTH_LONG).show();
                 }
 
 
@@ -297,7 +293,7 @@ public class HomeFragment extends Fragment {
         i.putExtra(AlarmClock.EXTRA_HOUR, heures);
         i.putExtra(AlarmClock.EXTRA_MINUTES, minutes);
         i.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-        i.putExtra(AlarmClock.EXTRA_MESSAGE, "Created by onTime");
+        i.putExtra(AlarmClock.EXTRA_MESSAGE, getString(R.string.creee_par_on_time));
         startActivity(i);
     }
 
@@ -319,7 +315,7 @@ public class HomeFragment extends Fragment {
             this.heureReveil.setText(heures+":"+minutes);
 
         } catch (ExecutionException | InterruptedException e) {
-            Toast.makeText(getContext(), "Vérifiez votre connexion Internet", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.verifier_connexion, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -360,7 +356,7 @@ public class HomeFragment extends Fragment {
         if (this.mrt.getMorningRoutine() != null){
             this.titre.setText(this.mrt.getMorningRoutine().getNom());
         }else{
-            this.titre.setText("Aucune morning routine définie");
+            this.titre.setText(R.string.acune_morning_routine);
         }
 
         if (this.mrt.getTrajet() != null) {
@@ -368,7 +364,7 @@ public class HomeFragment extends Fragment {
             this.updateMapTachesHeuresDebut();
         }
         else
-            this.nomTrajet.setText("Aucun trajet défini");
+            this.nomTrajet.setText(R.string.acun_trajet_defini);
 
         this.tacheAdapter = new HomeTacheAdapter(this.listeTachesHeuresDebut);
         this.recyclerView.setAdapter(this.tacheAdapter);
@@ -398,19 +394,19 @@ public class HomeFragment extends Fragment {
         this.mrt = mrManager.getMRAfromId(idCurrentMRA);
 
         if (this.mrt == null){
-            this.nomTrajet.setText("Aucun trajet défini");
-            this.titre.setText("Aucune morning routine définie");
+            this.nomTrajet.setText(R.string.acun_trajet_defini);
+            this.titre.setText(R.string.acune_morning_routine);
         }else {
             if (this.mrt.getMorningRoutine() != null) {
                 this.titre.setText(this.mrt.getMorningRoutine().getNom());
             } else {
-                this.titre.setText("Aucune morning routine définie");
+                this.titre.setText(R.string.acune_morning_routine);
             }
 
             if (this.mrt.getTrajet() != null)
                 this.nomTrajet.setText(this.mrt.getTrajet().getNom());
             else
-                this.nomTrajet.setText("Aucun trajet défini");
+                this.nomTrajet.setText(R.string.acun_trajet_defini);
         }
         super.onResume();
     }

@@ -3,20 +3,20 @@
         android:id="@+id/homeFragment"
         android:enabled="true"
         android:icon="@drawable/ic_home_24px"
-        android:title="Accueil"/>
+        android:title="@string/accueil"/>
     <item
         android:id="@+id/manageFragment"
         android:enabled="true"
         android:icon="@drawable/ic_tune_24px"
-        android:title="Gérer"/>
+        android:title="@string/gerer"/>
     <item
         android:id="@+id/settingsFragment"
         android:enabled="true"
         android:icon="@drawable/ic_settings_24px"
-        android:title="Paramètres"/>
+        android:title="@string/parametres"/>
     <item
         android:id="@+id/statsFragment"
         android:enabled="true"
         android:icon="@drawable/ic_analytics_24px"
-        android:title="Statistiques"/>
+        android:title="@string/statistiques"/>
 </menu>
