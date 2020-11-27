@@ -309,18 +309,23 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateHeureReveil() {
-        try {
-            long heureReveil = Toolbox.getHeureFromEpoch(this.mrt.getHeureReveil());
-            String heures = String.valueOf(Toolbox.getHourFromSecondes(heureReveil));
-            String minutes = String.valueOf(Toolbox.getMinutesFromSecondes(heureReveil));
-            if (minutes.length() == 1) {
-                minutes = "0" + minutes;
-            }
-            this.heureReveil.setText(heures+":"+minutes);
+        if (this.mrt.getMorningRoutine() != null && this.mrt.getMorningRoutine().getListeTaches().size() > 0) {
+            try {
+                long heureReveil = Toolbox.getHeureFromEpoch(this.mrt.getHeureReveil());
+                String heures = String.valueOf(Toolbox.getHourFromSecondes(heureReveil));
+                String minutes = String.valueOf(Toolbox.getMinutesFromSecondes(heureReveil));
+                if (minutes.length() == 1) {
+                    minutes = "0" + minutes;
+                }
+                this.heureReveil.setText(heures+":"+minutes);
 
-        } catch (ExecutionException | InterruptedException e) {
-            Toast.makeText(getContext(), "Vérifiez votre connexion Internet", Toast.LENGTH_LONG).show();
+            } catch (ExecutionException | InterruptedException e) {
+                Toast.makeText(getContext(), "Vérifiez votre connexion Internet", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            this.heureReveil.setText("--:--");
         }
+
     }
 
     private void updateMapTachesHeuresDebut() {
