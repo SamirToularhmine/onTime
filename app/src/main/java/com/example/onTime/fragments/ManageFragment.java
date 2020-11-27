@@ -64,6 +64,17 @@ public class ManageFragment extends Fragment {
                 navController.navigate(R.id.listAFragment);
             }
         });
+
+        CardView mesTachesReucurrentes = view.findViewById(R.id.card_view_mes_taches_recurrentes);
+
+        mesTachesReucurrentes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(R.id.listTachesRecurrentesFragment);
+            }
+        });
     }
 
 

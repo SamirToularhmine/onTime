@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.SavedStateHandle;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -19,15 +18,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.example.onTime.ItemTouchHelperTrajet;
+import com.example.onTime.item_touch_helpers.ItemTouchHelperTrajet;
 import com.example.onTime.R;
-import com.example.onTime.TrajetAdapter;
-import com.example.onTime.modele.MRT;
-import com.example.onTime.modele.MorningRoutine;
+import com.example.onTime.adapters.TrajetAdapter;
 import com.example.onTime.modele.Trajet;
-import com.example.onTime.morning_routine.ItemTouchHelperTache;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -36,7 +31,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListTFragment extends Fragment {
+public class  ListTFragment extends Fragment {
 
     private List<Trajet> listeTrajets;
     private RecyclerView recyclerView;
@@ -82,14 +77,12 @@ public class ListTFragment extends Fragment {
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = this.sharedPreferences.getString("listeTrajets", "");
-        if (json != "") {
+        if (!json.equals("")) {
             Type type = new TypeToken<List<Trajet>>(){}.getType();
             this.listeTrajets = gson.fromJson(json, type);
         }
         else {
             this.listeTrajets = new ArrayList<>();
-            this.listeTrajets.add(new Trajet("Orléans - Marseille", "45000 Orléans", "13000 Marseille"));
-            this.listeTrajets.add(new Trajet("Orléans - Paris", "45000 Orléans", "75000 Paris"));
         }
 
         this.recyclerView = view.findViewById(R.id.trajet_recyclerview);
@@ -108,7 +101,7 @@ public class ListTFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                creerNouveauTrajet(v, new Trajet("Nouveau trajet", "depart", "arrivee"));
+                creerNouveauTrajet(v, new Trajet("", "", ""));
             }
         });
 
@@ -139,7 +132,6 @@ public class ListTFragment extends Fragment {
         assert json != null;
         if (!json.equals("")) {
             trajet = gson.fromJson(json, Trajet.class);
-            Log.d("Trajet recup sharedPREF", trajet.getNom()+trajet.getAdresseDepart()+trajet.getAdresseArrivee());
             if (position == -1) {
                 this.listeTrajets.add(trajet);
                 trajetAdapter.notifyItemInserted(this.listeTrajets.size());

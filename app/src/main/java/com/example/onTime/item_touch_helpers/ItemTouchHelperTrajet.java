@@ -1,4 +1,4 @@
-package com.example.onTime;
+package com.example.onTime.item_touch_helpers;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,10 +13,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
-import com.example.onTime.TrajetAdapter;
-import com.example.onTime.modele.MRT;
+import com.example.onTime.adapters.TrajetAdapter;
 import com.example.onTime.modele.Trajet;
-import com.example.onTime.mrt.MorningRoutineAdressAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;

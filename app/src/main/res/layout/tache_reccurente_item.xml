@@ -15,11 +15,11 @@
         android:focusable="false">
 
             <TextView
-                android:id="@+id/home_morning_routine"
+                android:id="@+id/titreTache"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="@string/morning_routine"
+                android:text="@string/titre_tache"
                 android:foreground="?android:attr/selectableItemBackground"
                 />
 

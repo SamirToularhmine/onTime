@@ -1,8 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">onTime</string>
-    <string name="bienvenueString">Bienvenue sur votre application</string>
-    <string name="onTimeString">onTime</string>
-    <string name="descriptionString">Créer votre routine matinale n\'a jamais été aussi simple que sur onTime !</string>
-    <string name="startString">Et si on démarrait ?</string>
-    <string name="creerPremiereRoutineString">Créer ma première routine matinale !</string>
+    <string name="bienvenueString">Welcome</string>
+    <string name="descriptionString">Creating your morning routine has never been easier</string>
+    <string name="startString">"Let's get started ! "</string>
+    <string name="creerPremiereRoutineString">Create my first morning routine</string>
+    <string name="o_souhaitez_vous_aller">Where would you like to go</string>
+    <string name="suivant">Next</string>
+    <string name="point_arrivee">Destination</string>
+    <string name="nom_de_la_tache">Task name</string>
+    <string name="duree_de_la_tache">Task duration</string>
+    <string name="changer_le_titre">Change the title</string>
+    <string name="valider">Validate</string>
+    <string name="aucune_tache_a_faire">You still don\'t have any task</string>
+    <string name="choisir_une_tache_existante">Chose an existing task</string>
+    <string name="creer_nouvelle_tache">Create a new task</string>
+    <string name="nom_du_trajet">Ride name</string>
+    <string name="point_depart">Starting point</string>
+    <string name="je_dois_me_reveiller">I have to wake up at</string>
+    <string name="mes_morning_routines">My morning routines</string>
+    <string name="mes_taches_recurrentes">My recurring tasks</string>
+    <string name="mes_trajets">My rides</string>
+    <string name="gerer">Manage</string>
+    <string name="mes_destinations">My destinations</string>
+    <string name="parametres">Settings</string>
+    <string name="notifier_chaque_debut">Notify me when a task begins</string>
+    <string name="supprimer_donnees">Delete all my data</string>
+    <string name="duree">Duration</string>
+    <string name="titre_tache">Task title</string>
+    <string name="modifier">Edit</string>
+    <string name="selectionner">Select</string>
+    <string name="sauvegarder">Save</string>
+    <string name="annuler">Cancel</string>
+    <string name="choisir_tache_rec">Chose a recurring task</string>
+    <string name="probleme_placement_point">Problem while position a marker</string>
+    <string name="choisir_morning_routine">Select a morning routine</string>
+    <string name="aucune_mr_definie">No morning routine defined</string>
+    <string name="acun_trajet_defini">No ride defined</string>
+    <string name="je_veux_arriver_pour">Arriving time</string>
+    <string name="creee_par_on_time">Created by onTime</string>
+    <string name="verifier_connexion">Check your internet connexion</string>
+    <string name="creer_tache_rec">Create a new recurring task</string>
+    <string name="etes_vous_sur">Are you sure</string>
+    <string name="supprimer">Delete</string>
+    <string name="tache_pas_definie">No task selected</string>
+    <string name="modifer_tache_rec">Edit recurring task</string>
+    <string name="accueil">Home</string>
+    <string name="statistiques">Statistics</string>
+    <string name="morning_routine" translatable="false">Morning Routine</string>
+    <string name="app_name" translatable="false">onTime</string>
+    <string name="min">min</string>
 </resources>

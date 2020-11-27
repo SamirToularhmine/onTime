@@ -1,32 +1,20 @@
 package com.example.onTime.morning_routine;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.TextView;
 
 import com.example.onTime.R;
+import com.example.onTime.adapters.TacheAdapter;
 import com.example.onTime.modele.MorningRoutine;
-import com.example.onTime.modele.Tache;
-import com.google.gson.Gson;
 
 public class MorningRoutineActivity extends AppCompatActivity {
 

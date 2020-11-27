@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <com.example.onTime.WavyLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,8 +34,9 @@
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="text"
-                android:text="Morning Routine"
+                android:hint="@string/changer_le_titre"
                 android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 tools:ignore="LabelFor" />
@@ -45,7 +45,7 @@
                 android:id="@+id/boutton_retour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="retour"
+                android:text="@string/valider"
                 />
         </com.example.onTime.WavyLinearLayout>
 
@@ -81,7 +81,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Vous n'avez encore aucune tâche à faire lors de votre Morning Routine"
+                        android:text="@string/aucune_tache_a_faire"
                         android:textAlignment="center"
                         android:textStyle="bold"/>
                 </LinearLayout>
@@ -143,7 +143,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Créer une nouvelle tache"
+                            android:text="@string/creer_nouvelle_tache"
                             android:layout_margin="3dp" />
 
                     </androidx.cardview.widget.CardView>
@@ -180,7 +180,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="3dp"
-                            android:text="Choisir une tache existante" />
+                            android:text="@string/choisir_une_tache_existante" />
 
                     </androidx.cardview.widget.CardView>
 

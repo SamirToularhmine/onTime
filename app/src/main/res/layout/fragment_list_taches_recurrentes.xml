@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frame_list_addresses"
+    android:id="@+id/fragment_liste_taches_recurrentes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ListTFragment">
@@ -24,7 +24,6 @@
             android:paddingBottom="50dp">
 
             <TextView
-                android:id="@+id/titreListeTrajets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -33,7 +32,7 @@
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="text"
-                android:text="@string/mes_trajets"
+                android:text="@string/mes_taches_recurrentes"
                 android:textColor="@color/colorAccent"
                 android:textSize="28sp"
                 android:textStyle="bold"
@@ -51,13 +50,13 @@
             android:paddingBottom="0dp">
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:id="@+id/coordinator_layout_trajet"
+                android:id="@+id/coordinator_layout_taches_recurrentes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.1">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/trajet_recyclerview"
+                    android:id="@+id/taches_recurrentes_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"

@@ -1,7 +1,6 @@
 package com.example.onTime.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -21,20 +20,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.onTime.R;
 import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
-import com.example.onTime.modele.Toolbox;
-import com.example.onTime.morning_routine.MorningRoutineActivity;
-import com.example.onTime.mrt.ItemTouchHelperMRT;
-import com.example.onTime.mrt.MorningRoutineAdressAdapter;
+import com.example.onTime.item_touch_helpers.ItemTouchHelperMRT;
+import com.example.onTime.adapters.MorningRoutineAdressAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class ListMRFragment extends Fragment {
 
@@ -72,15 +66,20 @@ public class ListMRFragment extends Fragment {
         Context context = this.getActivity().getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = this.sharedPreferences.getString("MRManager", "");
-        this.mrManager = gson.fromJson(json, MRManager.class);
+        String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
+        if (!jsonMRManager.equals("")) {
+            this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
+        } else {
+            this.mrManager = new MRManager();
+        }
+
 
         this.recyclerView = view.findViewById(R.id.morning_routine_adress_recycler_view);
 
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRT(), this);
+        this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRT());
         this.recyclerView.setAdapter(this.morningRoutineAdressAdapter);
 
         // We use a String here, but any type that can be put in a Bundle is supported
@@ -106,7 +105,7 @@ public class ListMRFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                creerNouvelleMorningRoutine(v, new MorningRoutine("Changer le titre"));
+                creerNouvelleMorningRoutine(v, new MorningRoutine(""));
             }
         });
     }

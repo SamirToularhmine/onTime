@@ -4,6 +4,8 @@ package com.example.onTime.modele;
 import com.example.onTime.services.GoogleMapsAPI;
 
 import android.content.Context;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -98,6 +100,15 @@ import java.util.concurrent.ExecutionException;
         }
     }
 
+    /**
+     * Méthode qui renvoie l'heure en secondes depuis minuit à partir d'une date en secondes depuis le 1er janvier 70 minuit
+     * @param epoch une date/heure en format epoch
+     * @return cette même date/heure sans la partie date, juste les secondes depuis minuit
+     */
+    public static long getHeureFromEpoch(long epoch) {
+        return epoch % 86400;
+    }
+
     public static  long getTimeOfTravelWithTraffic(long arrivalTime, String adresseDepart, String adresseArrivee) throws ExecutionException, InterruptedException {
         GoogleMapsAPI googleMapsAPI = new GoogleMapsAPI(arrivalTime, adresseDepart, adresseArrivee);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -128,5 +139,16 @@ import java.util.concurrent.ExecutionException;
         }
 
         return sb.toString();
+    }
+
+
+    /**
+     * Méthode qui permet de cacher le clavier
+     * @param v est la vue dans laquelle la méthode est appellée
+     */
+    public static void hideSoftKeyboard(View v) {
+        InputMethodManager inputManager = (InputMethodManager) v.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 }

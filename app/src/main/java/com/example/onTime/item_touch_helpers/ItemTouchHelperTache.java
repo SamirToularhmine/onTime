@@ -1,12 +1,11 @@
-package com.example.onTime.mrt;
+package com.example.onTime.item_touch_helpers;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
+
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -15,32 +14,29 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
-import com.example.onTime.modele.MRT;
-import com.example.onTime.fragments.ListMRFragment;
+import com.example.onTime.adapters.TacheAdapter;
+import com.example.onTime.fragments.EditMRFragment;
+import com.example.onTime.modele.Tache;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
 
 import java.util.Collections;
 
-public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
+public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
 
 
-    private MorningRoutineAdressAdapter morningRoutineAdressAdapter;
+    private TacheAdapter tacheAdapter;
     private int positionSuppr;
-    private MRT supprMRT;
+    private Tache tacheSuppr;
     private final Drawable icon;
-    private ListMRFragment listMRFragment;
-    private Context context;
-    private boolean wasCurrent;
+    private EditMRFragment editMRFragment ;
     final ColorDrawable background = new ColorDrawable(Color.parseColor("#CA4242"));
 
-    public ItemTouchHelperMRT(Context context, MorningRoutineAdressAdapter morningRoutineAdressAdapter, ListMRFragment listMRFragment) {
+
+    public ItemTouchHelperTache(Context context, TacheAdapter tacheAdapter, EditMRFragment editMRFragment) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        this.morningRoutineAdressAdapter = morningRoutineAdressAdapter;
+        this.tacheAdapter = tacheAdapter;
         icon = ContextCompat.getDrawable(context, R.drawable.ic_delete_24px);
-        this.listMRFragment = listMRFragment;
-        this.context = context;
-        this.wasCurrent = false;
+        this.editMRFragment = editMRFragment;
     }
 
     @Override
@@ -52,46 +48,31 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        Collections.swap(morningRoutineAdressAdapter.getList(), viewHolder.getAdapterPosition(), target.getAdapterPosition());
-        morningRoutineAdressAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-        this.listMRFragment.sauvegarder();
+        Collections.swap(tacheAdapter.getList(), viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        tacheAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        //editMRFragment.sauvegarder();
         return true;
     }
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        this.wasCurrent = false;
         int position = viewHolder.getAdapterPosition();
         this.positionSuppr = position;
-        this.supprMRT = morningRoutineAdressAdapter.getList().get(position);
-        morningRoutineAdressAdapter.getList().remove(position);
-        morningRoutineAdressAdapter.notifyItemRemoved(position);
-        this.listMRFragment.sauvegarder();
-        SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-        int idCurrentMRT = sharedPreferences.getInt("current_id_MRA", -2);
-        if (this.supprMRT.getId() == idCurrentMRT){
-            wasCurrent = true;
-            sharedPreferences.edit()
-                    .remove("current_id_MRA") // changer le current position lors d'un swipe d'un élément
-                    .apply();
-        }
+        this.tacheSuppr = tacheAdapter.getList().get(position);
+        tacheAdapter.getList().remove(position);
+        tacheAdapter.notifyItemRemoved(position);
+        //editMRFragment.sauvegarder();
         showUndoSnackbar(viewHolder);
     }
 
     private void showUndoSnackbar(RecyclerView.ViewHolder viewHolder) {
-        Snackbar snackbar = Snackbar.make(viewHolder.itemView, "Suppression de " + supprMRT.getMorningRoutine().getNom(), Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(viewHolder.itemView, "Suppression de " + tacheSuppr.getNom(), Snackbar.LENGTH_SHORT);
         snackbar.setAction("Annuler", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                morningRoutineAdressAdapter.getList().add(positionSuppr, supprMRT);
-                morningRoutineAdressAdapter.notifyItemInserted(positionSuppr);
-                ItemTouchHelperMRT.this.listMRFragment.sauvegarder();
-                if (wasCurrent){
-                    SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-                    sharedPreferences.edit()
-                            .putInt("current_id_MRA", supprMRT.getId())
-                            .apply();
-                }
+                tacheAdapter.getList().add(positionSuppr, tacheSuppr);
+                tacheAdapter.notifyItemInserted(positionSuppr);
+                //ItemTouchHelperTache.this.editMRFragment.sauvegarder();
             }
         });
         snackbar.show();
@@ -121,7 +102,7 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
 
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
-                background.setBounds(itemView.getLeft(), itemView.getTop() + 25, itemView.getLeft() + ((int) dX), itemView.getBottom() - 25);
+                background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX), itemView.getBottom());
             } else { // Swiping to the left
                 if (dX * -1 > icon.getIntrinsicWidth()) {
                     iconLeft = itemView.getRight() - icon.getIntrinsicWidth();
@@ -134,7 +115,7 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
 
 
 
-                background.setBounds(itemView.getRight() + (int) dX, itemView.getTop() + 25, itemView.getRight(), itemView.getBottom() - 25);
+                background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
 
             }
 

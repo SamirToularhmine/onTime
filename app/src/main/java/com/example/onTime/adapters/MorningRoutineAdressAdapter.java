@@ -1,4 +1,4 @@
-package com.example.onTime.mrt;
+package com.example.onTime.adapters;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,10 +24,8 @@ import java.util.List;
 public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRoutineAdressAdapter.MoringRoutineAdressViewHolder> {
 
     private List<MRT> listMRT;
-    private Fragment fragment;
 
-    public MorningRoutineAdressAdapter(List<MRT> listMRT, Fragment fragment) {
-        this.fragment = fragment;
+    public MorningRoutineAdressAdapter(List<MRT> listMRT) {
         this.listMRT = listMRT;
     }
 
