@@ -34,6 +34,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
@@ -54,8 +55,8 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private GoogleMap map;
-    private Address depart;
-    private Address destination;
+    private Marker depart ;
+    private Marker destination ;
     private LatLng coordDepart;
     private LatLng coordDestination;
 
@@ -249,17 +250,19 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
             if(!resultats.isEmpty()){
                 Address a = resultats.get(0);
                 LatLng latLng = new LatLng(a.getLatitude(), a.getLongitude());
-                map.addMarker(new MarkerOptions()
-                        .position(latLng)
-                        .title("Point sur l'adresse de départ !"));
 
                 if(type == EditTFragment.MarkerType.DEPART){
-                    this.depart = a;
+                    if (depart != null)
+                        this.depart.remove();
                     this.coordDepart = latLng;
+                    this.depart = map.addMarker(new MarkerOptions().position(latLng));
                 }else if(type == EditTFragment.MarkerType.ARRIVEE){
-                    this.destination = a;
+                    if (destination != null)
+                        this.destination.remove();
                     this.coordDestination = latLng;
+                    this.destination = map.addMarker(new MarkerOptions().position(latLng));
                 }
+
 
                 CameraUpdate zoom = CameraUpdateFactory.zoomTo(10);
 
