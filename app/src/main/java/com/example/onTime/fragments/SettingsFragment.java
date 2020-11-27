@@ -69,7 +69,6 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        // TODO : On click listener du bouton pour afficher une pop up de confirmation avant de supprimer toutes les données utilisateur
         boutonSupprimerDonnees.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,9 +79,9 @@ public class SettingsFragment extends Fragment {
 
     private void showDeleteDataConfirmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
-                .setTitle("Supprimer mes données")
-                .setMessage("Etes-vous sûr ?")
-                .setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.supprimer_donnees)
+                .setMessage(R.string.etes_vous_sur)
+                .setPositiveButton(R.string.supprimer, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 sharedPreferences.edit()
                         .remove("CurrentMRA")
@@ -99,7 +98,7 @@ public class SettingsFragment extends Fragment {
 
             }
         })
-                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.annuler, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // Rien
             }

@@ -45,7 +45,7 @@
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Titre tache"
+                    android:text="@string/titre_tache"
                     android:textSize="14sp"
                     android:layout_margin="14dp"
                     />
@@ -69,7 +69,7 @@
             android:id="@+id/dureetache"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Duree"
+            android:text="@string/duree"
             android:layout_margin="5dp"
             android:textSize="14sp"
             android:gravity="center"/>

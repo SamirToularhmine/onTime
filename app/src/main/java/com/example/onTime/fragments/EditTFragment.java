@@ -49,7 +49,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
     private Trajet trajet;
     private int positionTrajet;
 
-    private static final String PROBLEME_PLACEMENT_POINT = "Problème lors du placement du point !";
 
     private enum MarkerType {
         DEPART,
@@ -195,7 +194,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                     Toolbox.hideSoftKeyboard(v);
                     boolean goneWell = placeMarker(depart.getText().toString(), EditTFragment.MarkerType.DEPART);
                     if(!goneWell){
-                        Toolbox.showToast(getActivity().getApplicationContext(), PROBLEME_PLACEMENT_POINT, Toast.LENGTH_LONG);
+                        Toolbox.showToast(getActivity().getApplicationContext(), getString(R.string.probleme_placement_point), Toast.LENGTH_LONG);
                     }
 
                 }
@@ -228,7 +227,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                     EditTFragment.this.trajet.setAdresseArrivee(destination.getText().toString());
                     boolean goneWell = placeMarker(destination.getText().toString(), EditTFragment.MarkerType.ARRIVEE);
                     if(!goneWell){
-                        Toolbox.showToast(getActivity().getApplicationContext(), PROBLEME_PLACEMENT_POINT, Toast.LENGTH_LONG);
+                        Toolbox.showToast(getActivity().getApplicationContext(), getString(R.string.probleme_placement_point), Toast.LENGTH_LONG);
                     }
                 }
             }

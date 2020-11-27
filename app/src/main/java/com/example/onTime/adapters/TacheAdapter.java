@@ -98,9 +98,9 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
 
-        alert.setTitle("Modifier la tache :")
+        alert.setTitle(R.string.modifier)
                 .setView(textEntryView)
-                .setPositiveButton("Sauvegarder",
+                .setPositiveButton(R.string.sauvegarder,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 tacheClicked.setNom(nomTache.getText().toString());
@@ -108,7 +108,7 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
                                 TacheAdapter.this.notifyItemChanged(position);
                             }
                         })
-                .setNegativeButton("Annuler",
+                .setNegativeButton(R.string.annuler,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {

@@ -34,7 +34,7 @@
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="text"
-                android:hint="Changer le titre"
+                android:hint="@string/nom_du_trajet"
                 android:textColor="@color/colorAccent"
                 android:textColorHint="@color/colorAccent"
                 android:textSize="28sp"
@@ -70,7 +70,7 @@
             android:id="@+id/editTextDepartTrajet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Point de départ"
+            android:hint="@string/point_depart"
             android:singleLine="true"
 
             android:imeOptions="actionDone"/>
@@ -79,7 +79,7 @@
             android:id="@+id/editTextArriveeTrajet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Point d'arrivée"
+            android:hint="@string/point_arrivee"
             android:singleLine="true"
             android:imeOptions="actionDone"/>
 
