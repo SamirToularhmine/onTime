@@ -35,7 +35,7 @@
     <string name="probleme_placement_point">Problem while position a marker</string>
     <string name="choisir_morning_routine">Select a morning routine</string>
     <string name="aucune_mr_definie">No morning routine defined</string>
-    <string name="acun_trajet_defini">Statistics</string>
+    <string name="acun_trajet_defini">No ride defined</string>
     <string name="je_veux_arriver_pour">Arriving time</string>
     <string name="creee_par_on_time">Created by onTime</string>
     <string name="verifier_connexion">Check your internet connexion</string>
@@ -47,5 +47,5 @@
     <string name="accueil">Home</string>
     <string name="statistiques">Statistics</string>
     <string name="morning_routine" translatable="false">Morning Routine</string>
-    <string name="app_name">onTime</string>
+    <string name="app_name" translatable="false">onTime</string>
 </resources>

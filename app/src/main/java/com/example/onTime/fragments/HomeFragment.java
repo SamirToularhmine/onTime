@@ -360,7 +360,7 @@ public class HomeFragment extends Fragment {
         if (this.mrt.getMorningRoutine() != null){
             this.titre.setText(this.mrt.getMorningRoutine().getNom());
         }else{
-            this.titre.setText(R.string.aucune_tache_a_faire);
+            this.titre.setText(R.string.aucune_mr_definie);
         }
 
         if (this.mrt.getTrajet() != null) {
@@ -399,12 +399,12 @@ public class HomeFragment extends Fragment {
 
         if (this.mrt == null){
             this.nomTrajet.setText(R.string.acun_trajet_defini);
-            this.titre.setText(R.string.aucune_tache_a_faire);
+            this.titre.setText(R.string.aucune_mr_definie);
         }else {
             if (this.mrt.getMorningRoutine() != null) {
                 this.titre.setText(this.mrt.getMorningRoutine().getNom());
             } else {
-                this.titre.setText(R.string.aucune_tache_a_faire);
+                this.titre.setText(R.string.aucune_mr_definie);
             }
 
             if (this.mrt.getTrajet() != null)
