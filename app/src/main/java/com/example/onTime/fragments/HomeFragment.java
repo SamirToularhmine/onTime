@@ -73,6 +73,7 @@ public class HomeFragment extends Fragment {
     }
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -180,14 +181,16 @@ public class HomeFragment extends Fragment {
      * Méthode qui set l'heure d'arrivée avec sous le format HH:MM
      */
     private void initDisplayHeureArrivee() {
-        if (this.mrt.getHeureArrivee() != 0) {
-            long heuredepuisminuit = Toolbox.getHeureFromEpoch(this.mrt.getHeureArrivee());
-            int h = Toolbox.getHourFromSecondes(heuredepuisminuit);
-            int m = Toolbox.getMinutesFromSecondes(heuredepuisminuit);
-            String minutes = m < 10 ? "0" + m : String.valueOf(m);
-            this.heureArrivee.setText(h + ":" + minutes);
-        } else {
-            this.heureArrivee.setText("--:--");
+        if (this.mrt != null) {
+            if (this.mrt.getHeureArrivee() != 0) {
+                long heuredepuisminuit = Toolbox.getHeureFromEpoch(this.mrt.getHeureArrivee());
+                int h = Toolbox.getHourFromSecondes(heuredepuisminuit);
+                int m = Toolbox.getMinutesFromSecondes(heuredepuisminuit);
+                String minutes = m < 10 ? "0" + m : String.valueOf(m);
+                this.heureArrivee.setText(h + ":" + minutes);
+            } else {
+                this.heureArrivee.setText("--:--");
+            }
         }
     }
 
@@ -377,7 +380,8 @@ public class HomeFragment extends Fragment {
 
             }
         } else {
-            this.heureReveil.setText("--:--");
+            if (this.heureReveil != null)
+                this.heureReveil.setText("--:--");
         }
     }
 
@@ -462,7 +466,7 @@ public class HomeFragment extends Fragment {
 
         this.mrt = mrManager.getMRAfromId(idCurrentMRA);
 
-        if (!this.mrt.equals(null)) {
+        if (this.mrt != null) {
             this.mrt.setHeureArrivee(this.mrManager.getHeureArrivee());
             this.updateHeureReveil();
             this.updateMapTachesHeuresDebut();
