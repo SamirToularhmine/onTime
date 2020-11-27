@@ -101,7 +101,7 @@ public class ListTFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                creerNouveauTrajet(v, new Trajet("Nouveau trajet", "depart", "arrivee"));
+                creerNouveauTrajet(v, new Trajet("", "", ""));
             }
         });
 

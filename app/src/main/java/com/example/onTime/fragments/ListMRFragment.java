@@ -105,7 +105,7 @@ public class ListMRFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                creerNouvelleMorningRoutine(v, new MorningRoutine("Changer le titre"));
+                creerNouvelleMorningRoutine(v, new MorningRoutine(""));
             }
         });
     }

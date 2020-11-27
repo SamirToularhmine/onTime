@@ -34,6 +34,7 @@ import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
 import com.example.onTime.item_touch_helpers.ItemTouchHelperTache;
 import com.example.onTime.adapters.TacheAdapter;
+import com.example.onTime.modele.Toolbox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -82,7 +83,7 @@ public class EditMRFragment extends Fragment {
 
         this.recyclerView = view.findViewById(R.id.tache_recyclerview);
         if (this.laMorningRoutine == null)
-            this.laMorningRoutine = new MorningRoutine("Premiere morning routine");
+            this.laMorningRoutine = new MorningRoutine("");
 
 
         this.layoutManager = new LinearLayoutManager(getActivity());
@@ -126,6 +127,7 @@ public class EditMRFragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
+                    titre.clearFocus();
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
                     //sauvegarder();
                 }
@@ -136,6 +138,8 @@ public class EditMRFragment extends Fragment {
         retour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
+                Toolbox.hideSoftKeyboard(v);
                 sauvegarder();
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
                 activity.getSupportFragmentManager().popBackStack();
@@ -185,9 +189,6 @@ public class EditMRFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Tache t = new Tache(nomTache.getText().toString(), duree.getValue() * 60);
                                 ajouterTache(t);
-                                if (EditMRFragment.this.laMorningRoutine.getListeTaches().size() == 1) {
-                                    EditMRFragment.this.showRecyclerView();
-                                }
                                 EditMRFragment.this.hideMenu();
                             }
                         })
@@ -291,6 +292,8 @@ public class EditMRFragment extends Fragment {
                 alertDialog.show();
             }
         });
+
+
     }
 
     public void sauvegarder() {
@@ -313,6 +316,11 @@ public class EditMRFragment extends Fragment {
     public void ajouterTache(Tache tache) {
         laMorningRoutine.ajouterTache(tache);
         tacheAdapter.notifyItemInserted(laMorningRoutine.getListeTaches().size() - 1);
+        if (EditMRFragment.this.laMorningRoutine.getListeTaches().size() == 1) {
+            EditMRFragment.this.showRecyclerView();
+        }
+
+
     }
 
     private List<Tache> recuperTachesRec(){

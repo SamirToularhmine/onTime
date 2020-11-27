@@ -13,7 +13,6 @@ import android.provider.AlarmClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +29,6 @@ import com.example.onTime.NotificationBroadcast;
 import com.example.onTime.R;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.Tache;
-import com.example.onTime.modele.Tache;
 import com.example.onTime.modele.TacheHeureDebut;
 import com.example.onTime.modele.Toolbox;
 import com.example.onTime.modele.Trajet;
@@ -38,16 +36,14 @@ import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.adapters.HomeTacheAdapter;
 import com.example.onTime.adapters.HomeMorningRoutineAdressAdapter;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 
 public class HomeFragment extends Fragment {
@@ -57,11 +53,11 @@ public class HomeFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private HomeTacheAdapter tacheAdapter;
     private SharedPreferences sharedPreferences;
-    private TextView heureReveil, heureArrivee;
+    private TextView heureArrivee;
     private MRManager mrManager;
-    private TextView titre, nomTrajet;
+    private MaterialButton heureReveil;
+    private TextView nomTrajet, titre;
     private List<TacheHeureDebut> listeTachesHeuresDebut;
-    private Button boutonGoogleMaps;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -128,9 +124,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.createNotificationChannel();
 
-
-
-        this.heureReveil = view.findViewById(R.id.heureReveil);
+        this.heureReveil = view.findViewById(R.id.setAlarm);
 
         if (this.heureReveil != null) {
             //heureReveil.setText(Toolbox.formaterHeure(Toolbox.getHourFromSecondes(this.mrManager.getHeureArrivee()), Toolbox.getMinutesFromSecondes(this.mrManager.getHeureArrivee())));
@@ -240,9 +234,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setButtonReveil(View view){
-        Button buttonSetAlarm = view.findViewById(R.id.setAlarm);
-
-        buttonSetAlarm.setOnClickListener(new View.OnClickListener() {
+        this.heureReveil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MRT laMrt = HomeFragment.this.mrt;

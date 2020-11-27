@@ -2,6 +2,7 @@ package com.example.onTime.adapters;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,10 +77,20 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
         final Tache tacheClicked = listTache.get(position);
 
 
-        TextInputLayout nomTacheLayout = textEntryView.findViewById(R.id.nomtachecreate);
+        final TextInputLayout nomTacheLayout = textEntryView.findViewById(R.id.nomtachecreate);
         final EditText nomTache = nomTacheLayout.getEditText();
         final NumberPicker duree = textEntryView.findViewById(R.id.duree);
         nomTache.setText(tacheClicked.getNom());
+
+        nomTache.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                nomTache.clearFocus();
+                Toolbox.hideSoftKeyboard(v);
+                return  true;
+            }
+        });
+
 
         duree.setMinValue(0);
         duree.setMaxValue(60);
