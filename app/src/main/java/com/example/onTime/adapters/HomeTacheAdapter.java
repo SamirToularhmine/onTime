@@ -62,7 +62,7 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_mr_item_gmaps_button_layout, parent, false);
             this.boutonGoogleMaps = view.findViewById(R.id.bouton_gmaps);
             if(HomeTacheAdapter.this.mrt.getTrajet() == null){
-                HomeTacheAdapter.this.boutonGoogleMaps.setText("Pas de trajet donc tu cliques pas stp");
+                HomeTacheAdapter.this.boutonGoogleMaps.setText(R.string.aucun_trajet);
                 HomeTacheAdapter.this.boutonGoogleMaps.setClickable(false);
             }
             return new TacheViewHolder(view);

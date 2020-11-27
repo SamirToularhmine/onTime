@@ -50,4 +50,6 @@
     <string name="app_name" translatable="false">onTime</string>
     <string name="min">min</string>
     <string name="impossible_maj_heure_reveil">Impossible de mettre à jour l\'heure de réveil !</string>
+    <string name="demarrer">Start !</string>
+    <string name="aucun_trajet">No ride set</string>
 </resources>
