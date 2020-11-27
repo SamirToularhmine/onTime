@@ -76,6 +76,8 @@
                 app:cardUseCompatPadding="true"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="6dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:focusable="true"
                 >
                 <LinearLayout

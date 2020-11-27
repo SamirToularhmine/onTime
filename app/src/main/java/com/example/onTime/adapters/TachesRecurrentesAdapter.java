@@ -37,7 +37,6 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
 
     public TachesRecurrentesAdapter(List<Tache> listeTaches) {
         this.listeTaches = listeTaches;
-
     }
 
     public List<Tache> getList() {
@@ -46,13 +45,10 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
 
     public static class TachesRecurrentesViewHolder extends RecyclerView.ViewHolder {
         TextView nomTache;
-        Button boutonModifier, boutonSelectionner;
 
         public TachesRecurrentesViewHolder(View itemView) {
             super(itemView);
             nomTache = itemView.findViewById(R.id.nom_tache);
-            boutonModifier = itemView.findViewById(R.id.boutonmodifiertrajet);
-            boutonSelectionner = itemView.findViewById(R.id.boutonselectionnertrajet);
         }
     }
 
@@ -121,5 +117,4 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
     public int getItemCount() {
         return this.listeTaches.size();
     }
-
 }

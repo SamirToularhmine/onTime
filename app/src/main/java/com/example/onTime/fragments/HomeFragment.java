@@ -127,9 +127,6 @@ public class HomeFragment extends Fragment {
 
         this.heureReveil = view.findViewById(R.id.setAlarm);
 
-        if (this.heureReveil != null) {
-            //heureReveil.setText(Toolbox.formaterHeure(Toolbox.getHourFromSecondes(this.mrManager.getHeureArrivee()), Toolbox.getMinutesFromSecondes(this.mrManager.getHeureArrivee())));
-        }
 
 
         if (this.mrt.getMorningRoutine().getListeTaches().isEmpty()) {
