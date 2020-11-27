@@ -71,20 +71,31 @@
                     android:textSize="14sp"
                     android:textAlignment="center"/>
             </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="50dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                />
+
+            <LinearLayout
+                android:id="@+id/boutonmodifiertrajet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="0.5"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_baseline_edit_24"
+                    />
+            </LinearLayout>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
-    <Button
-        android:id="@+id/boutonmodifiertrajet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Modifier"/>
-
-    <Button
-        android:id="@+id/boutonselectionnertrajet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sélectionner"/>
 
 </LinearLayout>
