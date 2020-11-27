@@ -47,7 +47,7 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRT> {
             if (mrt.getMorningRoutine() != null)
                 mr.setText(mrt.getMorningRoutine().getNom());
             else
-                mr.setText(R.string.acune_morning_routine);
+                mr.setText(R.string.aucune_tache_a_faire);
         }
 
         return convertView;
