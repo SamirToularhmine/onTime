@@ -44,8 +44,9 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
 
         public TacheViewHolder(View itemView) {
             super(itemView);
-            adresseDepart = itemView.findViewById(R.id.adressedepart);
-            adresseArrivee = itemView.findViewById(R.id.adressearrivee);
+            nomTrajet = itemView.findViewById(R.id.titre_trajet_list);
+            adresseDepart = itemView.findViewById(R.id.adr1_trajet_list);
+            adresseArrivee = itemView.findViewById(R.id.adr2_trajet_list);
             boutonModifier = itemView.findViewById(R.id.boutonmodifiertrajet);
             boutonSelectionner = itemView.findViewById(R.id.selectionner_trajet);
         }
@@ -62,10 +63,9 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
     public void onBindViewHolder(@NonNull final TacheViewHolder holder, int position) {
         this.positionTrajet = position;
         Trajet trajet = listTrajet.get(this.positionTrajet);
-        //holder.nomTrajet.setText(trajet.getNom());
+        holder.nomTrajet.setText(trajet.getNom());
         holder.adresseDepart.setText(trajet.getAdresseDepart());
         holder.adresseArrivee.setText(trajet.getAdresseArrivee());
-
 
         // l'utilisateur veut modifier le trajet
         holder.boutonModifier.setOnClickListener(new View.OnClickListener() {
