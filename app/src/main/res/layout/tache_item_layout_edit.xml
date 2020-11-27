@@ -13,19 +13,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-        <TextView
-            android:id="@+id/labelHeureDebutTache"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.85"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            android:background="@drawable/ot_border"
-            android:color="?android:attr/textColorSecondary"
-            android:padding="1dp"
-            android:text="23H59"
-            />
-
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -21,6 +21,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
 
+/**
+ * Drag & drop + swipe sur une MRT
+ */
 public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
 
 

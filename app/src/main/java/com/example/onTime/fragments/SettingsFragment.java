@@ -20,6 +20,9 @@ import com.example.onTime.R;
 
 import java.util.Objects;
 
+/**
+ * Fragment des paramètres
+ */
 public class SettingsFragment extends Fragment {
 
     private SharedPreferences sharedPreferences;
@@ -32,11 +35,6 @@ public class SettingsFragment extends Fragment {
     public static SettingsFragment newInstance() {
         SettingsFragment fragment = new SettingsFragment();
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -69,7 +67,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        // TODO : On click listener du bouton pour afficher une pop up de confirmation avant de supprimer toutes les données utilisateur
+        //Boutton pour supprimer les données
         boutonSupprimerDonnees.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,11 +76,14 @@ public class SettingsFragment extends Fragment {
         });
     }
 
+    /**
+     * Lors de la supression des données, on supprime toutes les shared pref sauf userHasFinishedInitialSetup
+     */
     private void showDeleteDataConfirmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
-                .setTitle("Supprimer mes données")
-                .setMessage("Etes-vous sûr ?")
-                .setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.supprimer_donnees)
+                .setMessage(R.string.etes_vous_sur)
+                .setPositiveButton(R.string.supprimer, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 sharedPreferences.edit()
                         .remove("CurrentMRA")
@@ -94,11 +95,12 @@ public class SettingsFragment extends Fragment {
                         .remove("trajet")
                         .remove("id_max")
                         .remove("listeTrajets")
+                        .remove("listeTachesRec")
                         .remove("notifyOnEachTaskStart").apply();
 
             }
         })
-                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.annuler, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // Rien
             }

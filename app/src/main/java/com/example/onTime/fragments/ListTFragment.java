@@ -31,7 +31,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListTFragment extends Fragment {
+/**
+ * Fragment de la liste des trajets
+ */
+public class  ListTFragment extends Fragment {
 
     private List<Trajet> listeTrajets;
     private RecyclerView recyclerView;
@@ -51,21 +54,15 @@ public class ListTFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        try {
-            this.position = getArguments().getInt("position");
-            this.onlyShowList = false; // si on peut récupérer l'argument position cela signifie qu'il faut montrer les boutons "sélectionner"
-        }
-        catch (NullPointerException e) { // si on n'y arrive pas c'est juste que l'utilisateur veut voir la liste des trajets sans l'aspect sélection
-            this.position = -1;
-            this.onlyShowList = true;
-        }
+       if(getArguments() != null && getArguments().containsKey("position")){
+           this.position = getArguments().getInt("position");
+           this.onlyShowList = false; // si on peut récupérer l'argument position cela signifie qu'il faut montrer les boutons "sélectionner"
+       }else{
+           this.position = -1;
+           this.onlyShowList = true;
+       }
         return inflater.inflate(R.layout.fragment_list_trajets, container, false);
     }
 
@@ -77,7 +74,7 @@ public class ListTFragment extends Fragment {
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = this.sharedPreferences.getString("listeTrajets", "");
-        if (json != "") {
+        if (!json.equals("")) {
             Type type = new TypeToken<List<Trajet>>(){}.getType();
             this.listeTrajets = gson.fromJson(json, type);
         }
@@ -93,20 +90,27 @@ public class ListTFragment extends Fragment {
         this.trajetAdapter = new TrajetAdapter(this.listeTrajets, this.position, this.onlyShowList);
         this.recyclerView.setAdapter(this.trajetAdapter);
 
+        // Drag and drop et swipe
         ItemTouchHelperTrajet itemTouchHelperTrajet = new ItemTouchHelperTrajet(getActivity(), this.trajetAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTrajet);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
+        //boutton de création
         FloatingActionButton floatingActionButton = view.findViewById(R.id.floating_action_button);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                creerNouveauTrajet(v, new Trajet("Nouveau trajet", "depart", "arrivee"));
+                creerNouveauTrajet(v, new Trajet("", "", ""));
             }
         });
 
     }
 
+    /**
+     * Méthode qui crée une nouvelle tâche
+     * @param view est la vue actuelle
+     * @param trajet est le trajet à ajouter
+     */
     public void creerNouveauTrajet(View view, Trajet trajet) {
         Bundle bundle = new Bundle();
         bundle.putParcelable("trajet", trajet);
@@ -132,7 +136,6 @@ public class ListTFragment extends Fragment {
         assert json != null;
         if (!json.equals("")) {
             trajet = gson.fromJson(json, Trajet.class);
-            Log.d("Trajet recup sharedPREF", trajet.getNom()+trajet.getAdresseDepart()+trajet.getAdresseArrivee());
             if (position == -1) {
                 this.listeTrajets.add(trajet);
                 trajetAdapter.notifyItemInserted(this.listeTrajets.size());

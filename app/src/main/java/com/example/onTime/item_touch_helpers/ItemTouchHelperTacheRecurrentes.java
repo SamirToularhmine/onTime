@@ -21,6 +21,10 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
 
+
+/**
+ * Drag & drop + swipe sur une Tache récurrente
+ */
 public class ItemTouchHelperTacheRecurrentes extends ItemTouchHelper.SimpleCallback {
 
 

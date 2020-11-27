@@ -4,11 +4,14 @@ package com.example.onTime.modele;
 import com.example.onTime.services.GoogleMapsAPI;
 
 import android.content.Context;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -82,14 +85,18 @@ import java.util.concurrent.ExecutionException;
 
     /**
      * Méthode qui prend une heure en secondes et qui retourne la date en epoch en secondes de l'heure d'arivee. Il faut ajouter la timezone à l'heure retournée
-     * Ex: S'il est 8h et que j'apelle cette fonction avec 39600 (11h en secondes) alors ça retourne la date d'aujourd'hui à 9h en GMT soit 11h dans la bonne timezone
+     * Ex: S'il est 8h et que j'apelle cette fonction avec 39600 (11h en secondes) alors ça retourne la date d'aujourd'hui à 11h
      * @param arrivee est l'heure d'arivee dans cette timezone
-     * @return la date en epoch en secondes de l'heure d'arivee. Il faut ajouter la timezone à l'heure retournée.
+     * @return la date en epoch en secondes de l'heure d'arivee. avec la timezone d'ajoutée
      */
     public static long getDateFromHeureArrivee(long arrivee) {
         Calendar rightNow = Calendar.getInstance();
         Calendar heureArriveeAjd = new GregorianCalendar(rightNow.get(Calendar.YEAR), rightNow.get(Calendar.MONTH), rightNow.get(Calendar.DAY_OF_MONTH), Toolbox.getHourFromSecondes(arrivee), Toolbox.getMinutesFromSecondes(arrivee));
         long secondesFromEpochArivee = Toolbox.getSecondesFromEpoch(heureArriveeAjd.getTime());
+        TimeZone tz = TimeZone.getDefault();
+        Calendar cal = GregorianCalendar.getInstance(tz);
+        int offsetInMillis = tz.getOffset(cal.getTimeInMillis());
+        secondesFromEpochArivee += (offsetInMillis / 1000) ;
 
         if (rightNow.after(heureArriveeAjd)) { // si on est après l'heure indiquée aujourd'hui alors on passe au lendemain
             return secondesFromEpochArivee + 86400; // date de l'heure d'arrivée du lendemain (+24h en secondes) sans le timezone
@@ -137,5 +144,16 @@ import java.util.concurrent.ExecutionException;
         }
 
         return sb.toString();
+    }
+
+
+    /**
+     * Méthode qui permet de cacher le clavier
+     * @param v est la vue dans laquelle la méthode est appellée
+     */
+    public static void hideSoftKeyboard(View v) {
+        InputMethodManager inputManager = (InputMethodManager) v.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 }

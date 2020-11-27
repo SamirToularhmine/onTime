@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,15 +40,15 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
 
     public static class TacheViewHolder extends RecyclerView.ViewHolder {
         TextView nomTrajet, adresseDepart, adresseArrivee;
-        Button boutonModifier, boutonSelectionner;
+        LinearLayout boutonModifier, boutonSelectionner;
 
         public TacheViewHolder(View itemView) {
             super(itemView);
-            nomTrajet = itemView.findViewById(R.id.nomtrajet);
-            adresseDepart = itemView.findViewById(R.id.adressedepart);
-            adresseArrivee = itemView.findViewById(R.id.adressearrivee);
+            nomTrajet = itemView.findViewById(R.id.titre_trajet_list);
+            adresseDepart = itemView.findViewById(R.id.adr1_trajet_list);
+            adresseArrivee = itemView.findViewById(R.id.adr2_trajet_list);
             boutonModifier = itemView.findViewById(R.id.boutonmodifiertrajet);
-            boutonSelectionner = itemView.findViewById(R.id.boutonselectionnertrajet);
+            boutonSelectionner = itemView.findViewById(R.id.selectionner_trajet);
         }
     }
 
@@ -65,10 +66,6 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
         holder.nomTrajet.setText(trajet.getNom());
         holder.adresseDepart.setText(trajet.getAdresseDepart());
         holder.adresseArrivee.setText(trajet.getAdresseArrivee());
-        if (onlyShowList) {
-            holder.boutonSelectionner.setVisibility(View.GONE);
-        }
-
 
         // l'utilisateur veut modifier le trajet
         holder.boutonModifier.setOnClickListener(new View.OnClickListener() {
@@ -77,13 +74,14 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
             }
         });
 
-
-        // l'utilisateur veut choisir ce trajet pour la morning routine
-        holder.boutonSelectionner.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                selectionnerTrajet(holder.itemView, holder);
-            }
-        });
+        if(!this.onlyShowList){
+            // l'utilisateur veut choisir ce trajet pour la morning routine
+            holder.boutonSelectionner.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    selectionnerTrajet(holder.itemView, holder);
+                }
+            });
+        }
 
     }
 
@@ -110,7 +108,7 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
         String json = sharedPreferences.getString("MRManager", "");
         MRManager mrManager = gson.fromJson(json, MRManager.class);
 
-        mrManager.getListMRT().get(this.positionMRT).setTrajet(this.listTrajet.get(this.positionTrajet));
+        mrManager.getListMRT().get(this.positionMRT).setTrajet(this.listTrajet.get(holder.getAdapterPosition()));
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         gson = new Gson();

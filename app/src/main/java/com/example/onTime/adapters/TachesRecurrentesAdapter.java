@@ -23,6 +23,7 @@ import com.example.onTime.R;
 import com.example.onTime.fragments.EditMRFragment;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.Tache;
+import com.example.onTime.modele.Toolbox;
 import com.example.onTime.modele.Trajet;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
@@ -36,7 +37,6 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
 
     public TachesRecurrentesAdapter(List<Tache> listeTaches) {
         this.listeTaches = listeTaches;
-
     }
 
     public List<Tache> getList() {
@@ -44,15 +44,11 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
     }
 
     public static class TachesRecurrentesViewHolder extends RecyclerView.ViewHolder {
-        TextView nomTache, dureeTache;
-        Button boutonModifier, boutonSelectionner;
+        TextView nomTache;
 
         public TachesRecurrentesViewHolder(View itemView) {
             super(itemView);
             nomTache = itemView.findViewById(R.id.nom_tache);
-            dureeTache = itemView.findViewById(R.id.duree_tache);
-            boutonModifier = itemView.findViewById(R.id.boutonmodifiertrajet);
-            boutonSelectionner = itemView.findViewById(R.id.boutonselectionnertrajet);
         }
     }
 
@@ -67,8 +63,8 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
     public void onBindViewHolder(@NonNull final TachesRecurrentesViewHolder holder, int position) {
 
         Tache tache = this.listeTaches.get(position);
-        holder.nomTache.setText(tache.getNom());
-        holder.dureeTache.setText(String.valueOf(tache.getDuree()));
+        String affichage = tache.getNom() + " | " + Toolbox.getMinutesFromSecondes(tache.getDuree()) + " m";
+        holder.nomTache.setText(affichage);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,9 +93,9 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
 
         final android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(view.getContext());
 
-        alert.setTitle("Modifier la tache récurrente :")
+        alert.setTitle(R.string.modifer_tache_rec)
                 .setView(textEntryView)
-                .setPositiveButton("Sauvegarder",
+                .setPositiveButton(R.string.sauvegarder,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 tacheClicked.setNom(nomTache.getText().toString());
@@ -107,7 +103,7 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
                                 TachesRecurrentesAdapter.this.notifyItemChanged(position);
                             }
                         })
-                .setNegativeButton("Annuler",
+                .setNegativeButton(R.string.annuler,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
@@ -115,19 +111,10 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
                         });
         alert.show();
 
-/*
-         AppCompatActivity activity = (AppCompatActivity) view.getContext();
-
-        NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        NavController navController = navHostFragment.getNavController();
-        navController.navigate(R.id.editrec, bundle);
-
-*/
     }
 
     @Override
     public int getItemCount() {
         return this.listeTaches.size();
     }
-
 }

@@ -32,6 +32,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fragment des tâches récurrentes
+ */
 public class ListTachesRecurrentesFragment extends Fragment {
 
     private List<Tache> listeTaches;
@@ -45,19 +48,12 @@ public class ListTachesRecurrentesFragment extends Fragment {
     }
 
     public static ListTachesRecurrentesFragment newInstance() {
-        ListTachesRecurrentesFragment fragment = new ListTachesRecurrentesFragment();
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        return new ListTachesRecurrentesFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_list_taches_recurrentes, container, false);
     }
 
@@ -70,7 +66,7 @@ public class ListTachesRecurrentesFragment extends Fragment {
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = this.sharedPreferences.getString("listeTachesRec", "");
-        if (json != "") {
+        if (!json.equals("")) {
             Type type = new TypeToken<List<Tache>>(){}.getType();
             this.listeTaches = gson.fromJson(json, type);
         }
@@ -97,8 +93,10 @@ public class ListTachesRecurrentesFragment extends Fragment {
 
     }
 
+    /**
+     * Affiche la popup pour créer une nouvelle tâche récurente
+     */
     private void showCreerTacheRecurrente(){
-
         LayoutInflater factory = LayoutInflater.from(ListTachesRecurrentesFragment.this.getContext());
         final View textEntryView = factory.inflate(R.layout.ajout_tache, null);
 
@@ -110,7 +108,7 @@ public class ListTachesRecurrentesFragment extends Fragment {
 
         final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(ListTachesRecurrentesFragment.this.getContext());
 
-        alert.setTitle("Créer une nouvelle tache :")
+        alert.setTitle(R.string.creer_tache_rec)
                 .setView(textEntryView)
                 .setPositiveButton("Sauvegarder",
                         new DialogInterface.OnClickListener() {
@@ -120,28 +118,13 @@ public class ListTachesRecurrentesFragment extends Fragment {
                                 ListTachesRecurrentesFragment.this.tachesRecurrentesAdapter.notifyDataSetChanged();
                             }
                         })
-                .setNegativeButton("Annuler",
+                .setNegativeButton(R.string.annuler,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
                             }
                         });
         alert.show();
-    }
-
-    @Override
-    public void onResume() {
-        Context context1 = getActivity().getApplicationContext();
-        this.sharedPreferences = context1.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = this.sharedPreferences.getString("listeTachesRec", "");
-
-        if (json != "") {
-            Type type = new TypeToken<List<Tache>>(){}.getType();
-            //this.listeTaches = gson.fromJson(json, type);
-        }
-
-        super.onResume();
     }
 
     @Override

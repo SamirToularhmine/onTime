@@ -27,14 +27,18 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="28sp"
                 android:textStyle="bold"
-                android:text="Gérer"
+                android:text="@string/gerer"
                 />
         </com.example.onTime.WavyLinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="0dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/ic_mr_manager"
@@ -63,7 +67,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Mes morning routines"
+                        android:text="@string/mes_morning_routines"
                         android:textSize="18sp"
                         />
                 </LinearLayout>
@@ -76,6 +80,8 @@
                 app:cardUseCompatPadding="true"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="6dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:focusable="true"
                 >
                 <LinearLayout
@@ -95,7 +101,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Mes destinations"
+                        android:text="@string/mes_destinations"
                         android:textSize="18sp"
                         />
                 </LinearLayout>
@@ -129,7 +135,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Mes tâches récurrentes"
+                        android:text="@string/mes_taches_recurrentes"
                         android:textSize="18sp"
                         />
                 </LinearLayout>
