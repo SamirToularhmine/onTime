@@ -27,7 +27,7 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="28sp"
                 android:textStyle="bold"
-                android:text="Gérer"
+                android:text="@string/gerer"
                 />
         </com.example.onTime.WavyLinearLayout>
 
@@ -63,7 +63,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Mes morning routines"
+                        android:text="@string/mes_morning_routines"
                         android:textSize="18sp"
                         />
                 </LinearLayout>
@@ -95,7 +95,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Mes destinations"
+                        android:text="@string/mes_destinations"
                         android:textSize="18sp"
                         />
                 </LinearLayout>
@@ -129,7 +129,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Mes tâches récurrentes"
+                        android:text="@string/mes_taches_recurrentes"
                         android:textSize="18sp"
                         />
                 </LinearLayout>

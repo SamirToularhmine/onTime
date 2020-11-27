@@ -110,7 +110,7 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
         String json = sharedPreferences.getString("MRManager", "");
         MRManager mrManager = gson.fromJson(json, MRManager.class);
 
-        mrManager.getListMRT().get(this.positionMRT).setTrajet(this.listTrajet.get(this.positionTrajet));
+        mrManager.getListMRT().get(this.positionMRT).setTrajet(this.listTrajet.get(holder.getAdapterPosition()));
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         gson = new Gson();

@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import com.example.onTime.R;
 import com.example.onTime.fragments.EditMRFragment;
 import com.example.onTime.modele.Tache;
+import com.example.onTime.modele.Toolbox;
 
 import java.util.List;
 
@@ -41,9 +42,10 @@ public class SelectionMorningRecurrenteAdapter extends ArrayAdapter<Tache> {
 
 
         if (tache != null) {
-            titreTache.setText(tache.getNom());
+            String affichage = tache.getNom() + " | " + Toolbox.getMinutesFromSecondes(tache.getDuree()) + " m";
+            titreTache.setText(affichage);
         }else{
-            titreTache.setText("tache pas définie");
+            titreTache.setText(R.string.tache_pas_definie);
         }
         return convertView;
     }

@@ -32,7 +32,7 @@
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="text"
-                android:text="Mes tâches récurrentes"
+                android:text="@string/mes_taches_recurrentes"
                 android:textColor="@color/colorAccent"
                 android:textSize="28sp"
                 android:textStyle="bold"

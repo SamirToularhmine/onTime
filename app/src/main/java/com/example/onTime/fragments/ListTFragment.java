@@ -31,7 +31,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListTFragment extends Fragment {
+public class  ListTFragment extends Fragment {
 
     private List<Trajet> listeTrajets;
     private RecyclerView recyclerView;
@@ -77,7 +77,7 @@ public class ListTFragment extends Fragment {
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = this.sharedPreferences.getString("listeTrajets", "");
-        if (json != "") {
+        if (!json.equals("")) {
             Type type = new TypeToken<List<Trajet>>(){}.getType();
             this.listeTrajets = gson.fromJson(json, type);
         }
@@ -132,7 +132,6 @@ public class ListTFragment extends Fragment {
         assert json != null;
         if (!json.equals("")) {
             trajet = gson.fromJson(json, Trajet.class);
-            Log.d("Trajet recup sharedPREF", trajet.getNom()+trajet.getAdresseDepart()+trajet.getAdresseArrivee());
             if (position == -1) {
                 this.listeTrajets.add(trajet);
                 trajetAdapter.notifyItemInserted(this.listeTrajets.size());

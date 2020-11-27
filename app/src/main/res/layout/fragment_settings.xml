@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Paramètres"
+                android:text="@string/parametres"
                 android:textColor="@color/colorAccent"
                 android:textSize="28sp"
                 android:textStyle="bold" />
@@ -61,7 +61,7 @@
                         android:layout_margin="20dp"
                         android:textSize="18sp"
                         android:theme="@style/OTSwitch"
-                        android:text="Me notifier de chaque début de tâche"/>
+                        android:text="@string/notifier_chaque_debut"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -70,7 +70,7 @@
                 android:id="@+id/boutonSupprimerDonnees"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Supprimer toutes mes données"
+                android:text="@string/supprimer_donnees"
                 app:backgroundTint="#DC3D3D"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"/>
