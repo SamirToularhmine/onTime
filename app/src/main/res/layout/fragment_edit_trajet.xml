@@ -21,7 +21,7 @@
             android:id="@+id/editTextTitreTrajet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nom du trajet"
+            android:hint="@string/nom_du_trajet"
             android:padding="20dp"
             android:textAlignment="center"
             android:textColor="@color/colorAccent"
@@ -51,7 +51,7 @@
             android:id="@+id/editTextDepartTrajet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Point de départ"
+            android:hint="@string/point_depart"
             android:singleLine="true"
 
             android:imeOptions="actionDone"/>
@@ -60,7 +60,7 @@
             android:id="@+id/editTextArriveeTrajet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Point d'arrivée"
+            android:hint="@string/point_arrivee"
             android:singleLine="true"
             android:imeOptions="actionDone"/>
 

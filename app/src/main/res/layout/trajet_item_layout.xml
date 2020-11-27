@@ -29,12 +29,12 @@
         android:id="@+id/boutonmodifiertrajet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Modifier"/>
+        android:text="@string/modifier"/>
 
     <Button
         android:id="@+id/boutonselectionnertrajet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sélectionner"/>
+        android:text="@string/selectionner"/>
 
 </LinearLayout>

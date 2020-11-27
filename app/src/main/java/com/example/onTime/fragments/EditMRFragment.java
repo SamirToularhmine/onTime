@@ -182,9 +182,9 @@ public class EditMRFragment extends Fragment {
 
         final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(EditMRFragment.this.getContext());
 
-        alert.setTitle("Créer une nouvelle tache :")
+        alert.setTitle(R.string.creer_nouvelle_tache)
                 .setView(textEntryView)
-                .setPositiveButton("Sauvegarder",
+                .setPositiveButton(R.string.sauvegarder,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Tache t = new Tache(nomTache.getText().toString(), duree.getValue() * 60);
@@ -192,7 +192,7 @@ public class EditMRFragment extends Fragment {
                                 EditMRFragment.this.hideMenu();
                             }
                         })
-                .setNegativeButton("Annuler",
+                .setNegativeButton(R.string.annuler,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
@@ -342,7 +342,7 @@ public class EditMRFragment extends Fragment {
         final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(EditMRFragment.this.getContext());
         final SelectionMorningRecurrenteAdapter adapter = new SelectionMorningRecurrenteAdapter(EditMRFragment.this.getContext(), recuperTachesRec(), EditMRFragment.this);
 
-        alert.setTitle("Choisir une tâche récurrente")
+        alert.setTitle(R.string.choisir_tache_rec)
 
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override

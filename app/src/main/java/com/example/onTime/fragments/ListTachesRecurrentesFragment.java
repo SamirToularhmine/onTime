@@ -109,7 +109,7 @@ public class ListTachesRecurrentesFragment extends Fragment {
 
         final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(ListTachesRecurrentesFragment.this.getContext());
 
-        alert.setTitle("Créer une nouvelle tache :")
+        alert.setTitle(R.string.creer_tache_rec)
                 .setView(textEntryView)
                 .setPositiveButton("Sauvegarder",
                         new DialogInterface.OnClickListener() {
@@ -119,7 +119,7 @@ public class ListTachesRecurrentesFragment extends Fragment {
                                 ListTachesRecurrentesFragment.this.tachesRecurrentesAdapter.notifyDataSetChanged();
                             }
                         })
-                .setNegativeButton("Annuler",
+                .setNegativeButton(R.string.annuler,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
