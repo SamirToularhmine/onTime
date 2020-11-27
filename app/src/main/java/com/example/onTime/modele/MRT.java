@@ -5,8 +5,12 @@ import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -161,6 +165,7 @@ public class MRT implements Parcelable {
     private void calculerHeureReveilTaches() {
         long tempsPourSeReveiller = 180; // le temps entre le réveil et la première tâche
         this.heureReveil = this.heureDebutTrajet - this.getTempsTotalTaches() - 180;
+
         this.listeHeuresDebutTaches = new ArrayList<>();
 
         long decallage = tempsPourSeReveiller;
@@ -178,7 +183,7 @@ public class MRT implements Parcelable {
      * Méthode qui calcule l'heure où l'utilisateur doit débuter son trajet pour être à l'heure à destination
      */
     private void calculerHeureDebutTrajet() throws ExecutionException, InterruptedException {
-        long dateHeureArrivee = Toolbox.getDateFromHeureArrivee(this.heureArrivee);
+        long dateHeureArrivee = Toolbox.getDateFromHeureArrivee(this.heureArrivee); // ajouter la timezone
         long travelTimeInMinutes;
         if (this.trajet != null) {
             // long travelTimeInMinutes = Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.trajet.getAdresseDepart(), this.trajet.getAdresseArrivee()) * 60;
