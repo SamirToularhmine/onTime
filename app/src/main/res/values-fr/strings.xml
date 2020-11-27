@@ -46,4 +46,5 @@
     <string name="accueil">Accueil</string>
     <string name="statistiques">Statistiques</string>
     <string name="min">min</string>
+    <string name="impossible_maj_heure_reveil">Impossible to update the clock !</string>
 </resources>
