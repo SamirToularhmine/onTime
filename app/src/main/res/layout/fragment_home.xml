@@ -47,30 +47,30 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
-                        <TextView
-                            android:id="@+id/heureReveil"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="00:00 H"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="28sp"
-                            android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/setAlarm"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:drawableTop="@drawable/ic_baseline_notifications_24"
+                            android:layout_gravity="center"
+                            android:textStyle="bold"
                             android:layout_weight="2"
-                            />
+                            android:text="00:00 H"
+                            android:textSize="24sp"
+                            android:gravity="center"
+                            app:icon="@drawable/ic_baseline_add_alarm_24"
+                            app:iconGravity="textStart"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            style="?android:attr/borderlessButtonStyle">
+                        </com.google.android.material.button.MaterialButton>
+
 
                     </LinearLayout>
-
-
-
 
                 </LinearLayout>
 
