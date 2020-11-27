@@ -58,14 +58,13 @@ public class  ListTFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        try {
-            this.position = getArguments().getInt("position");
-            this.onlyShowList = false; // si on peut récupérer l'argument position cela signifie qu'il faut montrer les boutons "sélectionner"
-        }
-        catch (NullPointerException e) { // si on n'y arrive pas c'est juste que l'utilisateur veut voir la liste des trajets sans l'aspect sélection
-            this.position = -1;
-            this.onlyShowList = true;
-        }
+       if(getArguments() != null && getArguments().containsKey("position")){
+           this.position = getArguments().getInt("position");
+           this.onlyShowList = false; // si on peut récupérer l'argument position cela signifie qu'il faut montrer les boutons "sélectionner"
+       }else{
+           this.position = -1;
+           this.onlyShowList = true;
+       }
         return inflater.inflate(R.layout.fragment_list_trajets, container, false);
     }
 
