@@ -1,5 +1,7 @@
 package com.example.onTime.adapters;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,10 +88,19 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
             this.boutonGoogleMaps.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Démarrer le GMAPS
+                    // Google maps veut des + à la place des espaces dans la destination
+                    String destination = HomeTacheAdapter.this.mrt.getTrajet().getAdresseArrivee().replaceAll(" ", "+");
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + destination);
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    v.getContext().startActivity(mapIntent);
                 }
             });
         }
+    }
+
+    public void setMrt(MRT mrt) {
+        this.mrt = mrt;
     }
 
     public void setListeTachesHeuresDebut(List<TacheHeureDebut> listeTachesHeuresDebut) {

@@ -141,8 +141,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-
-
         // enregistrement même si l'utilisateur ne fait aucune action
         this.trajet.setNom(titreTrajet.getText().toString());
         this.trajet.setAdresseDepart(departTrajet.getText().toString());
@@ -182,6 +180,12 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap map) {
         this.map = map;
+        if (trajet != null) {
+            if (!this.trajet.getAdresseArrivee().equals(""))
+                placeMarker(this.trajet.getAdresseArrivee(), MarkerType.ARRIVEE);
+            if (!this.trajet.getAdresseDepart().equals(""))
+                placeMarker(this.trajet.getAdresseDepart(), MarkerType.DEPART);
+        }
 
         final EditText depart = getView().findViewById(R.id.editTextDepartTrajet);
         final EditText destination = getView().findViewById(R.id.editTextArriveeTrajet);
@@ -200,8 +204,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
         });
-
-
 
         depart.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -268,7 +270,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                     this.destination = map.addMarker(new MarkerOptions().position(latLng));
                 }
 
-
                 CameraUpdate zoom = CameraUpdateFactory.zoomTo(10);
 
 
@@ -279,10 +280,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                 }
 
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
-
                 map.moveCamera(cameraUpdate);
-
-
                 map.animateCamera(zoom);
             }else{
                 return false;
@@ -292,8 +290,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
         }
         return true;
     }
-
-
 
 
 }
