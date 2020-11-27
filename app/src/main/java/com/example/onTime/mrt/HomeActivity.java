@@ -71,6 +71,7 @@ public class HomeActivity extends AppCompatActivity {
         return MRT;
     }
 
+    /*
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         View v = getCurrentFocus();
@@ -81,6 +82,8 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.dispatchTouchEvent(ev);
     }
+
+     */
 
     public void hideKeyboard(Activity act) {
         if(act!=null)

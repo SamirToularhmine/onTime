@@ -34,8 +34,9 @@
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="text"
-                android:text="Morning Routine"
+                android:hint="Changer le titre"
                 android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 tools:ignore="LabelFor" />

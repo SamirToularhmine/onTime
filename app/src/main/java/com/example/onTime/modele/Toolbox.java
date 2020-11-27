@@ -4,6 +4,8 @@ package com.example.onTime.modele;
 import com.example.onTime.services.GoogleMapsAPI;
 
 import android.content.Context;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -137,5 +139,16 @@ import java.util.concurrent.ExecutionException;
         }
 
         return sb.toString();
+    }
+
+
+    /**
+     * Méthode qui permet de cacher le clavier
+     * @param v est la vue dans laquelle la méthode est appellée
+     */
+    public static void hideSoftKeyboard(View v) {
+        InputMethodManager inputManager = (InputMethodManager) v.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 }
