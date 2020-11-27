@@ -34,6 +34,7 @@ import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.modele.Tache;
 import com.example.onTime.item_touch_helpers.ItemTouchHelperTache;
 import com.example.onTime.adapters.TacheAdapter;
+import com.example.onTime.modele.Toolbox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -137,6 +138,8 @@ public class EditMRFragment extends Fragment {
         retour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
+                Toolbox.hideSoftKeyboard(v);
                 sauvegarder();
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
                 activity.getSupportFragmentManager().popBackStack();

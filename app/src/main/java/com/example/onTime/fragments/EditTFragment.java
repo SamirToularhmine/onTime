@@ -117,7 +117,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     //Clear focus here from edittext
                     titreTrajet.clearFocus();
-                    hideSoftKeyboard(v);
+                    Toolbox.hideSoftKeyboard(v);
                     EditTFragment.this.trajet.setNom(titreTrajet.getText().toString());
                     sauvegarder();
                     return true;
@@ -132,7 +132,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     titreTrajet.clearFocus();
-                    hideSoftKeyboard(v);
+                    Toolbox.hideSoftKeyboard(v);
                     EditTFragment.this.trajet.setNom(titreTrajet.getText().toString());
                     sauvegarder();
                 }
@@ -182,7 +182,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                     EditTFragment.this.trajet.setAdresseDepart(depart.getText().toString());
                     sauvegarder();
                     depart.clearFocus();
-                    hideSoftKeyboard(v);
+                    Toolbox.hideSoftKeyboard(v);
                     boolean goneWell = placeMarker(depart.getText().toString(), EditTFragment.MarkerType.DEPART);
                     if(!goneWell){
                         Toolbox.showToast(getActivity().getApplicationContext(), PROBLEME_PLACEMENT_POINT, Toast.LENGTH_LONG);
@@ -199,7 +199,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     depart.clearFocus();
-                    hideSoftKeyboard(v);
+                    Toolbox.hideSoftKeyboard(v);
                     EditTFragment.this.trajet.setAdresseDepart(depart.getText().toString());
                     sauvegarder();
                     return true;
@@ -214,7 +214,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus){
                     destination.clearFocus();
-                    hideSoftKeyboard(v);
+                    Toolbox.hideSoftKeyboard(v);
 
                     EditTFragment.this.trajet.setAdresseArrivee(destination.getText().toString());
                     sauvegarder();
@@ -231,7 +231,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     destination.clearFocus();
-                    hideSoftKeyboard(v);
+                    Toolbox.hideSoftKeyboard(v);
                     EditTFragment.this.trajet.setAdresseArrivee(destination.getText().toString());
                     sauvegarder();
                     return true;
@@ -286,10 +286,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public static void hideSoftKeyboard(View v) {
-        InputMethodManager inputManager = (InputMethodManager) v.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-    }
+
 
 }
