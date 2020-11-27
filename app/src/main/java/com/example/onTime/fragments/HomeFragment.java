@@ -143,6 +143,10 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         adapter.choisirMRT(which);
+                        HomeFragment.this.updateHeureReveil();
+                        HomeFragment.this.updateMapTachesHeuresDebut();
+                        HomeFragment.this.tacheAdapter.setListeTachesHeuresDebut(HomeFragment.this.listeTachesHeuresDebut);
+                        HomeFragment.this.tacheAdapter.notifyDataSetChanged();
                         dialog.dismiss();
                     }
 
@@ -176,6 +180,8 @@ public class HomeFragment extends Fragment {
 
 
     }
+
+
 
     private void setHeureArrivee(View view) {
         this.heureArrivee = view.findViewById(R.id.heureArrivee);
@@ -220,8 +226,6 @@ public class HomeFragment extends Fragment {
                         }
                         HomeFragment.this.updateHeureReveil();
                         HomeFragment.this.updateMapTachesHeuresDebut();
-                        HomeFragment.this.tacheAdapter.setListeTachesHeuresDebut(HomeFragment.this.listeTachesHeuresDebut);
-                        HomeFragment.this.tacheAdapter.notifyDataSetChanged();
                     }
                 });
 
