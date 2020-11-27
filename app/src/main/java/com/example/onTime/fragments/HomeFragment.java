@@ -47,6 +47,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Fragment de la page d'acceuil
+ */
 public class HomeFragment extends Fragment {
 
     private MRT mrt;
@@ -69,10 +72,6 @@ public class HomeFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,19 +80,18 @@ public class HomeFragment extends Fragment {
         Context context = this.getActivity().getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
+        String jsonMRA = this.sharedPreferences.getString("CurrentMRA", ""); // on récupére la MRA active
         this.mrt = gson.fromJson(jsonMRA, MRT.class);
 
         //String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
-        int idCurrentMRA = this.sharedPreferences.getInt("current_id_MRA", -1);
+        int idCurrentMRA = this.sharedPreferences.getInt("current_id_MRA", -1); // l'id de la MRA active
 
-        String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
+        String jsonMRManager = this.sharedPreferences.getString("MRManager", ""); // on récupere le MRManager
         if (!jsonMRManager.equals("")) {
             this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
         } else {
             this.mrManager = new MRManager();
         }
-
 
         if (idCurrentMRA == -1) {
             MorningRoutine mr = new MorningRoutine("");
@@ -101,14 +99,14 @@ public class HomeFragment extends Fragment {
 
             this.mrt = new MRT(mr, t);
         } else {
-            this.mrt = mrManager.getMRAfromId(idCurrentMRA);
+            this.mrt = mrManager.getMRAfromId(idCurrentMRA); // on récupere la MRT depuis le mrManager
         }
 
         this.updateMapTachesHeuresDebut(); // à placer avant la déclaration du tacheAdapter
 
         this.tacheAdapter = new HomeTacheAdapter(this.listeTachesHeuresDebut, this.mrt);
 
-        View rootView =  inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         this.recyclerView = rootView.findViewById(R.id.tache_recyclerview);
 
@@ -126,8 +124,6 @@ public class HomeFragment extends Fragment {
         this.createNotificationChannel();
 
         this.heureReveil = view.findViewById(R.id.setAlarm);
-
-
 
         if (this.mrt.getMorningRoutine().getListeTaches().isEmpty()) {
             this.hideRecyclerView();
@@ -177,22 +173,29 @@ public class HomeFragment extends Fragment {
             this.nomTrajet.setText(R.string.acun_trajet_defini);
 
         this.setHeureArrivee(view);
-        this.setButtonReveil(view);
+        this.setButtonReveil();
     }
 
-
+    /**
+     * Méthode qui set l'heure d'arrivée avec sous le format HH:MM
+     */
     private void initDisplayHeureArrivee() {
         if (this.mrt.getHeureArrivee() != 0) {
             long heuredepuisminuit = Toolbox.getHeureFromEpoch(this.mrt.getHeureArrivee());
             int h = Toolbox.getHourFromSecondes(heuredepuisminuit);
             int m = Toolbox.getMinutesFromSecondes(heuredepuisminuit);
-            String minutes = m<10 ? "0"+m : String.valueOf(m);
+            String minutes = m < 10 ? "0" + m : String.valueOf(m);
             this.heureArrivee.setText(h + ":" + minutes);
         } else {
             this.heureArrivee.setText("--:--");
         }
     }
 
+    /**
+     * Méthode qui set calcule et set l'heure d'arrivée
+     *
+     * @param view est la view actuelle
+     */
     private void setHeureArrivee(View view) {
         this.heureArrivee = view.findViewById(R.id.heureArrivee);
 
@@ -238,7 +241,7 @@ public class HomeFragment extends Fragment {
                         }
                         HomeFragment.this.updateHeureReveil();
                         HomeFragment.this.updateMapTachesHeuresDebut();
-                        }
+                    }
                 });
 
                 v.setEnabled(true);
@@ -246,7 +249,10 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void setButtonReveil(View view) {
+    /**
+     * Méthode pour lancer le réveil et kes notifs
+     */
+    private void setButtonReveil() {
         this.heureReveil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -272,6 +278,11 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    /**
+     * Méthode qui crée les notifs pour le future
+     *
+     * @param heureReveilEpoch
+     */
     private void createNotifs(long heureReveilEpoch) {
         long decallageProchaineTache = 180;
 
@@ -287,6 +298,9 @@ public class HomeFragment extends Fragment {
 
     }
 
+    /**
+     * Création du channel pour envoyer des notifacaitons
+     */
     private void createNotificationChannel() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
@@ -302,6 +316,12 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Méthode qui set l'alarme
+     *
+     * @param heures  l'heure du réveil
+     * @param minutes minutes du réveil
+     */
     private void setAlarm(int heures, int minutes) {
         Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
         i.putExtra(AlarmClock.EXTRA_HOUR, heures);
@@ -316,7 +336,6 @@ public class HomeFragment extends Fragment {
         super.onStart();
         this.updateHeureReveil();
         this.updateMapTachesHeuresDebut();
-
     }
 
     private void updateAdapterListeTaches() {
@@ -334,11 +353,10 @@ public class HomeFragment extends Fragment {
                     minutes = "0" + minutes;
                 }
                 this.heureReveil.setText(heures + ":" + minutes);
-            }catch( InterruptedException | ExecutionException e){
-                Toast.makeText(this.getContext(), R.string.impossible_maj_heure_reveil,  Toast.LENGTH_LONG).show();
+            } catch (InterruptedException | ExecutionException e) {
+                Toast.makeText(this.getContext(), R.string.impossible_maj_heure_reveil, Toast.LENGTH_LONG).show();
             }
-
-        }else{
+        } else {
             this.heureReveil.setText("--:--");
         }
 
@@ -361,39 +379,43 @@ public class HomeFragment extends Fragment {
         }
     }
 
-        private void hideRecyclerView () {
-            View v = this.getView();
+    private void hideRecyclerView() {
+        View v = this.getView();
 
-            LinearLayout emptyTaches = v.findViewById(R.id.empty_taches);
+        LinearLayout emptyTaches = v.findViewById(R.id.empty_taches);
 
-            this.recyclerView.setVisibility(View.GONE);
-            emptyTaches.setVisibility(View.VISIBLE);
+        this.recyclerView.setVisibility(View.GONE);
+        emptyTaches.setVisibility(View.VISIBLE);
+    }
+
+    private void showRecyclerView() {
+        View v = this.getView();
+
+        LinearLayout emptyTaches = v.findViewById(R.id.empty_taches);
+
+        this.recyclerView.setVisibility(View.VISIBLE);
+        emptyTaches.setVisibility(View.GONE);
+    }
+
+    /**
+     * Méthode qui permet de changer la MRT actuellemetn séléctionéne
+     * @param mrt est la nouvelle MRT
+     */
+    public void changerCurrentMr(MRT mrt) {
+        this.mrt = mrt;
+        this.tacheAdapter.setMrt(mrt);
+        //TextView titre = view.findViewById(R.id.titreMorningRoutine);
+        if (this.mrt.getMorningRoutine() != null) {
+            this.titre.setText(this.mrt.getMorningRoutine().getNom());
+        } else {
+            this.titre.setText(R.string.aucune_mr_definie);
         }
 
-        private void showRecyclerView () {
-            View v = this.getView();
-
-            LinearLayout emptyTaches = v.findViewById(R.id.empty_taches);
-
-            this.recyclerView.setVisibility(View.VISIBLE);
-            emptyTaches.setVisibility(View.GONE);
-        }
-
-        public void changerCurrentMr (MRT mrt){
-            this.mrt = mrt;
-            this.tacheAdapter.setMrt(mrt);
-            //TextView titre = view.findViewById(R.id.titreMorningRoutine);
-            if (this.mrt.getMorningRoutine() != null) {
-                this.titre.setText(this.mrt.getMorningRoutine().getNom());
-            } else {
-                this.titre.setText(R.string.aucune_mr_definie);
-            }
-
-            if (this.mrt.getTrajet() != null) {
-                this.nomTrajet.setText(this.mrt.getTrajet().getNom());
-                this.updateMapTachesHeuresDebut();
-            } else
-                this.nomTrajet.setText(R.string.acun_trajet_defini);
+        if (this.mrt.getTrajet() != null) {
+            this.nomTrajet.setText(this.mrt.getTrajet().getNom());
+            this.updateMapTachesHeuresDebut();
+        } else
+            this.nomTrajet.setText(R.string.acun_trajet_defini);
 
         this.tacheAdapter = new HomeTacheAdapter(this.listeTachesHeuresDebut, this.mrt);
         this.recyclerView.setAdapter(this.tacheAdapter);
@@ -405,8 +427,11 @@ public class HomeFragment extends Fragment {
             this.updateAdapterListeTaches();
         }
 
-        }
+    }
 
+    /**
+     * On sauvegarde les données quand on change de fragment
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -416,49 +441,52 @@ public class HomeFragment extends Fragment {
         this.sharedPreferences.edit().putString("MRManager", json).apply();
     }
 
+    /**
+     * On récupère les données stockées dans les shared pref
+     */
     @Override
-        public void onResume() {
-            Context context = this.getActivity().getApplicationContext();
-            this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-            Gson gson = new Gson();
-            int idCurrentMRA = this.sharedPreferences.getInt("current_id_MRA", -1);
-            //String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
-            String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
-            if (!jsonMRManager.equals("")) {
-                this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
-            } else {
-                this.mrManager = new MRManager();
-            }
-
-            this.mrt = mrManager.getMRAfromId(idCurrentMRA);
-
-            if (!this.mrt.equals(null)) {
-                this.mrt.setHeureArrivee(this.mrManager.getHeureArrivee());
-                this.updateHeureReveil();
-                this.updateMapTachesHeuresDebut();
-            }
-
-            this.initDisplayHeureArrivee();
-
-            if (this.mrt == null) {
-                this.nomTrajet.setText(R.string.acun_trajet_defini);
-                this.titre.setText(R.string.aucune_mr_definie);
-            } else {
-                if (this.mrt.getMorningRoutine() != null) {
-                    this.titre.setText(this.mrt.getMorningRoutine().getNom());
-                    this.updateMapTachesHeuresDebut();
-                    this.updateAdapterListeTaches();
-                } else {
-                    this.titre.setText(R.string.aucune_mr_definie);
-                }
-
-                if (this.mrt.getTrajet() != null)
-                    this.nomTrajet.setText(this.mrt.getTrajet().getNom());
-                else
-                    this.nomTrajet.setText(R.string.acun_trajet_defini);
-            }
-            super.onResume();
+    public void onResume() {
+        Context context = this.getActivity().getApplicationContext();
+        this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        int idCurrentMRA = this.sharedPreferences.getInt("current_id_MRA", -1);
+        //String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
+        String jsonMRManager = this.sharedPreferences.getString("MRManager", "");
+        if (!jsonMRManager.equals("")) {
+            this.mrManager = gson.fromJson(jsonMRManager, MRManager.class);
+        } else {
+            this.mrManager = new MRManager();
         }
 
+        this.mrt = mrManager.getMRAfromId(idCurrentMRA);
 
+        if (!this.mrt.equals(null)) {
+            this.mrt.setHeureArrivee(this.mrManager.getHeureArrivee());
+            this.updateHeureReveil();
+            this.updateMapTachesHeuresDebut();
+        }
+
+        this.initDisplayHeureArrivee();
+
+        if (this.mrt == null) {
+            this.nomTrajet.setText(R.string.acun_trajet_defini);
+            this.titre.setText(R.string.aucune_mr_definie);
+        } else {
+            if (this.mrt.getMorningRoutine() != null) {
+                this.titre.setText(this.mrt.getMorningRoutine().getNom());
+                this.updateMapTachesHeuresDebut();
+                this.updateAdapterListeTaches();
+            } else {
+                this.titre.setText(R.string.aucune_mr_definie);
+            }
+
+            if (this.mrt.getTrajet() != null)
+                this.nomTrajet.setText(this.mrt.getTrajet().getNom());
+            else
+                this.nomTrajet.setText(R.string.acun_trajet_defini);
+        }
+        super.onResume();
     }
+
+
+}

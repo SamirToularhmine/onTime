@@ -31,6 +31,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fragment de la liste des trajets
+ */
 public class  ListTFragment extends Fragment {
 
     private List<Trajet> listeTrajets;
@@ -48,11 +51,6 @@ public class  ListTFragment extends Fragment {
     public static ListTFragment newInstance() {
         ListTFragment fragment = new ListTFragment();
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -92,10 +90,12 @@ public class  ListTFragment extends Fragment {
         this.trajetAdapter = new TrajetAdapter(this.listeTrajets, this.position, this.onlyShowList);
         this.recyclerView.setAdapter(this.trajetAdapter);
 
+        // Drag and drop et swipe
         ItemTouchHelperTrajet itemTouchHelperTrajet = new ItemTouchHelperTrajet(getActivity(), this.trajetAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTrajet);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
+        //boutton de création
         FloatingActionButton floatingActionButton = view.findViewById(R.id.floating_action_button);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +106,11 @@ public class  ListTFragment extends Fragment {
 
     }
 
+    /**
+     * Méthode qui crée une nouvelle tâche
+     * @param view est la vue actuelle
+     * @param trajet est le trajet à ajouter
+     */
     public void creerNouveauTrajet(View view, Trajet trajet) {
         Bundle bundle = new Bundle();
         bundle.putParcelable("trajet", trajet);

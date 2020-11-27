@@ -30,6 +30,9 @@ import com.example.onTime.adapters.MorningRoutineAdressAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
+/**
+ * Fragment de la liste des Morning routines
+ */
 public class ListMRFragment extends Fragment {
 
     private MRManager mrManager;
@@ -47,10 +50,6 @@ public class ListMRFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,6 +110,11 @@ public class ListMRFragment extends Fragment {
     }
 
 
+    /**
+     * Navigation dans le fraglent de création de nouvelle morning routine en passant -1 en position
+     * @param view
+     * @param morningRoutine
+     */
     public void creerNouvelleMorningRoutine(View view, MorningRoutine morningRoutine) {
         Bundle bundle = new Bundle();
         bundle.putParcelable("morning_routine", morningRoutine);
@@ -123,6 +127,11 @@ public class ListMRFragment extends Fragment {
         navController.navigate(R.id.editMRFragment, bundle);
     }
 
+    /**
+     * Méthode qui pérmet de modifier une morning routine
+     * @param mr est la morning routine
+     * @param position est la position de la morning routine dans la liste
+     */
     public void editMR(MorningRoutine mr, int position) {
         if (position == -1 ){
             Context context = this.getActivity().getApplicationContext();
@@ -185,8 +194,6 @@ public class ListMRFragment extends Fragment {
         this.sauvegarder();
         super.onStop();
     }
-
-
 
     public void sauvegarder(){
         Context context = this.getActivity().getApplicationContext();

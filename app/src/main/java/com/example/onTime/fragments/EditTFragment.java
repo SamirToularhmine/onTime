@@ -44,20 +44,28 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Fragment du choix du trajet
+ */
 public class EditTFragment extends Fragment implements OnMapReadyCallback {
 
-    private Trajet trajet;
-    private int positionTrajet;
+    private Trajet trajet; // est le trajet
+    private int positionTrajet; // est la position du trajet dans la liste des trajets
 
-
+    /**
+     * Enum pour savoir s'il s'agit d'un point d'arrivé ou de départ
+     */
     private enum MarkerType {
         DEPART,
         ARRIVEE
     }
 
+    /**
+     * Attrivutes pour gérer le placement du point sur la google map
+     */
     private GoogleMap map;
-    private Marker depart ;
-    private Marker destination ;
+    private Marker depart;
+    private Marker destination;
     private LatLng coordDepart;
     private LatLng coordDestination;
 
@@ -70,12 +78,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,12 +85,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
         assert getArguments() != null;
         this.trajet = (Trajet) getArguments().get("trajet");
         this.positionTrajet = getArguments().getInt("position");
-
-
-
         return inflater.inflate(R.layout.fragment_edit_trajet, container, false);
-
-
     }
 
     @Override
@@ -127,7 +124,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-
         titreTrajet.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -139,15 +135,14 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-
-
-        // enregistrement même si l'utilisateur ne fait aucune action
+        // set du trajet
         this.trajet.setNom(titreTrajet.getText().toString());
         this.trajet.setAdresseDepart(departTrajet.getText().toString());
         this.trajet.setAdresseArrivee(arriveeTrajet.getText().toString());
 
         Button retour = view.findViewById(R.id.boutton_retour);
 
+        // bouton retour pour sauvegarder les données
         retour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +156,9 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
+    /**
+     * Sauvegarde des donénes dans les shared pref
+     */
     private void sauvegarder() {
         Context context = getActivity().getApplicationContext();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
@@ -172,15 +170,14 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
         editor.apply();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
+    /**
+     * Méthode qui gère l'affichage de la google map
+     * @param map est la map créée
+     */
     @Override
     public void onMapReady(GoogleMap map) {
         this.map = map;
-        if (trajet != null) {
+        if (trajet != null) { // permet de placer les points dès le début s'ils éxistent
             if (!this.trajet.getAdresseArrivee().equals(""))
                 placeMarker(this.trajet.getAdresseArrivee(), MarkerType.ARRIVEE);
             if (!this.trajet.getAdresseDepart().equals(""))
@@ -189,15 +186,15 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
 
         final EditText depart = getView().findViewById(R.id.editTextDepartTrajet);
         final EditText destination = getView().findViewById(R.id.editTextArriveeTrajet);
-        depart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        depart.setOnFocusChangeListener(new View.OnFocusChangeListener() { // sauvegarde et placement d'un marquer lors de la perte du focus
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
+                if (!hasFocus) {
                     EditTFragment.this.trajet.setAdresseDepart(depart.getText().toString());
                     depart.clearFocus();
                     Toolbox.hideSoftKeyboard(v);
-                    boolean goneWell = placeMarker(depart.getText().toString(), EditTFragment.MarkerType.DEPART);
-                    if(!goneWell){
+                    boolean goneWell = placeMarker(depart.getText().toString(), EditTFragment.MarkerType.DEPART); // on déplace les points lors d'un changement de point de départ
+                    if (!goneWell) {
                         Toolbox.showToast(getActivity().getApplicationContext(), getString(R.string.probleme_placement_point), Toast.LENGTH_LONG);
                     }
 
@@ -207,11 +204,15 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
 
         depart.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) { // sauvegarde et placement d'un marquer lors du clique sur ok
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     depart.clearFocus();
                     Toolbox.hideSoftKeyboard(v);
                     EditTFragment.this.trajet.setAdresseDepart(depart.getText().toString());
+                    boolean goneWell = placeMarker(depart.getText().toString(), EditTFragment.MarkerType.DEPART); // on déplace les points lors d'un changement de point de départ
+                    if (!goneWell) {
+                        Toolbox.showToast(getActivity().getApplicationContext(), getString(R.string.probleme_placement_point), Toast.LENGTH_LONG);
+                    }
                     return true;
                 }
                 return false;
@@ -221,14 +222,14 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
 
         destination.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
+            public void onFocusChange(View v, boolean hasFocus) { // sauvegarde et placement d'un marquer lors de la perte du focus
+                if (!hasFocus) {
                     destination.clearFocus();
                     Toolbox.hideSoftKeyboard(v);
 
                     EditTFragment.this.trajet.setAdresseArrivee(destination.getText().toString());
                     boolean goneWell = placeMarker(destination.getText().toString(), EditTFragment.MarkerType.ARRIVEE);
-                    if(!goneWell){
+                    if (!goneWell) {
                         Toolbox.showToast(getActivity().getApplicationContext(), getString(R.string.probleme_placement_point), Toast.LENGTH_LONG);
                     }
                 }
@@ -237,7 +238,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
 
         destination.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) { // sauvegarde et placement d'un marquer lors du clique sur ok
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     destination.clearFocus();
                     Toolbox.hideSoftKeyboard(v);
@@ -249,21 +250,27 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    public boolean placeMarker(String name, EditTFragment.MarkerType type){
+    /**
+     * Méthode qui place un marqueur sur la google map
+     * @param name est le nom du marqueur
+     * @param type est le type du marqueur, soit un départ soit une arrivée
+     * @return true si le placement s'est bien passé, false sinon
+     */
+    public boolean placeMarker(String name, EditTFragment.MarkerType type) {
         Geocoder findMarker = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
         try {
             String departInput = name;
             List<Address> resultats = findMarker.getFromLocationName(departInput, 5);
-            if(!resultats.isEmpty()){
+            if (!resultats.isEmpty()) {
                 Address a = resultats.get(0);
                 LatLng latLng = new LatLng(a.getLatitude(), a.getLongitude());
 
-                if(type == EditTFragment.MarkerType.DEPART){
+                if (type == EditTFragment.MarkerType.DEPART) {
                     if (depart != null)
                         this.depart.remove();
                     this.coordDepart = latLng;
                     this.depart = map.addMarker(new MarkerOptions().position(latLng));
-                }else if(type == EditTFragment.MarkerType.ARRIVEE){
+                } else if (type == EditTFragment.MarkerType.ARRIVEE) {
                     if (destination != null)
                         this.destination.remove();
                     this.coordDestination = latLng;
@@ -273,19 +280,19 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                 CameraUpdate zoom = CameraUpdateFactory.zoomTo(10);
 
 
-                if (this.coordDepart != null && this.coordDestination != null){
+                if (this.coordDepart != null && this.coordDestination != null) {
                     double latitude = (this.coordDepart.latitude + this.coordDestination.latitude) / 2;
                     double longitude = (this.coordDepart.longitude + this.coordDestination.longitude) / 2;
-                    latLng = new LatLng(latitude,longitude);
+                    latLng = new LatLng(latitude, longitude);
                 }
 
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
                 map.moveCamera(cameraUpdate);
                 map.animateCamera(zoom);
-            }else{
+            } else {
                 return false;
             }
-        }catch(IOException ignored){
+        } catch (IOException ignored) {
             return false;
         }
         return true;
