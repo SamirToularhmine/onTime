@@ -17,67 +17,52 @@
             android:background="@color/colorAccent"
             android:orientation="horizontal"
             android:paddingLeft="20dp"
-            android:paddingTop="40dp"
+            android:paddingTop="20dp"
             android:paddingRight="20dp"
-            android:paddingBottom="50dp">
+            android:paddingBottom="40dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:divider="@drawable/empty_tall_divider"
                 android:orientation="horizontal"
                 android:showDividers="middle">
 
                 <LinearLayout
+                    android:id="@+id/constraint_home_reveil"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:paddingBottom="2dp">
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/je_dois_me_reveiller"
                         android:textColor="@color/colorAccent"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"/>
 
-                    <LinearLayout
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/setAlarm"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/setAlarm"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:textStyle="bold"
-                            android:layout_weight="2"
-                            android:text="00:00 H"
-                            android:textSize="24sp"
-                            android:gravity="center"
-                            app:icon="@drawable/ic_baseline_add_alarm_24"
-                            app:iconGravity="textStart"
-                            android:insetLeft="0dp"
-                            android:insetTop="0dp"
-                            android:insetRight="0dp"
-                            android:insetBottom="0dp"
-                            style="?android:attr/borderlessButtonStyle">
-                        </com.google.android.material.button.MaterialButton>
-
-
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textStyle="bold"
+                        android:text="00:00 H"
+                        android:textSize="26sp"
+                        app:icon="@drawable/ic_baseline_add_alarm_24"
+                        app:iconGravity="textStart"
+                        style="?android:attr/borderlessButtonStyle">
+                    </com.google.android.material.button.MaterialButton>
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="bottom"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:paddingBottom="0dp">
