@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -120,7 +122,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                     titreTrajet.clearFocus();
                     Toolbox.hideSoftKeyboard(v);
                     EditTFragment.this.trajet.setNom(titreTrajet.getText().toString());
-                    sauvegarder();
                     return true;
                 }
                 return false;
@@ -135,7 +136,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                     titreTrajet.clearFocus();
                     Toolbox.hideSoftKeyboard(v);
                     EditTFragment.this.trajet.setNom(titreTrajet.getText().toString());
-                    sauvegarder();
                 }
             }
         });
@@ -148,9 +148,19 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
         this.trajet.setNom(titreTrajet.getText().toString());
         this.trajet.setAdresseDepart(departTrajet.getText().toString());
         this.trajet.setAdresseArrivee(arriveeTrajet.getText().toString());
-        this.sauvegarder();
 
+        Button retour = view.findViewById(R.id.boutton_retour);
 
+        retour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditTFragment.this.trajet.setNom(titreTrajet.getText().toString());
+                Toolbox.hideSoftKeyboard(v);
+                sauvegarder();
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                activity.getSupportFragmentManager().popBackStack();
+            }
+        });
 
     }
 
@@ -181,7 +191,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus){
                     EditTFragment.this.trajet.setAdresseDepart(depart.getText().toString());
-                    sauvegarder();
                     depart.clearFocus();
                     Toolbox.hideSoftKeyboard(v);
                     boolean goneWell = placeMarker(depart.getText().toString(), EditTFragment.MarkerType.DEPART);
@@ -202,7 +211,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                     depart.clearFocus();
                     Toolbox.hideSoftKeyboard(v);
                     EditTFragment.this.trajet.setAdresseDepart(depart.getText().toString());
-                    sauvegarder();
                     return true;
                 }
                 return false;
@@ -218,7 +226,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                     Toolbox.hideSoftKeyboard(v);
 
                     EditTFragment.this.trajet.setAdresseArrivee(destination.getText().toString());
-                    sauvegarder();
                     boolean goneWell = placeMarker(destination.getText().toString(), EditTFragment.MarkerType.ARRIVEE);
                     if(!goneWell){
                         Toolbox.showToast(getActivity().getApplicationContext(), PROBLEME_PLACEMENT_POINT, Toast.LENGTH_LONG);
@@ -234,7 +241,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                     destination.clearFocus();
                     Toolbox.hideSoftKeyboard(v);
                     EditTFragment.this.trajet.setAdresseArrivee(destination.getText().toString());
-                    sauvegarder();
                     return true;
                 }
                 return false;
