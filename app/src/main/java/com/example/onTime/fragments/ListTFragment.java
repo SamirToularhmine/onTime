@@ -77,7 +77,7 @@ public class  ListTFragment extends Fragment {
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = this.sharedPreferences.getString("listeTrajets", "");
-        if (json != "") {
+        if (!json.equals("")) {
             Type type = new TypeToken<List<Trajet>>(){}.getType();
             this.listeTrajets = gson.fromJson(json, type);
         }
