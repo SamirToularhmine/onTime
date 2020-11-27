@@ -25,6 +25,7 @@
             android:paddingBottom="50dp">
 
             <EditText
+                android:cursorVisible="false"
                 android:id="@+id/titreMorningRoutine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

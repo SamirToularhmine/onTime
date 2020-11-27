@@ -10,7 +10,7 @@
     <string name="nom_de_la_tache">Task name</string>
     <string name="duree_de_la_tache">Task duration</string>
     <string name="changer_le_titre">Change the title</string>
-    <string name="valider">Validate</string>
+    <string name="valider">Apply</string>
     <string name="aucune_tache_a_faire">You still don\'t have any task</string>
     <string name="choisir_une_tache_existante">Chose an existing task</string>
     <string name="creer_nouvelle_tache">Create a new task</string>

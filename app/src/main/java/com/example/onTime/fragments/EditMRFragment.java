@@ -118,6 +118,7 @@ public class EditMRFragment extends Fragment {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     titre.clearFocus();
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
+                    titre.setCursorVisible(false);
                 }
                 return false;
             }
@@ -129,7 +130,10 @@ public class EditMRFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     titre.clearFocus();
+                    titre.setCursorVisible(false);
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
+                }else {
+                    titre.setCursorVisible(true);
                 }
             }
         });

@@ -301,16 +301,17 @@ public class HomeFragment extends Fragment {
         Calendar cal = GregorianCalendar.getInstance(tz);
         int offsetInMillis = tz.getOffset(cal.getTimeInMillis());
         heureReveilEpoch -= (offsetInMillis / 1000);
-        
+        int id = 0;
         for (Tache tache : this.mrt.getMorningRoutine().getListeTaches()) {
             Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
             intent.putExtra("CONTEXTE", tache.getNom());
             intent.putExtra("ID", (int) decallageProchaineTache);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), (int) decallageProchaineTache, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), (int) id, intent, 0);
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
             long l = heureReveilEpoch * 1000 + decallageProchaineTache * 1000;
             alarmManager.set(AlarmManager.RTC_WAKEUP, l, pendingIntent);
             decallageProchaineTache += tache.getDuree();
+            id++;
         }
 
     }
