@@ -323,7 +323,7 @@ public class HomeFragment extends Fragment {
                 }
                 this.heureReveil.setText(heures + ":" + minutes);
             }catch( InterruptedException | ExecutionException e){
-                Toast.makeText(this.getContext(), "Impossible de mettre à jour l'heure de réveil !",  Toast.LENGTH_LONG).show();
+                Toast.makeText(this.getContext(), R.string.impossible_maj_heure_reveil,  Toast.LENGTH_LONG).show();
             }
 
         }else{
@@ -342,6 +342,7 @@ public class HomeFragment extends Fragment {
                     this.listeTachesHeuresDebut.add(new TacheHeureDebut(listeTaches.get(i), listeHeuresDebutTaches.get(i)));
                 }
             } catch (ExecutionException | InterruptedException ignored) {
+
             }
         } else {
             this.heureReveil.setText("--:--");
