@@ -79,7 +79,7 @@ public class ListMRFragment extends Fragment {
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRT(), this);
+        this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRT());
         this.recyclerView.setAdapter(this.morningRoutineAdressAdapter);
 
         // We use a String here, but any type that can be put in a Bundle is supported

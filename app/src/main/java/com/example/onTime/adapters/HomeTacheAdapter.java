@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
+import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.Tache;
 import com.example.onTime.modele.TacheHeureDebut;
 import com.example.onTime.modele.Toolbox;
@@ -20,9 +21,11 @@ import java.util.Map;
 public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.TacheViewHolder> {
     private List<TacheHeureDebut> listeTachesHeuresDebut;
     private Button boutonGoogleMaps;
+    private MRT mrt;
 
-    public HomeTacheAdapter(List<TacheHeureDebut> listeTachesHeuresDebut) {
-        this.listeTachesHeuresDebut = listeTachesHeuresDebut;
+    public HomeTacheAdapter(List<TacheHeureDebut> liste, MRT mrt) {
+        this.listeTachesHeuresDebut = liste;
+        this.mrt = mrt;
     }
 
     public List<TacheHeureDebut> getList() {
@@ -53,10 +56,13 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
         if (viewType == 0) { // TACHE
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tache_item_layout, parent, false);
             return new TacheViewHolder(view);
-        }
-        else { // FOOTER
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bouton_gmaps_item_layout, parent, false);
-            this.boutonGoogleMaps = view.findViewById(R.id.boutongooglemaps);
+        }else{ // FOOTER
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_mr_item_gmaps_button_layout, parent, false);
+            this.boutonGoogleMaps = view.findViewById(R.id.bouton_gmaps);
+            if(HomeTacheAdapter.this.mrt.getTrajet() == null){
+                HomeTacheAdapter.this.boutonGoogleMaps.setText("Pas de trajet donc tu cliques pas stp");
+                HomeTacheAdapter.this.boutonGoogleMaps.setClickable(false);
+            }
             return new TacheViewHolder(view);
         }
     }
@@ -76,6 +82,13 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
             }
             String affichageHeure = heures+"H"+minutes;
             holder.heureDebut.setText(affichageHeure);
+        }else{
+            this.boutonGoogleMaps.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Démarrer le GMAPS
+                }
+            });
         }
     }
 
@@ -86,10 +99,6 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
     @Override
     public int getItemCount() {
         return listeTachesHeuresDebut.size() + 1; // + 1 car on ajoute le footer
-    }
-
-    public Button getBoutonGoogleMaps() {
-        return this.boutonGoogleMaps;
     }
 
 }

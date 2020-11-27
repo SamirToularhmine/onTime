@@ -109,9 +109,18 @@ public class HomeFragment extends Fragment {
 
         this.updateMapTachesHeuresDebut(); // à placer avant la déclaration du tacheAdapter
 
-        this.tacheAdapter = new HomeTacheAdapter(this.listeTachesHeuresDebut);
+        this.tacheAdapter = new HomeTacheAdapter(this.listeTachesHeuresDebut, this.mrt);
 
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView =  inflater.inflate(R.layout.fragment_home, container, false);
+
+        this.recyclerView = rootView.findViewById(R.id.tache_recyclerview);
+
+        this.layoutManager = new LinearLayoutManager(getActivity());
+        this.recyclerView.setLayoutManager(this.layoutManager);
+
+        this.recyclerView.setAdapter(this.tacheAdapter);
+
+        return rootView;
     }
 
     @Override
@@ -126,14 +135,6 @@ public class HomeFragment extends Fragment {
         if (this.heureReveil != null) {
             //heureReveil.setText(Toolbox.formaterHeure(Toolbox.getHourFromSecondes(this.mrManager.getHeureArrivee()), Toolbox.getMinutesFromSecondes(this.mrManager.getHeureArrivee())));
         }
-
-        this.recyclerView = view.findViewById(R.id.tache_recyclerview);
-
-        this.layoutManager = new LinearLayoutManager(getActivity());
-        this.recyclerView.setLayoutManager(this.layoutManager);
-
-        this.recyclerView.setAdapter(this.tacheAdapter);
-
 
 
         if (this.mrt.getMorningRoutine().getListeTaches().isEmpty()) {
@@ -182,19 +183,9 @@ public class HomeFragment extends Fragment {
         this.setHeureArrivee(view);
 
         this.setButtonReveil(view);
-
-        this.boutonGoogleMaps = this.tacheAdapter.getBoutonGoogleMaps();
-
-
-//        if (this.mrt.getTrajet() != null) {
-//
-//        } else {
-//            this.boutonGoogleMaps.setText("Pas de trajet donc tu cliques pas stp");
-//            this.boutonGoogleMaps.setClickable(false);
-//        }
-
-
     }
+
+
 
     private void setHeureArrivee(View view){
         this.heureArrivee = view.findViewById(R.id.heureArrivee);
@@ -392,7 +383,7 @@ public class HomeFragment extends Fragment {
         else
             this.nomTrajet.setText("Aucun trajet défini");
 
-        this.tacheAdapter = new HomeTacheAdapter(this.listeTachesHeuresDebut);
+        this.tacheAdapter = new HomeTacheAdapter(this.listeTachesHeuresDebut, this.mrt);
         this.recyclerView.setAdapter(this.tacheAdapter);
 
         if (this.mrt.getMorningRoutine().getListeTaches().isEmpty()) {
