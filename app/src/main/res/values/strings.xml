@@ -48,4 +48,5 @@
     <string name="statistiques">Statistics</string>
     <string name="morning_routine" translatable="false">Morning Routine</string>
     <string name="app_name" translatable="false">onTime</string>
+    <string name="min">min</string>
 </resources>

@@ -45,4 +45,5 @@
     <string name="modifer_tache_rec">Modifier la tache récurrente :</string>
     <string name="accueil">Accueil</string>
     <string name="statistiques">Statistiques</string>
+    <string name="min">min</string>
 </resources>

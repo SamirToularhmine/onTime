@@ -23,6 +23,7 @@ import com.example.onTime.R;
 import com.example.onTime.fragments.EditMRFragment;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.Tache;
+import com.example.onTime.modele.Toolbox;
 import com.example.onTime.modele.Trajet;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
@@ -66,7 +67,8 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
     public void onBindViewHolder(@NonNull final TachesRecurrentesViewHolder holder, int position) {
 
         Tache tache = this.listeTaches.get(position);
-        holder.nomTache.setText(tache.getNom());
+        String affichage = tache.getNom() + " | " + Toolbox.getMinutesFromSecondes(tache.getDuree()) + " m";
+        holder.nomTache.setText(affichage);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
