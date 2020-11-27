@@ -270,7 +270,10 @@ public class HomeFragment extends Fragment {
                     int h = Toolbox.getHourFromSecondes(heuredepuisminuit);
                     int m = Toolbox.getMinutesFromSecondes(heuredepuisminuit);
                     setAlarm(h, m);
-                    createNotifs(heureReveil);
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+                    boolean shouldNotif = sharedPreferences.getBoolean("notifyOnEachTaskStart",true);
+                    if (shouldNotif)
+                        createNotifs(heureReveil);
 
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
