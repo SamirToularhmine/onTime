@@ -50,7 +50,6 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
         public TachesRecurrentesViewHolder(View itemView) {
             super(itemView);
             nomTache = itemView.findViewById(R.id.nom_tache);
-            dureeTache = itemView.findViewById(R.id.duree_tache);
             boutonModifier = itemView.findViewById(R.id.boutonmodifiertrajet);
             boutonSelectionner = itemView.findViewById(R.id.boutonselectionnertrajet);
         }
@@ -68,7 +67,6 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
 
         Tache tache = this.listeTaches.get(position);
         holder.nomTache.setText(tache.getNom());
-        holder.dureeTache.setText(String.valueOf(tache.getDuree()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

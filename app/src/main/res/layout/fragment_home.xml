@@ -40,7 +40,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Je dois me réveiller à"
+                        android:text="@string/je_dois_me_reveiller"
                         android:textColor="@color/colorAccent"
                         android:textSize="20sp" />
 
@@ -87,7 +87,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:gravity="center"
-                        android:text="Je veux arriver pour"
+                        android:text="@string/je_veux_arriver_pour"
                         android:textColor="@color/colorAccent"
                         android:textSize="20sp" />
 
@@ -214,7 +214,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Vous n'avez encore aucune tâche à faire lors de votre Morning Routine"
+                            android:text="@string/aucune_tache_a_faire"
                             android:textAlignment="center"
                             android:textStyle="bold" />
                     </LinearLayout>

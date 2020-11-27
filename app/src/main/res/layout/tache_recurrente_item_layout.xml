@@ -27,14 +27,7 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     />
 
-                <TextView
-                    android:id="@+id/duree_tache"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:text="Tache"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    />
+
             </LinearLayout>
 
     </androidx.cardview.widget.CardView>
