@@ -384,6 +384,7 @@ public class HomeFragment extends Fragment {
 
         public void changerCurrentMr (MRT mrt){
             this.mrt = mrt;
+            this.tacheAdapter.setMrt(mrt);
             //TextView titre = view.findViewById(R.id.titreMorningRoutine);
             if (this.mrt.getMorningRoutine() != null) {
                 this.titre.setText(this.mrt.getMorningRoutine().getNom());

@@ -99,6 +99,10 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
         }
     }
 
+    public void setMrt(MRT mrt) {
+        this.mrt = mrt;
+    }
+
     public void setListeTachesHeuresDebut(List<TacheHeureDebut> listeTachesHeuresDebut) {
         this.listeTachesHeuresDebut = listeTachesHeuresDebut;
     }
