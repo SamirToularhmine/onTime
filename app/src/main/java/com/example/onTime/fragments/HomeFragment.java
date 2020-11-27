@@ -44,7 +44,10 @@ import com.google.android.material.timepicker.TimeFormat;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -294,13 +297,19 @@ public class HomeFragment extends Fragment {
     private void createNotifs(long heureReveilEpoch) {
         long decallageProchaineTache = 180;
 
+        TimeZone tz = TimeZone.getDefault();
+        Calendar cal = GregorianCalendar.getInstance(tz);
+        int offsetInMillis = tz.getOffset(cal.getTimeInMillis());
+        heureReveilEpoch -= (offsetInMillis / 1000);
+        
         for (Tache tache : this.mrt.getMorningRoutine().getListeTaches()) {
             Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
             intent.putExtra("CONTEXTE", tache.getNom());
             intent.putExtra("ID", (int) decallageProchaineTache);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), (int) decallageProchaineTache, intent, 0);
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, heureReveilEpoch * 1000 + decallageProchaineTache * 1000, pendingIntent);
+            long l = heureReveilEpoch * 1000 + decallageProchaineTache * 1000;
+            alarmManager.set(AlarmManager.RTC_WAKEUP, l, pendingIntent);
             decallageProchaineTache += tache.getDuree();
         }
 
