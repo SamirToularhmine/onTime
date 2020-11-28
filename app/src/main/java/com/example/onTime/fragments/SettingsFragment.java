@@ -141,7 +141,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         this.sharedPreferences.edit().putInt("ridingMethod", i).apply();
-        Toast.makeText(getContext(), String.valueOf(i), Toast.LENGTH_SHORT).show();
     }
 
     @Override
