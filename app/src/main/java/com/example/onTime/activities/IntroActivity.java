@@ -1,11 +1,14 @@
 package com.example.onTime.activities;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+
 import com.example.onTime.R;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
@@ -118,7 +121,7 @@ public class IntroActivity extends AppIntro {
         this.saveAndQuit();
     }
 
-    private void saveAndQuit(){
+    private void saveAndQuit() {
         // Enregistrement du fait que l'utilisateur a passé l'intro, pour plus ne lui montrer ensuite
         Context context = getApplicationContext();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);

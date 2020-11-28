@@ -46,7 +46,7 @@ public class SelectionMorningRecurrenteAdapter extends ArrayAdapter<Tache> {
         if (tache != null) {
             String affichage = tache.getNom() + " | " + Toolbox.getMinutesFromSecondes(tache.getDuree()) + " m";
             titreTache.setText(affichage);
-        }else{
+        } else {
             titreTache.setText(R.string.tache_pas_definie);
         }
 

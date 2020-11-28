@@ -13,7 +13,8 @@ public class Tache implements Parcelable {
 
     /**
      * Construction d'une tache avec son nom et sa durée
-     * @param nom est le nom de la tâche
+     *
+     * @param nom   est le nom de la tâche
      * @param duree est la durée de la tache
      */
     public Tache(String nom, long duree) {

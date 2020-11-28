@@ -85,9 +85,9 @@ public class MRManager implements Parcelable {
         return this.listMRT.add(MRT);
     }
 
-    public MRT getMRAfromId(int id){
+    public MRT getMRAfromId(int id) {
         for (MRT mrt : this.listMRT) {
-            if (mrt.getId() == id){
+            if (mrt.getId() == id) {
                 return mrt;
             }
         }

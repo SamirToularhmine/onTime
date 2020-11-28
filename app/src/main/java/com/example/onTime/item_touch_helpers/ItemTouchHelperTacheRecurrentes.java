@@ -88,17 +88,17 @@ public class ItemTouchHelperTacheRecurrentes extends ItemTouchHelper.SimpleCallb
                 if (dX > icon.getIntrinsicWidth()) {
                     iconLeft = itemView.getLeft();
                     iconRight = itemView.getLeft() + icon.getIntrinsicWidth();
-                }else{
+                } else {
                     iconLeft = itemView.getLeft() + (int) dX - icon.getIntrinsicWidth();
                     iconRight = itemView.getLeft() + (int) dX;
                 }
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
                 background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX), itemView.getBottom());
-            }else{ // Swiping to the left
-                if(dX * -1 > icon.getIntrinsicWidth()) {
+            } else { // Swiping to the left
+                if (dX * -1 > icon.getIntrinsicWidth()) {
                     iconLeft = itemView.getRight() - icon.getIntrinsicWidth();
                     iconRight = itemView.getRight();
-                }else{
+                } else {
                     iconLeft = itemView.getRight() + (int) dX; // ajouter iconMaring si necessaire
                     iconRight = itemView.getRight() + (int) dX + icon.getIntrinsicWidth();
                 }

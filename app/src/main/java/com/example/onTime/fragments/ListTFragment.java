@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Fragment de la liste des trajets
  */
-public class  ListTFragment extends Fragment {
+public class ListTFragment extends Fragment {
 
     private List<Trajet> listeTrajets; // la liste des trajets
     private RecyclerView recyclerView;
@@ -48,20 +48,19 @@ public class  ListTFragment extends Fragment {
     }
 
     public static ListTFragment newInstance() {
-        ListTFragment fragment = new ListTFragment();
-        return fragment;
+        return new ListTFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       if(getArguments() != null && getArguments().containsKey("position")){
-           this.position = getArguments().getInt("position");
-           this.onlyShowList = false; // si on peut récupérer l'argument position cela signifie qu'il faut montrer les boutons "sélectionner"
-       }else{
-           this.position = -1;
-           this.onlyShowList = true;
-       }
+        if (getArguments() != null && getArguments().containsKey("position")) {
+            this.position = getArguments().getInt("position");
+            this.onlyShowList = false; // si on peut récupérer l'argument position cela signifie qu'il faut montrer les boutons "sélectionner"
+        } else {
+            this.position = -1;
+            this.onlyShowList = true;
+        }
         return inflater.inflate(R.layout.fragment_list_trajets, container, false);
     }
 
@@ -74,10 +73,10 @@ public class  ListTFragment extends Fragment {
         Gson gson = new Gson();
         String json = this.sharedPreferences.getString("listeTrajets", "");
         if (!json.equals("")) {
-            Type type = new TypeToken<List<Trajet>>(){}.getType();
+            Type type = new TypeToken<List<Trajet>>() {
+            }.getType();
             this.listeTrajets = gson.fromJson(json, type);
-        }
-        else {
+        } else {
             this.listeTrajets = new ArrayList<>();
         }
 
@@ -107,7 +106,8 @@ public class  ListTFragment extends Fragment {
 
     /**
      * Méthode qui crée une nouvelle tâche
-     * @param view est la vue actuelle
+     *
+     * @param view   est la vue actuelle
      * @param trajet est le trajet à ajouter
      */
     public void creerNouveauTrajet(View view, Trajet trajet) {

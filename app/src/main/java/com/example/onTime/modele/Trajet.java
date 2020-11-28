@@ -8,7 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 /**
  * Classe Trajet composée du nom qui sera affiché et des adresses de départ et d'arrivée
  */
-public class Trajet implements Parcelable{
+public class Trajet implements Parcelable {
 
     private String nom;
     private String adresseDepart;
@@ -18,8 +18,9 @@ public class Trajet implements Parcelable{
 
     /**
      * Constructeur pour le nom et les adresses
-     * @param nom est le nom donné à un trajet
-     * @param adresseDepart est l'adresse complète de départ
+     *
+     * @param nom            est le nom donné à un trajet
+     * @param adresseDepart  est l'adresse complète de départ
      * @param adresseArrivee est l'adresse complète d'arrivée
      */
     public Trajet(String nom, String adresseDepart, String adresseArrivee, LatLng coordDepart, LatLng coordDestination) {

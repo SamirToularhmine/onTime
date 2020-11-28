@@ -1,10 +1,12 @@
 package com.example.onTime.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import com.example.onTime.R;
 
 /**
@@ -24,10 +26,9 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         if (userHasFinishedInitialSetup) {
             startActivity(new Intent(this, HomeActivity.class));
-            finish();
         } else {
             startActivity(new Intent(this, IntroActivity.class));
-            finish();
         }
+        finish();
     }
 }

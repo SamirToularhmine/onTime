@@ -111,7 +111,6 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
 
 
-
                 background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
 
             }

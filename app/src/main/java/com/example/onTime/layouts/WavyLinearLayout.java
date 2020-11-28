@@ -1,13 +1,11 @@
 package com.example.onTime.layouts;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
-import android.view.animation.PathInterpolator;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
@@ -19,20 +17,18 @@ public class WavyLinearLayout extends LinearLayout {
 
     private Paint paint;
     private Path path;
-    private PathInterpolator interpolator;
-    private ObjectAnimator animator;
 
     public WavyLinearLayout(Context context) {
         super(context);
-        this.init(context);
+        this.init();
     }
 
     public WavyLinearLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        this.init(context);
+        this.init();
     }
 
-    private void init(Context context){
+    private void init() {
         this.paint = new Paint();
         paint.setColor(Color.parseColor("#428BCA"));
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);

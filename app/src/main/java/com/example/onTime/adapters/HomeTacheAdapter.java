@@ -63,7 +63,7 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
         if (viewType == 0) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tache_item_layout, parent, false);
             return new TacheViewHolder(view);
-        }else{
+        } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_mr_item_gmaps_button_layout, parent, false);
             this.boutonGoogleMaps = view.findViewById(R.id.bouton_gmaps);
 
@@ -88,7 +88,7 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
             }
 
 
-            if(HomeTacheAdapter.this.mrt.getTrajet() == null){
+            if (HomeTacheAdapter.this.mrt.getTrajet() == null) {
                 HomeTacheAdapter.this.boutonGoogleMaps.setText(R.string.aucun_trajet);
                 HomeTacheAdapter.this.boutonGoogleMaps.setClickable(false);
             }
@@ -113,9 +113,9 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
                 minutes = "0" + minutes;
             }
 
-            String affichageHeure = heures+"H"+minutes;
+            String affichageHeure = heures + "H" + minutes;
             holder.heureDebut.setText(affichageHeure);
-        }else{
+        } else {
             this.boutonGoogleMaps.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -140,7 +140,9 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
 
     @Override
     public int getItemCount() {
-        return listeTachesHeuresDebut.size() + 1; // + 1 car on ajoute le footer
+        if (listeTachesHeuresDebut != null)
+            return listeTachesHeuresDebut.size() + 1; // + 1 car on ajoute le footer
+        return 0;
     }
 
 }

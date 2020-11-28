@@ -55,7 +55,7 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
     public void onBindViewHolder(@NonNull final TachesRecurrentesViewHolder holder, int position) {
         Tache tache = this.listeTaches.get(position);
         holder.nomTache.setText(tache.getNom());
-        String affichage = Toolbox.getMinutesFromSecondes(tache.getDuree()) + " m" ;
+        String affichage = Toolbox.getMinutesFromSecondes(tache.getDuree()) + " m";
         holder.dureeTache.setText(affichage);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +68,8 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
 
     /**
      * Modification d'uneTacheReccurent
-     * @param view est la vue actuelle
+     *
+     * @param view   est la vue actuelle
      * @param holder est le recycler holder
      */
     public void modifierTacheReccurente(View view, final TachesRecurrentesViewHolder holder) {

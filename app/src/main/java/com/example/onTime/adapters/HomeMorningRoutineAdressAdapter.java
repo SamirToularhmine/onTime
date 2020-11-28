@@ -46,9 +46,9 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRT> {
         mr.setTag(position);
 
         if (mrt != null) {
-            if (mrt.getMorningRoutine() != null){
+            if (mrt.getMorningRoutine() != null) {
                 mr.setText(mrt.getMorningRoutine().getNom());
-            }else{
+            } else {
                 mr.setText(R.string.aucune_mr_definie);
             }
         }
@@ -63,6 +63,7 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRT> {
 
     /**
      * Selection d'une morning routine qui change le current_id_MRA des shared pref
+     *
      * @param position est la position de la mrt
      */
     public void choisirMRT(int position) {

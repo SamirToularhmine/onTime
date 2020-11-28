@@ -134,7 +134,7 @@ public class EditMRFragment extends Fragment {
                     titre.clearFocus();
                     titre.setCursorVisible(false);
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
-                }else{
+                } else {
                     titre.setCursorVisible(true);
                 }
             }
@@ -255,7 +255,6 @@ public class EditMRFragment extends Fragment {
         CardView choisirTacheText = view.findViewById(R.id.choisir_tache_texte);
 
         mainActionButton.startAnimation(EditMRFragment.this.hideTacheMenu);
-        //mainActionButton.shrink();
 
         blur.setVisibility(View.INVISIBLE);
         blur.getBackground().setAlpha(0);
@@ -270,6 +269,7 @@ public class EditMRFragment extends Fragment {
 
     /**
      * Iniialise le menu a afficher
+     *
      * @param view est la vue dans laquelle le menu sera affiché
      */
     private void initMenu(View view) {
@@ -331,6 +331,7 @@ public class EditMRFragment extends Fragment {
 
     /**
      * Méthoed qui permet d'ajouter une tâche à la morning routine
+     *
      * @param tache est la tâche à ajouter
      */
     public void ajouterTache(Tache tache) {
@@ -344,9 +345,10 @@ public class EditMRFragment extends Fragment {
 
     /**
      * Méthode qui récup_re les taches récurentes dans les sharedPref
+     *
      * @return la liste des tâches récurrentes
      */
-    private List<Tache> recuperTachesRec(){
+    private List<Tache> recuperTachesRec() {
         Context context = this.getActivity().getApplicationContext();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
@@ -364,9 +366,10 @@ public class EditMRFragment extends Fragment {
 
     /**
      * Prépare le dialogue pour choisir une tâche récurrente
+     *
      * @return l'alertDialog créé
      */
-    private AlertDialog initialiserAlerte(){
+    private AlertDialog initialiserAlerte() {
         final MaterialAlertDialogBuilder alert = new MaterialAlertDialogBuilder(EditMRFragment.this.getContext());
         final SelectionMorningRecurrenteAdapter adapter = new SelectionMorningRecurrenteAdapter(EditMRFragment.this.getContext(), recuperTachesRec(), EditMRFragment.this);
 

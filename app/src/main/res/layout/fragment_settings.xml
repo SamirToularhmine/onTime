@@ -41,13 +41,13 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:clickable="false"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="6dp"
-                app:cardUseCompatPadding="true"
-                android:layout_marginBottom="20dp">
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -60,9 +60,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
+                        android:text="@string/notifier_chaque_debut"
                         android:textSize="18sp"
-                        android:theme="@style/OTSwitch"
-                        android:text="@string/notifier_chaque_debut"/>
+                        android:theme="@style/OTSwitch" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -70,13 +70,13 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:clickable="false"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="6dp"
-                app:cardUseCompatPadding="true"
-                android:layout_marginBottom="20dp">
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -103,19 +103,19 @@
                 android:id="@+id/boutonTutoriel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/je_veux_refaire_le_tutoriel"
-                app:backgroundTint="@color/colorPrimary"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"/>
+                android:layout_marginRight="5dp"
+                android:text="@string/je_veux_refaire_le_tutoriel"
+                app:backgroundTint="@color/colorPrimary" />
 
             <Button
                 android:id="@+id/boutonSupprimerDonnees"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/supprimer_donnees"
-                app:backgroundTint="#DC3D3D"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"/>
+                android:layout_marginRight="5dp"
+                android:text="@string/supprimer_donnees"
+                app:backgroundTint="#DC3D3D" />
 
         </LinearLayout>
     </LinearLayout>

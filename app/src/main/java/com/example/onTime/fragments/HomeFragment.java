@@ -76,7 +76,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,7 +87,6 @@ public class HomeFragment extends Fragment {
         this.mrt = gson.fromJson(jsonMRA, MRT.class);
         this.travelMode = this.sharedPreferences.getInt("ridingMethod", 0);
 
-        //String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
         int idCurrentMRA = this.sharedPreferences.getInt("current_id_MRA", -1); // l'id de la MRA active
 
         String jsonMRManager = this.sharedPreferences.getString("MRManager", ""); // on récupere le MRManager
@@ -202,6 +200,7 @@ public class HomeFragment extends Fragment {
 
     /**
      * Méthode qui set calcule et set l'heure d'arrivée
+     *
      * @param view est la view actuelle
      */
     private void setHeureArrivee(View view) {
@@ -251,7 +250,7 @@ public class HomeFragment extends Fragment {
                         HomeFragment.this.updateMapTachesHeuresDebut();
                         HomeFragment.this.tacheAdapter.setListeTachesHeuresDebut(HomeFragment.this.listeTachesHeuresDebut);
                         HomeFragment.this.tacheAdapter.notifyDataSetChanged();
-                        }
+                    }
                 });
 
                 v.setEnabled(true);
@@ -274,10 +273,10 @@ public class HomeFragment extends Fragment {
                     int m = Toolbox.getMinutesFromSecondes(heuredepuisminuit);
                     setAlarm(h, m);
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
-                    boolean shouldNotif = sharedPreferences.getBoolean("notifyOnEachTaskStart",true);
+                    boolean shouldNotif = sharedPreferences.getBoolean("notifyOnEachTaskStart", true);
                     if (shouldNotif)
                         removeNotifs();
-                        createNotifs(heureReveil);
+                    createNotifs(heureReveil);
 
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
@@ -293,6 +292,7 @@ public class HomeFragment extends Fragment {
     /**
      * Méthode qui crée les notifs pour le future, elle reture le offset de la time zone car il
      * faut passer un temps en GMT
+     *
      * @param heureReveilEpoch est l'heure de réveil sous format epoch en secondes
      */
     private void createNotifs(long heureReveilEpoch) {
@@ -320,8 +320,8 @@ public class HomeFragment extends Fragment {
     /**
      * Supprime toutes les notifs qui sont set avec cette tâche
      */
-    private void removeNotifs(){
-        int id=0;
+    private void removeNotifs() {
+        int id = 0;
         if (mrt != null && this.mrt.getMorningRoutine() != null && this.mrt.getMorningRoutine().getListeTaches() != null) {
             for (Tache tache : this.mrt.getMorningRoutine().getListeTaches()) {
                 Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
@@ -353,6 +353,7 @@ public class HomeFragment extends Fragment {
 
     /**
      * Méthode qui set le réveil
+     *
      * @param heures  l'heure du réveil
      * @param minutes minutes du réveil
      */
@@ -386,7 +387,7 @@ public class HomeFragment extends Fragment {
                 if (minutes.length() == 1) {
                     minutes = "0" + minutes;
                 }
-                String affichage =  heures + ":" + minutes;
+                String affichage = heures + ":" + minutes;
                 this.heureReveil.setText(affichage);
             } catch (InterruptedException | ExecutionException e) {
                 Toast.makeText(this.getContext(), R.string.impossible_maj_heure_reveil, Toast.LENGTH_LONG).show();
@@ -432,20 +433,21 @@ public class HomeFragment extends Fragment {
         this.recyclerView.setVisibility(View.VISIBLE);
         emptyTaches.setVisibility(View.GONE);
     }
+
     /**
      * Méthode qui permet de changer la MRT actuellemetn séléctionéne
+     *
      * @param mrt est la nouvelle MRT
      */
-        public void changerCurrentMr (MRT mrt){
-            this.mrt = mrt;
-            this.tacheAdapter.setMrt(mrt);
-            this.mrt.setHeureArrivee(this.mrManager.getHeureArrivee());
-            //TextView titre = view.findViewById(R.id.titreMorningRoutine);
-            if (this.mrt.getMorningRoutine() != null) {
-                this.titre.setText(this.mrt.getMorningRoutine().getNom());
-            } else {
-                this.titre.setText(R.string.aucune_mr_definie);
-            }
+    public void changerCurrentMr(MRT mrt) {
+        this.mrt = mrt;
+        this.tacheAdapter.setMrt(mrt);
+        this.mrt.setHeureArrivee(this.mrManager.getHeureArrivee());
+        if (this.mrt.getMorningRoutine() != null) {
+            this.titre.setText(this.mrt.getMorningRoutine().getNom());
+        } else {
+            this.titre.setText(R.string.aucune_mr_definie);
+        }
 
         if (this.mrt.getTrajet() != null) {
             this.nomTrajet.setText(this.mrt.getTrajet().getNom());
@@ -526,7 +528,6 @@ public class HomeFragment extends Fragment {
 
         super.onResume();
     }
-
 
 
 }

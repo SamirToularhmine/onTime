@@ -15,11 +15,11 @@
         <com.example.onTime.layouts.WavyLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:background="@color/colorAccent"
             android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:paddingTop="40dp"
             android:paddingLeft="20dp"
+            android:paddingTop="40dp"
             android:paddingRight="20dp"
             android:paddingBottom="50dp">
 
@@ -60,8 +60,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
                     android:clipToPadding="false"
-                    android:divider="@android:color/transparent">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:divider="@android:color/transparent"></androidx.recyclerview.widget.RecyclerView>
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/floating_action_button"
@@ -69,10 +68,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:layout_margin="16dp"
+                    android:contentDescription="@string/plus"
                     app:backgroundTint="@color/colorPrimary"
                     app:srcCompat="@drawable/ic_add_24px"
-                    app:tint="@color/colorAccent"
-                    android:contentDescription="TODO" />
+                    app:tint="@color/colorAccent" />
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

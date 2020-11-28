@@ -11,10 +11,9 @@
         android:id="@+id/ic_mr_manager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
         app:cardCornerRadius="4dp"
         app:cardElevation="6dp"
-        >
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,31 +24,30 @@
                 android:id="@+id/selectionner_trajet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
                 android:layout_weight="0.1"
                 android:clickable="true"
+                android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:focusable="true">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.85"
-                    android:layout_margin="5dp">
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.85">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:srcCompat="@drawable/ic_localization"
-                        />
+                        app:srcCompat="@drawable/ic_localization" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
                     android:layout_weight="0.15"
+                    android:orientation="vertical"
                     android:paddingTop="10dp"
                     android:paddingRight="10dp"
                     android:paddingBottom="10dp">
@@ -58,23 +56,23 @@
                         android:id="@+id/titre_trajet_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
                         android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:maxLines="1"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/adr1_trajet_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:maxLines="1"/>
+                        android:maxLines="1"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/adr2_trajet_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:maxLines="1"/>
+                        android:maxLines="1"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -82,27 +80,25 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="50dp"
-                android:background="@android:color/darker_gray"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                />
+                android:background="@android:color/darker_gray" />
 
             <LinearLayout
                 android:id="@+id/boutonmodifiertrajet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:layout_weight="0.5"
-                android:gravity="center"
                 android:clickable="true"
+                android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:focusable="true">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_baseline_edit_24"
-                    />
+                    app:srcCompat="@drawable/ic_baseline_edit_24" />
 
             </LinearLayout>
         </LinearLayout>

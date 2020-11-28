@@ -69,7 +69,8 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
 
     /**
      * Méthode qui ouvre une popup pour modifier ube tache
-     * @param view est la vue actulle
+     *
+     * @param view   est la vue actulle
      * @param holder le holder du recycler view
      */
     public void modifierTache(View view, final TacheViewHolder holder) {
@@ -88,7 +89,7 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 nomTache.clearFocus();
                 Toolbox.hideSoftKeyboard(v);
-                return  true;
+                return true;
             }
         });
 

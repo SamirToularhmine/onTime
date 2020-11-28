@@ -2,6 +2,7 @@ package com.example.onTime.modele;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -23,7 +24,7 @@ public class MRT implements Parcelable {
      * Constructeur d'une MRA
      *
      * @param morningRoutine est une morning routine existante
-     * @param trajet        est un trajet existant
+     * @param trajet         est un trajet existant
      */
     public MRT(MorningRoutine morningRoutine, Trajet trajet, long heureArrivee, int id) {
         this.morningRoutine = morningRoutine;
@@ -52,7 +53,7 @@ public class MRT implements Parcelable {
      * Constructeur d'une MRA
      *
      * @param morningRoutine est une morning routine existante
-     * @param trajet est un trajet existant
+     * @param trajet         est un trajet existant
      */
     public MRT(MorningRoutine morningRoutine, Trajet trajet) {
         this.morningRoutine = morningRoutine;
@@ -124,6 +125,7 @@ public class MRT implements Parcelable {
 
     /**
      * Méthode qui donne la somme du temps des tâches de la morning routine en première position dans la liste
+     *
      * @return le temps total pour effectuer les tâches (en secondes)
      */
     private long getTempsTotalTaches() {
@@ -165,7 +167,7 @@ public class MRT implements Parcelable {
         long decallage = tempsPourSeReveiller;
 
         if (!this.morningRoutine.getListeTaches().isEmpty()) { // on calcule les heures de début des tâches que si y'a des tâches dans la liste de tâches !!!
-            for (int i  = 0; i < this.morningRoutine.getListeTaches().size(); i++) {
+            for (int i = 0; i < this.morningRoutine.getListeTaches().size(); i++) {
                 Tache tache = this.morningRoutine.getListeTaches().get(i);
                 this.listeHeuresDebutTaches.add(this.heureReveil + decallage);
                 decallage += tache.getDuree();
@@ -193,6 +195,7 @@ public class MRT implements Parcelable {
      * Premier élément : heure de réveil
      * Dernier élément : heure où il faut partir de l'adresse de départ
      * Entre les deux : toutes les horaires de début des tâches
+     *
      * @return la liste de toutes les horaires comme décrit au dessus
      */
     public List<Long> getListeHeuresDebutTaches(int travelMode) throws ExecutionException, InterruptedException {

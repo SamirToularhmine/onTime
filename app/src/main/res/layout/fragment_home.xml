@@ -42,20 +42,18 @@
                         android:gravity="center"
                         android:text="@string/je_dois_me_reveiller"
                         android:textColor="@color/colorAccent"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/setAlarm"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textStyle="bold"
-                        android:text="00:00 H"
                         android:textSize="26sp"
+                        android:textStyle="bold"
                         app:icon="@drawable/ic_baseline_add_alarm_24"
-                        app:iconGravity="textStart"
-                        style="?android:attr/borderlessButtonStyle">
-                    </com.google.android.material.button.MaterialButton>
+                        app:iconGravity="textStart"/>
 
                 </LinearLayout>
 
@@ -92,7 +90,6 @@
                             android:focusable="true"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:gravity="center"
-                            android:text="00:00 H"
                             android:textColor="@color/colorPrimary"
                             android:textSize="28sp"
                             android:textStyle="bold" />
@@ -188,7 +185,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:clipToPadding="false"
-                        android:divider="@android:color/transparent"></androidx.recyclerview.widget.RecyclerView>
+                        android:divider="@android:color/transparent"/>
 
                     <LinearLayout
                         android:id="@+id/empty_taches"

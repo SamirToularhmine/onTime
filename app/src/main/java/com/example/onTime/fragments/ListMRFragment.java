@@ -46,8 +46,7 @@ public class ListMRFragment extends Fragment {
     }
 
     public static ListMRFragment newInstance() {
-        ListMRFragment fragment = new ListMRFragment();
-        return fragment;
+        return new ListMRFragment();
     }
 
 
@@ -89,7 +88,7 @@ public class ListMRFragment extends Fragment {
         liveMorningRoutine.observe(getViewLifecycleOwner(), new Observer<MorningRoutine>() {
             @Override
             public void onChanged(MorningRoutine mr) {
-                if(livePosition.getValue() != null){
+                if (livePosition.getValue() != null) {
                     editMR(mr, livePosition.getValue());
                 }
             }
@@ -112,7 +111,8 @@ public class ListMRFragment extends Fragment {
 
     /**
      * Navigation dans le fraglent de création de nouvelle morning routine en passant -1 en position
-     * @param view est la vue actuelle
+     *
+     * @param view           est la vue actuelle
      * @param morningRoutine est la morning routine a modifier (qui vient d'être créée)
      */
     public void creerNouvelleMorningRoutine(View view, MorningRoutine morningRoutine) {
@@ -129,11 +129,12 @@ public class ListMRFragment extends Fragment {
 
     /**
      * Méthode qui pérmet de modifier une morning routine
-     * @param mr est la morning routine
+     *
+     * @param mr       est la morning routine
      * @param position est la position de la morning routine dans la liste
      */
     public void editMR(MorningRoutine mr, int position) {
-        if (position == -1 ){
+        if (position == -1) {
             Context context = this.getActivity().getApplicationContext();
             this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
             int idMax = this.sharedPreferences.getInt("id_max", 0);
@@ -143,7 +144,7 @@ public class ListMRFragment extends Fragment {
                     .apply();
             this.mrManager.ajouterMorningRoutine(mr, newIDMax);
             morningRoutineTrajetAdapter.notifyItemInserted(mrManager.getListMRT().size());
-        }else{
+        } else {
             MRT MRT = this.mrManager.getListMRT().get(position);
             MRT.setMorningRoutine(mr);
             morningRoutineTrajetAdapter.notifyItemChanged(position);
@@ -195,7 +196,7 @@ public class ListMRFragment extends Fragment {
         super.onStop();
     }
 
-    public void sauvegarder(){
+    public void sauvegarder() {
         Context context = this.getActivity().getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = this.sharedPreferences.edit();

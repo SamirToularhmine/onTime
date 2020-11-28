@@ -66,7 +66,8 @@ public class ListTachesRecurrentesFragment extends Fragment {
         Gson gson = new Gson();
         String json = this.sharedPreferences.getString("listeTachesRec", "");
         if (!json.equals("")) {
-            Type type = new TypeToken<List<Tache>>(){}.getType();
+            Type type = new TypeToken<List<Tache>>() {
+            }.getType();
             this.listeTachesReccurentes = gson.fromJson(json, type);
         }
 
@@ -95,7 +96,7 @@ public class ListTachesRecurrentesFragment extends Fragment {
     /**
      * Affiche la popup pour créer une nouvelle tâche récurente
      */
-    private void showCreerTacheRecurrente(){
+    private void showCreerTacheRecurrente() {
         LayoutInflater factory = LayoutInflater.from(ListTachesRecurrentesFragment.this.getContext());
         final View textEntryView = factory.inflate(R.layout.ajout_tache, null);
 
@@ -112,7 +113,7 @@ public class ListTachesRecurrentesFragment extends Fragment {
                 .setPositiveButton("Sauvegarder",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                Tache t = new Tache(nomTache.getText().toString(),duree.getValue()*60);
+                                Tache t = new Tache(nomTache.getText().toString(), duree.getValue() * 60);
                                 ListTachesRecurrentesFragment.this.listeTachesReccurentes.add(t);
                                 ListTachesRecurrentesFragment.this.tachesRecurrentesAdapter.notifyDataSetChanged();
                             }

@@ -3,15 +3,15 @@
         android:id="@+id/homeFragment"
         android:enabled="true"
         android:icon="@drawable/ic_home_24px"
-        android:title="@string/accueil"/>
+        android:title="@string/accueil" />
     <item
         android:id="@+id/manageFragment"
         android:enabled="true"
         android:icon="@drawable/ic_tune_24px"
-        android:title="@string/gerer"/>
+        android:title="@string/gerer" />
     <item
         android:id="@+id/settingsFragment"
         android:enabled="true"
         android:icon="@drawable/ic_settings_24px"
-        android:title="@string/parametres"/>
+        android:title="@string/parametres" />
 </menu>

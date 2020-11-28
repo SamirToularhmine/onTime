@@ -77,7 +77,7 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
             }
         });
 
-        if(!this.onlyShowList){
+        if (!this.onlyShowList) {
             // l'utilisateur veut choisir ce trajet pour la morning routine
             holder.boutonSelectionner.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -90,7 +90,8 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
 
     /**
      * Modifie un trajet
-     * @param view est la vue
+     *
+     * @param view   est la vue
      * @param holder est un TacheViewHolder
      */
     public void modifierTrajet(View view, final TacheViewHolder holder) {
@@ -110,7 +111,8 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
 
     /**
      * Permet de selectionenr un trajet
-     * @param view est la vue
+     *
+     * @param view   est la vue
      * @param holder est le TacheViewHolder
      */
     public void selectionnerTrajet(View view, final TacheViewHolder holder) {

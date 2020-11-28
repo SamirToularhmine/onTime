@@ -169,6 +169,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
 
     /**
      * Méthode qui gère l'affichage de la google map
+     *
      * @param map est la map créée
      */
     @Override
@@ -255,6 +256,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
 
     /**
      * Méthode qui place un marqueur sur la google map
+     *
      * @param name est le nom du marqueur
      * @param type est le type du marqueur, soit un départ soit une arrivée
      * @return true si le placement s'est bien passé, false sinon
@@ -288,7 +290,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                     LatLngBounds.Builder bc = new LatLngBounds.Builder();
                     bc.include(this.trajet.getCoordDepart()).include(this.trajet.getCoordDestination());
                     map.moveCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 150));
-                }else {
+                } else {
                     CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
                     map.moveCamera(cameraUpdate);
                     map.animateCamera(zoom);

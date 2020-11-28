@@ -109,28 +109,28 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
                 .setTitle(R.string.supprimer_donnees)
                 .setMessage(R.string.etes_vous_sur)
                 .setPositiveButton(R.string.supprimer, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                sharedPreferences.edit()
-                        .remove("CurrentMRA")
-                        .remove("current_id_MRA")
-                        .remove("MRManager")
-                        //.remove("userHasFinishedInitialSetup")
-                        .remove("morning_routine")
-                        .remove("position")
-                        .remove("trajet")
-                        .remove("id_max")
-                        .remove("listeTrajets")
-                        .remove("listeTachesRec")
-                        .remove("ridingMethod")
-                        .remove("notifyOnEachTaskStart").apply();
-                Toast.makeText(getContext(), getResources().getString(R.string.settings_toast_data_removed), Toast.LENGTH_LONG).show();
-            }
-        })
+                    public void onClick(DialogInterface dialog, int id) {
+                        sharedPreferences.edit()
+                                .remove("CurrentMRA")
+                                .remove("current_id_MRA")
+                                .remove("MRManager")
+                                //.remove("userHasFinishedInitialSetup")
+                                .remove("morning_routine")
+                                .remove("position")
+                                .remove("trajet")
+                                .remove("id_max")
+                                .remove("listeTrajets")
+                                .remove("listeTachesRec")
+                                .remove("ridingMethod")
+                                .remove("notifyOnEachTaskStart").apply();
+                        Toast.makeText(getContext(), getResources().getString(R.string.settings_toast_data_removed), Toast.LENGTH_LONG).show();
+                    }
+                })
                 .setNegativeButton(R.string.annuler, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // Rien
-            }
-        });
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Rien
+                    }
+                });
         AlertDialog dialog = builder.create();
         dialog.show();
     }

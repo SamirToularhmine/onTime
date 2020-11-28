@@ -71,7 +71,7 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
         this.listMRFragment.sauvegarder();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         int idCurrentMRT = sharedPreferences.getInt("current_id_MRA", -2);
-        if (this.supprMRT.getId() == idCurrentMRT){
+        if (this.supprMRT.getId() == idCurrentMRT) {
             wasCurrent = true;
             sharedPreferences.edit()
                     .remove("current_id_MRA") // changer le current position lors d'un swipe d'un élément
@@ -88,7 +88,7 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
                 morningRoutineTrajetAdapter.getList().add(positionSuppr, supprMRT);
                 morningRoutineTrajetAdapter.notifyItemInserted(positionSuppr);
                 ItemTouchHelperMRT.this.listMRFragment.sauvegarder();
-                if (wasCurrent){
+                if (wasCurrent) {
                     SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
                     sharedPreferences.edit()
                             .putInt("current_id_MRA", supprMRT.getId())
@@ -133,7 +133,6 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
                     iconRight = itemView.getRight() + (int) dX + icon.getIntrinsicWidth();
                 }
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
-
 
 
                 background.setBounds(itemView.getRight() + (int) dX, itemView.getTop() + 25, itemView.getRight(), itemView.getBottom() - 25);

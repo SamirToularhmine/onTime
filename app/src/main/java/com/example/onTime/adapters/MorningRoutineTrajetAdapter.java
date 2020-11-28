@@ -35,7 +35,7 @@ public class MorningRoutineTrajetAdapter extends RecyclerView.Adapter<MorningRou
         TextView moringRoutineView;
         TextView trajetView;
 
-        public MoringRoutineAdressViewHolder(View itemView){
+        public MoringRoutineAdressViewHolder(View itemView) {
             super(itemView);
             moringRoutineView = itemView.findViewById(R.id.button_morning_routine);
             trajetView = itemView.findViewById(R.id.button_trajet);
@@ -56,9 +56,9 @@ public class MorningRoutineTrajetAdapter extends RecyclerView.Adapter<MorningRou
         String nomAdresse;
         holder.moringRoutineView.setText(MRT.getMorningRoutine().getNom());
 
-        if (MRT.getTrajet() == null){
+        if (MRT.getTrajet() == null) {
             nomAdresse = "+";
-        }else{
+        } else {
             nomAdresse = MRT.getTrajet().getNom();
         }
 
@@ -89,9 +89,10 @@ public class MorningRoutineTrajetAdapter extends RecyclerView.Adapter<MorningRou
 
     /**
      * Modification d'une mornging routine
-     * @param view est la vue du frament
+     *
+     * @param view           est la vue du frament
      * @param morningRoutine est la morning routine a modifier
-     * @param position est la position de la morning routine
+     * @param position       est la position de la morning routine
      */
     public void modifierMorningRoutine(View view, MorningRoutine morningRoutine, int position) {
         Bundle bundle = new Bundle();
@@ -107,8 +108,9 @@ public class MorningRoutineTrajetAdapter extends RecyclerView.Adapter<MorningRou
 
     /**
      * Modifie le trajet d'une MRT
-     * @param view est la vue du fragment
-     * @param trajet est le trajet a modifier
+     *
+     * @param view     est la vue du fragment
+     * @param trajet   est le trajet a modifier
      * @param position est la position du trajet
      */
     public void modifierTrajet(View view, Trajet trajet, int position) {

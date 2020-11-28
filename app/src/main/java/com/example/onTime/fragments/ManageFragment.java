@@ -25,8 +25,7 @@ public class ManageFragment extends Fragment {
     }
 
     public static ManageFragment newInstance() {
-        ManageFragment fragment = new ManageFragment();
-        return fragment;
+        return new ManageFragment();
     }
 
     @Override

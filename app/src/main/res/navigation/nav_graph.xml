@@ -39,7 +39,7 @@
         android:id="@+id/listAFragment"
         android:name="com.example.onTime.fragments.ListTFragment"
         android:label="fragment_list_addresses"
-        tools:layout="@layout/fragment_list_trajets" >
+        tools:layout="@layout/fragment_list_trajets">
         <action
             android:id="@+id/action_listAFragment_to_editTFragment"
             app:destination="@id/editTFragment" />
@@ -53,16 +53,15 @@
         android:id="@+id/listTachesRecurrentesFragment"
         android:name="com.example.onTime.fragments.ListTachesRecurrentesFragment"
         android:label="fragment_list_taches_recurrentes"
-        tools:layout="@layout/fragment_list_taches_recurrentes" >
-    </fragment>
+        tools:layout="@layout/fragment_list_taches_recurrentes"/>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.onTime.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.onTime.fragments.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings"/>
+        tools:layout="@layout/fragment_settings" />
 </navigation>
