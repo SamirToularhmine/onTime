@@ -49,4 +49,18 @@
     <string name="impossible_maj_heure_reveil">Impossible to update the clock !</string>
     <string name="demarrer">Démarrer !</string>
     <string name="aucun_trajet">Aucun trajet défini</string>
+    <string name="slide0_title">Bienvenue sur onTime !</string>
+    <string name="slide0_desc">Créer votre routine matinale n\'a jamais été aussi simple ! On fait un petit tour d\'horizon ?</string>
+    <string name="slide1_title">Routine matinale</string>
+    <string name="slide1_desc"><![CDATA[Afin de ne plus jamais arriver en retard, créez votre routine matinale, ça se passe dans l\'onglet Gérer > Mes morning routines]]></string>
+    <string name="slide2_title">Tâches</string>
+    <string name="slide2_desc">Agrémentez votre routine matinale avec des tâches à réaliser pendant cette dernière. Un nom, une durée et c\'est validé ! Vous pouvez même sauvegarder vos tâches pour les réutiliser dans d\'autres Morning Routines : ce sont les tâches récurrentes !</string>
+    <string name="slide3_title">Tâches récurrentes</string>
+    <string name="slide3_desc">Afin de ne pas toujours créer les même tâches, créez vos tâches récurrentes que vous pourrez réutiliser dans vos Morning Routine sans avoir à les recréer. Ça se passe dans l\'onglet Gérer > Mes tâches récurrentes !</string>
+    <string name="slide4_title">Trajets</string>
+    <string name="slide4_desc">Créez différents trajets pour vos Morning Routine. Ces trajets serviront de base de calcul pour l\'application onTime afin de calculer votre heure de réveil à la minute près ! Pour les trajets, ça se passe dans l\'onglet Gérer > Mes trajets !</string>
+    <string name="slide5_title">Heure d\'arrivée</string>
+    <string name="slide5_desc">Définissez une heure d\'arrivée à votre point de destination pour le lendemain. Ainsi, vous pourrez cliquer sur la cloche pour mettre en place le prochain réveil à l\'heure calculée !</string>
+    <string name="slide6_title">Bonne nuit !</string>
+    <string name="slide6_desc"> Ça y est ! Vous êtes prêt à aller vous coucher, l\'application se charge du reste ! ;)</string>
 </resources>

@@ -52,4 +52,18 @@
     <string name="impossible_maj_heure_reveil">Impossible de mettre à jour l\'heure de réveil !</string>
     <string name="demarrer">Start !</string>
     <string name="aucun_trajet">No ride set</string>
+    <string name="slide0_title">Welcome in onTime !</string>
+    <string name="slide0_desc">Creating your morning routine never been so easy ! Let`s show you some cool features !</string>
+    <string name="slide1_title">Morning Routine</string>
+    <string name="slide1_desc">To never be late anymore, create a morning routine. You can do so in Manage > My morning routines</string>
+    <string name="slide2_title">Tasks</string>
+    <string name="slide2_desc">Fill your Morning Routine with tasks to do. A name, a duration and it\'s done ! You can even save your tasks so you can use them in other Morning Routines : those are Recurring Tasks !</string>
+    <string name="slide3_title">Recurring tasks</string>
+    <string name="slide3_desc">To avoid always creating the same tasks, create recurring tasks that you can use in other Morning Routines without having to recreate them. It is in Manage > My recurring tasks</string>
+    <string name="slide4_title">Rides</string>
+    <string name="slide4_desc">Create many rides for your Morning Routine. Those rides will be useful to onTime so it can calculate your wake up alarm clock up to the minut ! For the rides, it is in Manage > My rides. You can also set your mode of transport in the Settings tab.</string>
+    <string name="slide5_title">Arriving time</string>
+    <string name="slide5_desc">Set an arriving time to your destination for the next day. Afterwards, you will be able to tap on the calculated wake up alarm so the application can set up your next alarm clock !</string>
+    <string name="slide6_title">Have a good night !</string>
+    <string name="slide6_desc">We\'re done here ! You are ready to go to sleep. When you will be done with your tasks, you will be able to tap on Start so you have a GMaps itinerary ready to start ! We got your back ;) !</string>
 </resources>
