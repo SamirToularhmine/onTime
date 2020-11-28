@@ -20,6 +20,7 @@ import com.example.onTime.modele.TacheHeureDebut;
 import com.example.onTime.modele.Toolbox;
 import com.google.android.material.button.MaterialButton;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -29,6 +30,7 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
     private List<TacheHeureDebut> listeTachesHeuresDebut;
     private MaterialButton boutonGoogleMaps;
     private MRT mrt;
+    private SharedPreferences sharedPreferences;
 
     public HomeTacheAdapter(List<TacheHeureDebut> liste, MRT mrt) {
         this.listeTachesHeuresDebut = liste;
@@ -70,7 +72,7 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
             // affichage du bon icône en fonction du mode de déplacement choix dans les paramètres
             // possible uniquement dans la version Lollipop et supérieur
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                SharedPreferences sharedPreferences = view.getContext().getApplicationContext().getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+                this.sharedPreferences = view.getContext().getApplicationContext().getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
                 int ridingMethod = sharedPreferences.getInt("ridingMethod", 0);
                 switch (ridingMethod) {
 
@@ -119,9 +121,27 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
             this.boutonGoogleMaps.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Google maps veut des + à la place des espaces dans la destination
-                    String destination = HomeTacheAdapter.this.mrt.getTrajet().getAdresseArrivee().replaceAll(" ", "+");
-                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + destination);
+                    String destination =
+                            HomeTacheAdapter.this.mrt.getTrajet().getCoordDestination().latitude
+                            + ","
+                            + HomeTacheAdapter.this.mrt.getTrajet().getCoordDestination().longitude;
+
+                    int ridingMethod = HomeTacheAdapter.this.sharedPreferences.getInt("ridingMethod", 0);
+                    String travelMode;
+                    switch (ridingMethod) {
+                        case 1:
+                            travelMode = "b";
+                            break;
+
+                        case 2:
+                            travelMode = "w";
+                            break;
+
+                        default:
+                            travelMode = "d";
+                    }
+
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + destination + "&mode=" + travelMode);
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");
                     v.getContext().startActivity(mapIntent);
