@@ -117,15 +117,14 @@ import java.util.concurrent.ExecutionException;
     /**
      * Méthode qui calcule le temps de trajet (en voiture OU vélo OU à pied) entre deux points, pour arriver à une heure donnée
      * @param arrivalTime l'heure d'arrivée voulue au format epoch (nb de secondes entre 1/1/1970 à minuit et l'heure voulue)
-     * @param adresseDepart l'adresse de départ du trajet
-     * @param adresseArrivee l'adresse d'arrivée du trajet
+     * @param trajet le trajet
      * @param ridingMethod un entier qui représente le moyen de transport (0 = voiture, 1 = vélo, 2 = à pied)
      * @return le temps de trajet en minutes (arrondi à l'entier supérieur)
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public static long getTimeOfTravelWithTraffic(long arrivalTime, String adresseDepart, String adresseArrivee, int ridingMethod) throws ExecutionException, InterruptedException {
-        GoogleMapsAPI googleMapsAPI = new GoogleMapsAPI(arrivalTime, adresseDepart, adresseArrivee, ridingMethod);
+    public static long getTimeOfTravelWithTraffic(long arrivalTime, Trajet trajet, int ridingMethod) throws ExecutionException, InterruptedException {
+        GoogleMapsAPI googleMapsAPI = new GoogleMapsAPI(arrivalTime, trajet, ridingMethod);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future<Integer> future = executorService.submit(googleMapsAPI);
         return future.get();

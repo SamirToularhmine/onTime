@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment {
     private MaterialButton heureReveil;
     private TextView nomTrajet, titre;
     private List<TacheHeureDebut> listeTachesHeuresDebut;
+    private int travelMode;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -83,6 +84,7 @@ public class HomeFragment extends Fragment {
         Gson gson = new Gson();
         String jsonMRA = this.sharedPreferences.getString("CurrentMRA", ""); // on récupére la MRA active
         this.mrt = gson.fromJson(jsonMRA, MRT.class);
+        this.travelMode = this.sharedPreferences.getInt("ridingMethod", 0);
 
         //String jsonMRA = this.sharedPreferences.getString("CurrentMRA", "");
         int idCurrentMRA = this.sharedPreferences.getInt("current_id_MRA", -1); // l'id de la MRA active
@@ -96,7 +98,7 @@ public class HomeFragment extends Fragment {
 
         if (idCurrentMRA == -1) {
             MorningRoutine mr = new MorningRoutine("");
-            Trajet t = new Trajet("", "", ""); // delete àa ???????????
+            Trajet t = new Trajet("", "", "", null, null); // delete àa ???????????
 
             this.mrt = new MRT(mr, t);
         } else {
@@ -264,7 +266,7 @@ public class HomeFragment extends Fragment {
                 MRT laMrt = HomeFragment.this.mrt;
                 try {
 
-                    long heureReveil = laMrt.getHeureReveil();
+                    long heureReveil = laMrt.getHeureReveil(HomeFragment.this.travelMode);
 
                     long heuredepuisminuit = Toolbox.getHeureFromEpoch(heureReveil);
                     int h = Toolbox.getHourFromSecondes(heuredepuisminuit);
@@ -351,7 +353,7 @@ public class HomeFragment extends Fragment {
     private void updateHeureReveil() {
         if (this.mrt != null && this.mrt.getMorningRoutine() != null && this.mrt.getMorningRoutine().getListeTaches().size() > 0) {
             try {
-                long heureReveil = Toolbox.getHeureFromEpoch(this.mrt.getHeureReveil());
+                long heureReveil = Toolbox.getHeureFromEpoch(this.mrt.getHeureReveil(this.travelMode));
                 String heures = String.valueOf(Toolbox.getHourFromSecondes(heureReveil));
                 String minutes = String.valueOf(Toolbox.getMinutesFromSecondes(heureReveil));
                 if (minutes.length() == 1) {
@@ -371,7 +373,7 @@ public class HomeFragment extends Fragment {
         if (this.mrt != null && this.mrt.getMorningRoutine() != null && this.mrt.getMorningRoutine().getListeTaches().size() > 0) {
             try {
                 List<Tache> listeTaches = this.mrt.getMorningRoutine().getListeTaches();
-                List<Long> listeHeuresDebutTaches = this.mrt.getListeHeuresDebutTaches();
+                List<Long> listeHeuresDebutTaches = this.mrt.getListeHeuresDebutTaches(this.travelMode);
                 this.listeTachesHeuresDebut = new ArrayList<>();
                 for (int i = 0; i < listeTaches.size(); i++) {
                     this.listeTachesHeuresDebut.add(new TacheHeureDebut(listeTaches.get(i), listeHeuresDebutTaches.get(i)));
@@ -491,6 +493,9 @@ public class HomeFragment extends Fragment {
             else
                 this.nomTrajet.setText(R.string.acun_trajet_defini);
         }
+
+        this.travelMode = this.sharedPreferences.getInt("ridingMethod", 0);
+
         super.onResume();
     }
 

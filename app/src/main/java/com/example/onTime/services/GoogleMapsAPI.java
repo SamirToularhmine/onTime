@@ -3,6 +3,8 @@ package com.example.onTime.services;
 import android.util.Log;
 
 import com.example.onTime.modele.Toolbox;
+import com.example.onTime.modele.Trajet;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,13 +20,14 @@ import java.util.concurrent.Callable;
 public class GoogleMapsAPI implements Callable<Integer> {
 
     long arrivalTime;
-    String adresseDepart, adresseArrivee, travelMode;
+    LatLng coordDepart, coordArrivee;
+    String travelMode;
 
 
-    public GoogleMapsAPI(long arrivalTime, String adresseDepart, String adresseArrivee, int travelMode) {
+    public GoogleMapsAPI(long arrivalTime, Trajet trajet, int travelMode) {
         this.arrivalTime = arrivalTime;
-        this.adresseDepart = adresseDepart;
-        this.adresseArrivee = adresseArrivee;
+        this.coordDepart = trajet.getCoordDepart();
+        this.coordArrivee = trajet.getCoordDestination();
         switch (travelMode) {
             case 1: // Vélo
                 this.travelMode = "bicycling";
@@ -47,8 +50,8 @@ public class GoogleMapsAPI implements Callable<Integer> {
     private String buildURLWithArrivalTime() {
         StringBuilder res = new StringBuilder()
         .append("https://maps.googleapis.com/maps/api/distancematrix/json")
-        .append("?origins=").append(this.adresseDepart.replaceAll(" ", "+"))
-        .append("&destinations=").append(this.adresseArrivee.replaceAll(" ", "+"))
+        .append("?origins=").append(this.coordDepart.latitude+","+this.coordDepart.longitude)
+        .append("&destinations=").append(this.coordArrivee.latitude + "," + this.coordArrivee.longitude)
         .append("&arrival_time=").append(Toolbox.getDateFromHeureArrivee(this.arrivalTime))
         .append("&mode=").append(this.travelMode)
         .append("&key=AIzaSyAtz4xXytziDpkNHU12fYqAvjf_0NY5TxY");
@@ -64,8 +67,8 @@ public class GoogleMapsAPI implements Callable<Integer> {
     private String buildURLWithDepartureTimeTraffic(long departureTime) {
         StringBuilder res = new StringBuilder()
             .append("https://maps.googleapis.com/maps/api/distancematrix/json")
-            .append("?origins=").append(this.adresseDepart.replaceAll(" ", "+"))
-            .append("&destinations=").append(this.adresseArrivee.replaceAll(" ", "+"))
+            .append("?origins=").append(this.coordDepart.latitude+","+this.coordDepart.longitude)
+            .append("&destinations=").append(this.coordArrivee.latitude + "," + this.coordArrivee.longitude)
             .append("&departure_time=").append(departureTime)
             .append("&traffic_model=pessimistic")
             .append("&key=AIzaSyAtz4xXytziDpkNHU12fYqAvjf_0NY5TxY");

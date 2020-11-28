@@ -184,12 +184,12 @@ public class MRT implements Parcelable {
     /**
      * Méthode qui calcule l'heure où l'utilisateur doit débuter son trajet pour être à l'heure à destination
      */
-    private void calculerHeureDebutTrajet() throws ExecutionException, InterruptedException {
+    private void calculerHeureDebutTrajet(int travelMode) throws ExecutionException, InterruptedException {
         long dateHeureArrivee = Toolbox.getDateFromHeureArrivee(this.heureArrivee); // ajouter la timezone
         long travelTimeInMinutes;
         if (this.trajet != null) {
-            // long travelTimeInMinutes = Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.trajet.getAdresseDepart(), this.trajet.getAdresseArrivee()) * 60;
-            travelTimeInMinutes = 60 * 60;
+            travelTimeInMinutes = Toolbox.getTimeOfTravelWithTraffic(dateHeureArrivee, this.trajet, travelMode) * 60;
+            // travelTimeInMinutes = 60 * 60;
         } else {
             travelTimeInMinutes = 0;
         }
@@ -203,27 +203,27 @@ public class MRT implements Parcelable {
      * Entre les deux : toutes les horaires de début des tâches
      * @return la liste de toutes les horaires comme décrit au dessus
      */
-    public List<Long> getListeHeuresDebutTaches() throws ExecutionException, InterruptedException {
+    public List<Long> getListeHeuresDebutTaches(int travelMode) throws ExecutionException, InterruptedException {
         if (this.listeHeuresDebutTaches == null) {
             if (this.heureDebutTrajet == -1) {
-                this.calculerHeureDebutTrajet();
+                this.calculerHeureDebutTrajet(travelMode);
             }
             this.calculerHeureReveilTaches();
         }
         return this.listeHeuresDebutTaches;
     }
 
-    public long getHeureDebutTrajet() throws ExecutionException, InterruptedException {
+    public long getHeureDebutTrajet(int travelMode) throws ExecutionException, InterruptedException {
         if (this.heureDebutTrajet == -1) {
-            this.calculerHeureDebutTrajet();
+            this.calculerHeureDebutTrajet(travelMode);
         }
         return this.heureDebutTrajet;
     }
 
-    public long getHeureReveil() throws ExecutionException, InterruptedException {
+    public long getHeureReveil(int travelMode) throws ExecutionException, InterruptedException {
         if (this.heureReveil == -1) {
             if (this.heureDebutTrajet == -1) {
-                this.calculerHeureDebutTrajet();
+                this.calculerHeureDebutTrajet(travelMode);
             }
             this.calculerHeureReveilTaches();
         }

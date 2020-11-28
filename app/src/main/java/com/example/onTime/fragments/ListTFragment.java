@@ -100,7 +100,7 @@ public class  ListTFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                creerNouveauTrajet(v, new Trajet("", "", ""));
+                creerNouveauTrajet(v, new Trajet("", "", "", null, null));
             }
         });
 

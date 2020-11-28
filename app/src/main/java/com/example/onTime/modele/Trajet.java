@@ -3,6 +3,8 @@ package com.example.onTime.modele;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Classe Trajet composée du nom qui sera affiché et des adresses de départ et d'arrivée
  */
@@ -11,6 +13,8 @@ public class Trajet implements Parcelable{
     private String nom;
     private String adresseDepart;
     private String adresseArrivee;
+    private LatLng coordDepart;
+    private LatLng coordDestination;
 
     /**
      * Constructeur pour le nom et les adresses
@@ -18,19 +22,38 @@ public class Trajet implements Parcelable{
      * @param adresseDepart est l'adresse complète de départ
      * @param adresseArrivee est l'adresse complète d'arrivée
      */
-    public Trajet(String nom, String adresseDepart, String adresseArrivee) {
+    public Trajet(String nom, String adresseDepart, String adresseArrivee, LatLng coordDepart, LatLng coordDestination) {
         this.nom = nom;
         this.adresseDepart = adresseDepart;
         this.adresseArrivee = adresseArrivee;
+        this.coordDepart = coordDepart;
+        this.coordDestination = coordDestination;
     }
 
     protected Trajet(Parcel in) {
         nom = in.readString();
         adresseDepart = in.readString();
         adresseArrivee = in.readString();
+        coordDepart = (LatLng) in.readValue(LatLng.class.getClassLoader());
+        coordDestination = (LatLng) in.readValue(LatLng.class.getClassLoader());
     }
 
-    public static final Creator<Trajet> CREATOR = new Creator<Trajet>() {
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nom);
+        dest.writeString(adresseDepart);
+        dest.writeString(adresseArrivee);
+        dest.writeValue(coordDepart);
+        dest.writeValue(coordDestination);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Trajet> CREATOR = new Parcelable.Creator<Trajet>() {
         @Override
         public Trajet createFromParcel(Parcel in) {
             return new Trajet(in);
@@ -41,18 +64,6 @@ public class Trajet implements Parcelable{
             return new Trajet[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(this.nom);
-        parcel.writeString(this.adresseDepart);
-        parcel.writeString(this.adresseArrivee);
-    }
 
     public String getNom() {
         return this.nom;
@@ -76,6 +87,22 @@ public class Trajet implements Parcelable{
 
     public void setAdresseArrivee(String adresseArrivee) {
         this.adresseArrivee = adresseArrivee;
+    }
+
+    public LatLng getCoordDepart() {
+        return coordDepart;
+    }
+
+    public void setCoordDepart(LatLng coordDepart) {
+        this.coordDepart = coordDepart;
+    }
+
+    public LatLng getCoordDestination() {
+        return coordDestination;
+    }
+
+    public void setCoordDestination(LatLng coordDestination) {
+        this.coordDestination = coordDestination;
     }
 
     @Override

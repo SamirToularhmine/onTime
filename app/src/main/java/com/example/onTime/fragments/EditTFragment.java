@@ -66,8 +66,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap map;
     private Marker depart;
     private Marker destination;
-    private LatLng coordDepart;
-    private LatLng coordDestination;
 
     public EditTFragment() {
         // Required empty public constructor
@@ -96,7 +94,7 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         if (this.trajet == null) {
-            this.trajet = new Trajet("", "", "");
+            this.trajet = new Trajet("", "", "", null, null);
         }
 
         // remplissage des champs du "formulaire"
@@ -268,21 +266,21 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                 if (type == EditTFragment.MarkerType.DEPART) {
                     if (depart != null)
                         this.depart.remove();
-                    this.coordDepart = latLng;
+                    this.trajet.setCoordDepart(latLng);
                     this.depart = map.addMarker(new MarkerOptions().position(latLng));
                 } else if (type == EditTFragment.MarkerType.ARRIVEE) {
                     if (destination != null)
                         this.destination.remove();
-                    this.coordDestination = latLng;
+                    this.trajet.setCoordDestination(latLng);
                     this.destination = map.addMarker(new MarkerOptions().position(latLng));
                 }
 
                 CameraUpdate zoom = CameraUpdateFactory.zoomTo(10);
 
 
-                if (this.coordDepart != null && this.coordDestination != null) {
-                    double latitude = (this.coordDepart.latitude + this.coordDestination.latitude) / 2;
-                    double longitude = (this.coordDepart.longitude + this.coordDestination.longitude) / 2;
+                if (this.trajet.getCoordDepart() != null && this.trajet.getCoordDestination() != null) {
+                    double latitude = (this.trajet.getCoordDepart().latitude + this.trajet.getCoordDestination().latitude) / 2;
+                    double longitude = (this.trajet.getCoordDepart().longitude + this.trajet.getCoordDestination().longitude) / 2;
                     latLng = new LatLng(latitude, longitude);
                 }
 
