@@ -20,6 +20,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         boolean userHasFinishedInitialSetup = sharedPreferences.getBoolean("userHasFinishedInitialSetup", false);
+
         if (userHasFinishedInitialSetup) {
             startActivity(new Intent(this, HomeActivity.class));
             finish();

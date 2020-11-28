@@ -95,7 +95,6 @@ public class IntroActivity extends AppIntro {
         this.setSeparatorColor(Color.WHITE);
 
         this.setColorDoneText(PRIMARY_COLOR);
-
         this.setSlideOverAnimation();
 
         this.addSlide(AppIntroFragment.newInstance(sp));

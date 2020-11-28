@@ -34,7 +34,6 @@ import java.util.List;
 public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurrentesAdapter.TachesRecurrentesViewHolder> {
     private List<Tache> listeTaches;
 
-
     public TachesRecurrentesAdapter(List<Tache> listeTaches) {
         this.listeTaches = listeTaches;
     }
@@ -57,12 +56,12 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
     @Override
     public TachesRecurrentesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tache_recurrente_item_layout, parent, false);
+
         return new TachesRecurrentesViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final TachesRecurrentesViewHolder holder, int position) {
-
         Tache tache = this.listeTaches.get(position);
         holder.nomTache.setText(tache.getNom());
         holder.dureeTache.setText(Toolbox.getMinutesFromSecondes(tache.getDuree()) + " m");
@@ -111,7 +110,6 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
                             }
                         });
         alert.show();
-
     }
 
     @Override

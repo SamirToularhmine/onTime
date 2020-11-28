@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,13 +52,14 @@ public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRou
         MRT MRT = listMRT.get(position);
         String nomAdresse;
         holder.moringRoutineView.setText(MRT.getMorningRoutine().getNom());
-        if (MRT.getTrajet() == null)
+
+        if (MRT.getTrajet() == null){
             nomAdresse = "+";
-        else
+        }else{
             nomAdresse = MRT.getTrajet().getNom();
+        }
 
         holder.trajetView.setText(nomAdresse);
-
         holder.trajetView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Trajet trajet = listMRT.get(holder.getAdapterPosition()).getTrajet();
@@ -67,15 +67,12 @@ public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRou
             }
 
         });
-
         holder.moringRoutineView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 MorningRoutine morningRoutine = listMRT.get(holder.getAdapterPosition()).getMorningRoutine();
                 modifierMorningRoutine(holder.itemView, morningRoutine, holder.getAdapterPosition());
-                //Toast.makeText(v.getContext(), "Selected : " + morningRoutine.getNom(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override
