@@ -126,7 +126,7 @@ public class IntroActivity extends AppIntro {
 
         Intent intent = new Intent(this, HomeActivity.class);
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
-
         startActivity(intent);
+        finish();
     }
 }

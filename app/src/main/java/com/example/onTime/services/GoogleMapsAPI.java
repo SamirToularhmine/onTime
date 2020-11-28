@@ -86,7 +86,6 @@ public class GoogleMapsAPI implements Callable<Integer> {
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod("GET");
             int responseCode = con.getResponseCode();
-            Log.d("responseCode", String.valueOf(responseCode));
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 BufferedReader in;
                 in = new BufferedReader(new InputStreamReader(
@@ -99,7 +98,6 @@ public class GoogleMapsAPI implements Callable<Integer> {
                     response.append(inputLine);
                 }
                 in.close();
-                Log.d("response", response.toString());
                 JSONObject jsonObject = new JSONObject(response.toString());
                 JSONArray rows = jsonObject.getJSONArray("rows");
                 JSONArray elements = rows.getJSONObject(0).getJSONArray("elements");
@@ -126,7 +124,6 @@ public class GoogleMapsAPI implements Callable<Integer> {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             int responseCode = con.getResponseCode();
-            Log.d("responseCode", String.valueOf(responseCode));
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 BufferedReader in;
                 in = new BufferedReader(new InputStreamReader(
@@ -138,7 +135,6 @@ public class GoogleMapsAPI implements Callable<Integer> {
                     response.append(inputLine);
                 }
                 in.close();
-                Log.d("response", response.toString());
                 JSONObject jsonObject = new JSONObject(response.toString());
                 JSONArray rows = jsonObject.getJSONArray("rows");
                 JSONArray elements = rows.getJSONObject(0).getJSONArray("elements");
