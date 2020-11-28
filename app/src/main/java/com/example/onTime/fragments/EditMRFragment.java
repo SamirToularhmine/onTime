@@ -77,6 +77,7 @@ public class EditMRFragment extends Fragment {
                              Bundle savedInstanceState) {
         this.laMorningRoutine = (MorningRoutine) getArguments().get("morning_routine");
         this.positionMorningRoutine = getArguments().getInt("position");
+
         return inflater.inflate(R.layout.fragment_edit_m_r, container, false);
     }
 
@@ -120,6 +121,7 @@ public class EditMRFragment extends Fragment {
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
                     titre.setCursorVisible(false);
                 }
+
                 return false;
             }
         });
@@ -132,11 +134,12 @@ public class EditMRFragment extends Fragment {
                     titre.clearFocus();
                     titre.setCursorVisible(false);
                     EditMRFragment.this.laMorningRoutine.setNom(titre.getText().toString());
-                }else {
+                }else{
                     titre.setCursorVisible(true);
                 }
             }
         });
+
         Button retour = view.findViewById(R.id.boutton_retour);
 
         retour.setOnClickListener(new View.OnClickListener() {
@@ -271,14 +274,11 @@ public class EditMRFragment extends Fragment {
      */
     private void initMenu(View view) {
         final FloatingActionButton mainActionButton = view.findViewById(R.id.host_action_tache);
-
         final FloatingActionButton creerTacheActionButton = view.findViewById(R.id.creer_tache);
-
         final FloatingActionButton choisir_tacheActionButton = view.findViewById(R.id.choisir_tache);
 
         this.showTacheMenu = AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate_cw);
         this.hideTacheMenu = AnimationUtils.loadAnimation(view.getContext(), R.anim.rotate_acw);
-
         this.isMenuShown = false;
 
         mainActionButton.setOnClickListener(new View.OnClickListener() {
@@ -301,6 +301,7 @@ public class EditMRFragment extends Fragment {
         });
 
         final AlertDialog alertDialog = initialiserAlerte();
+
         choisir_tacheActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -322,11 +323,11 @@ public class EditMRFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String jsonMorningRoutine = gson.toJson(this.laMorningRoutine);
+
         editor.putString("morning_routine", jsonMorningRoutine);
         editor.putInt("position", positionMorningRoutine);
         editor.apply();
     }
-
 
     /**
      * Méthoed qui permet d'ajouter une tâche à la morning routine
@@ -335,11 +336,10 @@ public class EditMRFragment extends Fragment {
     public void ajouterTache(Tache tache) {
         laMorningRoutine.ajouterTache(tache);
         tacheAdapter.notifyItemInserted(laMorningRoutine.getListeTaches().size() - 1);
+
         if (EditMRFragment.this.laMorningRoutine.getListeTaches().size() == 1) {
             EditMRFragment.this.showRecyclerView();
         }
-
-
     }
 
     /**
@@ -352,11 +352,13 @@ public class EditMRFragment extends Fragment {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("listeTachesRec", "");
         List<Tache> tachesRec = new ArrayList<>();
+
         if (!json.equals("")) {
             Type type = new TypeToken<List<Tache>>() {
             }.getType();
             tachesRec = gson.fromJson(json, type);
         }
+
         return tachesRec;
     }
 
@@ -380,6 +382,5 @@ public class EditMRFragment extends Fragment {
                 });
 
         return alert.create();
-
     }
 }
