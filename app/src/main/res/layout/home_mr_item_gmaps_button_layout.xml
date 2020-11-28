@@ -9,7 +9,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bouton_gmaps"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:background="@drawable/ot_button"
         android:text="@string/demarrer"

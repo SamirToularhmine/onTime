@@ -1,7 +1,10 @@
 package com.example.onTime.adapters;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
@@ -16,13 +20,14 @@ import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.Tache;
 import com.example.onTime.modele.TacheHeureDebut;
 import com.example.onTime.modele.Toolbox;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 import java.util.Map;
 
 public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.TacheViewHolder> {
     private List<TacheHeureDebut> listeTachesHeuresDebut;
-    private Button boutonGoogleMaps;
+    private MaterialButton boutonGoogleMaps;
     private MRT mrt;
 
     public HomeTacheAdapter(List<TacheHeureDebut> liste, MRT mrt) {
@@ -61,6 +66,28 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
         }else{ // FOOTER
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_mr_item_gmaps_button_layout, parent, false);
             this.boutonGoogleMaps = view.findViewById(R.id.bouton_gmaps);
+
+            // affichage du bon icône en fonction du mode de déplacement choix dans les paramètres
+            // possible uniquement dans la version Lollipop et supérieur
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                SharedPreferences sharedPreferences = view.getContext().getApplicationContext().getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+                int ridingMethod = sharedPreferences.getInt("ridingMethod", 0);
+                switch (ridingMethod) {
+
+                    case 1: // Vélo
+                        HomeTacheAdapter.this.boutonGoogleMaps.setIcon(view.getContext().getDrawable(R.drawable.ic_baseline_directions_bike_24));
+                        break;
+
+                    case 2: // A pied
+                        HomeTacheAdapter.this.boutonGoogleMaps.setIcon(view.getContext().getDrawable(R.drawable.ic_baseline_directions_walk_24));
+                        break;
+
+                    default: // 0, Voiture, équivaut également à la valeur par défaut de la récupération dans les sharedPreferences
+                        HomeTacheAdapter.this.boutonGoogleMaps.setIcon(view.getContext().getDrawable(R.drawable.ic_baseline_directions_car_24));
+                }
+            }
+
+
             if(HomeTacheAdapter.this.mrt.getTrajet() == null){
                 HomeTacheAdapter.this.boutonGoogleMaps.setText(R.string.aucun_trajet);
                 HomeTacheAdapter.this.boutonGoogleMaps.setClickable(false);

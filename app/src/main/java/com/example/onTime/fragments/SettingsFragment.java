@@ -14,16 +14,21 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.onTime.R;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
  * Fragment des paramètres
  */
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private SharedPreferences sharedPreferences;
     private SwitchCompat switchNotificationsChaqueTache;
@@ -55,6 +60,7 @@ public class SettingsFragment extends Fragment {
         // Récupération des éléments graphiques du fragment
         this.switchNotificationsChaqueTache = view.findViewById(R.id.switchNotificationsDebutTaches);
         Button boutonSupprimerDonnees = view.findViewById(R.id.boutonSupprimerDonnees);
+        Spinner spinnerChoixMoyenLocomotion = view.findViewById(R.id.spinnermoyenlocomotion);
 
         // Mise à jour de l'état du switch en fonction de la valeur sauvegaardée dans les sharedPreferences
         this.switchNotificationsChaqueTache.setChecked(this.sharedPreferences.getBoolean("notifyOnEachTaskStart", false));
@@ -74,6 +80,14 @@ public class SettingsFragment extends Fragment {
                 SettingsFragment.this.showDeleteDataConfirmDialog();
             }
         });
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.riding_methods, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerChoixMoyenLocomotion.setAdapter(adapter);
+
+        spinnerChoixMoyenLocomotion.setSelection(this.sharedPreferences.getInt("ridingMethod", 0));
+
+        spinnerChoixMoyenLocomotion.setOnItemSelectedListener(this);
     }
 
     /**
@@ -107,5 +121,18 @@ public class SettingsFragment extends Fragment {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    // Méthodes pour le spinner de choix du moyen de locomotion
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        this.sharedPreferences.edit().putInt("ridingMethod", i).apply();
+        Toast.makeText(getContext(), String.valueOf(i), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+        // rien
     }
 }

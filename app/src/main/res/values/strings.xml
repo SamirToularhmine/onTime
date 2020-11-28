@@ -52,4 +52,8 @@
     <string name="impossible_maj_heure_reveil">Impossible de mettre à jour l\'heure de réveil !</string>
     <string name="demarrer">Start !</string>
     <string name="aucun_trajet">No ride set</string>
+    <string name="riding_method">Riding method</string>
+    <string name="riding_method_car">Car</string>
+    <string name="riding_method_bike">Bike</string>
+    <string name="riding_method_by_foot">On foot</string>
 </resources>

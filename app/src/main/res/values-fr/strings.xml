@@ -49,4 +49,8 @@
     <string name="impossible_maj_heure_reveil">Impossible to update the clock !</string>
     <string name="demarrer">Démarrer !</string>
     <string name="aucun_trajet">Aucun trajet défini</string>
+    <string name="riding_method">Moyen de déplacement</string>
+    <string name="riding_method_car">Voiture</string>
+    <string name="riding_method_bike">Vélo</string>
+    <string name="riding_method_by_foot">A pied</string>
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="riding_methods">
+        <item>@string/riding_method_car</item>
+        <item>@string/riding_method_bike</item>
+        <item>@string/riding_method_by_foot</item>
+    </string-array>
+
+</resources>
