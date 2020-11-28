@@ -36,6 +36,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
@@ -281,14 +282,19 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
 
 
                 if (this.coordDepart != null && this.coordDestination != null) {
-                    double latitude = (this.coordDepart.latitude + this.coordDestination.latitude) / 2;
-                    double longitude = (this.coordDepart.longitude + this.coordDestination.longitude) / 2;
-                    latLng = new LatLng(latitude, longitude);
-                }
 
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
-                map.moveCamera(cameraUpdate);
-                map.animateCamera(zoom);
+                    LatLngBounds.Builder bc = new LatLngBounds.Builder();
+                    bc.include(this.coordDepart).include(this.coordDestination);
+
+                    map.moveCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 150));
+
+
+                }else {
+
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
+                    map.moveCamera(cameraUpdate);
+                    map.animateCamera(zoom);
+                }
             } else {
                 return false;
             }
