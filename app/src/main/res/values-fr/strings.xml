@@ -45,7 +45,7 @@
     <string name="accueil">Accueil</string>
     <string name="statistiques">Statistiques</string>
     <string name="min">min</string>
-    <string name="impossible_maj_heure_reveil">Impossible de mettre à jour l'heure de réveil !</string>
+    <string name="impossible_maj_heure_reveil">Impossible de mettre à jour l\'heure de réveil !</string>
     <string name="demarrer">Démarrer !</string>
     <string name="aucun_trajet">Aucun trajet défini</string>
     <string name="slide0_title">Bienvenue sur onTime !</string>
