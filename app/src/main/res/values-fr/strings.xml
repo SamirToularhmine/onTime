@@ -20,7 +20,6 @@
     <string name="mes_taches_recurrentes">Mes tâches récurrentes</string>
     <string name="mes_trajets">Mes trajets</string>
     <string name="gerer">Gérer</string>
-    <string name="mes_destinations">Mes destinations</string>
     <string name="parametres">Paramètres</string>
     <string name="notifier_chaque_debut">Me notifier de chaque début de tâche</string>
     <string name="supprimer_donnees">Supprimer toutes mes données</string>

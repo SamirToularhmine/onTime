@@ -21,7 +21,6 @@
     <string name="mes_taches_recurrentes">My recurring tasks</string>
     <string name="mes_trajets">My rides</string>
     <string name="gerer">Manage</string>
-    <string name="mes_destinations">My destinations</string>
     <string name="parametres">Settings</string>
     <string name="notifier_chaque_debut">Notify me when a task begins</string>
     <string name="supprimer_donnees">Delete all my data</string>
