@@ -28,6 +28,7 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="28sp"
                 android:textStyle="bold" />
+
         </com.example.onTime.layouts.WavyLinearLayout>
 
         <LinearLayout
@@ -62,6 +63,7 @@
                         android:textSize="18sp"
                         android:theme="@style/OTSwitch"
                         android:text="@string/notifier_chaque_debut"/>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

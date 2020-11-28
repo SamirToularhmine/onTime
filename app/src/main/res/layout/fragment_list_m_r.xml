@@ -37,6 +37,7 @@
                     android:textStyle="bold"
                     android:textSize="24sp"
                     android:gravity="center"/>
+
             </LinearLayout>
         </com.example.onTime.layouts.WavyLinearLayout>
 

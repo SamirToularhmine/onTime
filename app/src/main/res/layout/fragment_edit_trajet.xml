@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Destination">
+    tools:context=".fragments.EditTFragment">
 
     <com.example.onTime.layouts.WavyLinearLayout
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
                 android:textColor="@color/colorPrimary"
-                android:text="Valider"
+                android:text="@string/valider"
                 />
 
         </LinearLayout>
@@ -63,7 +63,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:padding="20dp">
@@ -74,8 +74,9 @@
             android:layout_height="wrap_content"
             android:hint="@string/point_depart"
             android:singleLine="true"
-
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:autofillHints="text"
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/editTextArriveeTrajet"
@@ -83,7 +84,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/point_arrivee"
             android:singleLine="true"
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:inputType="text"/>
 
     </LinearLayout>
 </LinearLayout>
