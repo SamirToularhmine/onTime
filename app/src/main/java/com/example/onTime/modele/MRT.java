@@ -158,13 +158,12 @@ public class MRT implements Parcelable {
     /**
      * Méthode qui calcule l'heure de réveil et chaque heure de début des tâches
      */
-    private void calculerHeureReveilTaches() {
-        long tempsPourSeReveiller = 180; // le temps entre le réveil et la première tâche
-        this.heureReveil = this.heureDebutTrajet - this.getTempsTotalTaches() - 180;
+    private void calculerHeureReveilTaches(int wakeUpTime) {
+        this.heureReveil = this.heureDebutTrajet - this.getTempsTotalTaches() - wakeUpTime;
 
         this.listeHeuresDebutTaches = new ArrayList<>();
 
-        long decallage = tempsPourSeReveiller;
+        long decallage = wakeUpTime;
 
         if (!this.morningRoutine.getListeTaches().isEmpty()) { // on calcule les heures de début des tâches que si y'a des tâches dans la liste de tâches !!!
             for (int i = 0; i < this.morningRoutine.getListeTaches().size(); i++) {
@@ -198,12 +197,12 @@ public class MRT implements Parcelable {
      *
      * @return la liste de toutes les horaires comme décrit au dessus
      */
-    public List<Long> getListeHeuresDebutTaches(int travelMode) throws ExecutionException, InterruptedException {
+    public List<Long> getListeHeuresDebutTaches(int travelMode, int wakeUpTime) throws ExecutionException, InterruptedException {
         if (this.listeHeuresDebutTaches == null) {
             if (this.heureDebutTrajet == -1) {
                 this.calculerHeureDebutTrajet(travelMode);
             }
-            this.calculerHeureReveilTaches();
+            this.calculerHeureReveilTaches(wakeUpTime);
         }
         return this.listeHeuresDebutTaches;
     }
@@ -215,12 +214,12 @@ public class MRT implements Parcelable {
         return this.heureDebutTrajet;
     }
 
-    public long getHeureReveil(int travelMode) throws ExecutionException, InterruptedException {
+    public long getHeureReveil(int travelMode, int wakeUpTime) throws ExecutionException, InterruptedException {
         if (this.heureReveil == -1) {
             if (this.heureDebutTrajet == -1) {
                 this.calculerHeureDebutTrajet(travelMode);
             }
-            this.calculerHeureReveilTaches();
+            this.calculerHeureReveilTaches(wakeUpTime);
         }
         return this.heureReveil;
     }

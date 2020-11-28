@@ -69,4 +69,5 @@
     <string name="riding_method_car">Voiture</string>
     <string name="riding_method_bike">Vélo</string>
     <string name="riding_method_by_foot">A pied</string>
+    <string name="wake_up_time_settings">Temps pour se réveiller (minutes)</string>
 </resources>

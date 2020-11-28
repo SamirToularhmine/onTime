@@ -12,12 +12,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Spinner;
 
@@ -63,6 +67,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         Button boutonSupprimerDonnees = view.findViewById(R.id.boutonSupprimerDonnees);
         Spinner spinnerChoixMoyenLocomotion = view.findViewById(R.id.spinnermoyenlocomotion);
         Button boutonTutoriel = view.findViewById(R.id.boutonTutoriel);
+        final EditText editTextWakeUpTime = view.findViewById(R.id.editTextWakeUpTime);
 
         // Mise à jour de l'état du switch en fonction de la valeur sauvegaardée dans les sharedPreferences
         this.switchNotificationsChaqueTache.setChecked(this.sharedPreferences.getBoolean("notifyOnEachTaskStart", true));
@@ -99,6 +104,19 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
                 getActivity().startActivity(i);
             }
         });
+
+        editTextWakeUpTime.setText(String.valueOf(this.sharedPreferences.getInt("wakeUpTime", 180) / 60));
+
+        editTextWakeUpTime.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    SettingsFragment.this.sharedPreferences.edit().putInt("wakeUpTime", Integer.parseInt(editTextWakeUpTime.getText().toString()) * 60).apply();
+                    return false;
+                }
+                return false;
+            }
+        });
     }
 
     /**
@@ -122,6 +140,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
                                 .remove("listeTrajets")
                                 .remove("listeTachesRec")
                                 .remove("ridingMethod")
+                                .remove("wakeUpTime")
                                 .remove("notifyOnEachTaskStart").apply();
                         Toast.makeText(getContext(), getResources().getString(R.string.settings_toast_data_removed), Toast.LENGTH_LONG).show();
                     }

@@ -73,4 +73,5 @@
     <string name="riding_method_bike">Bike</string>
     <string name="riding_method_by_foot">On foot</string>
     <string name="plus" translatable="false">plus</string>
+    <string name="wake_up_time_settings">Wake up time (minutes)</string>
 </resources>
