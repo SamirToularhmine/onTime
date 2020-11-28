@@ -45,7 +45,6 @@ public class IntroActivity extends AppIntro {
         sp1.setBgColor(Color.WHITE);
         sp1.setTitleColor(PRIMARY_COLOR);
         sp1.setDescColor(PRIMARY_COLOR);
-        sp1.setImageDrawable(R.drawable.slide2);
 
         SliderPage sp2 = new SliderPage();
         sp2.setTitle("Tâches");
@@ -54,6 +53,7 @@ public class IntroActivity extends AppIntro {
         sp2.setBgColor(Color.WHITE);
         sp2.setTitleColor(PRIMARY_COLOR);
         sp2.setDescColor(PRIMARY_COLOR);
+        sp2.setImageDrawable(R.drawable.slide2);
 
         SliderPage sp3 = new SliderPage();
         sp3.setTitle("Tâches récurrentes");
