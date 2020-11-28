@@ -121,30 +121,32 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
             this.boutonGoogleMaps.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String destination =
-                            HomeTacheAdapter.this.mrt.getTrajet().getCoordDestination().latitude
-                            + ","
-                            + HomeTacheAdapter.this.mrt.getTrajet().getCoordDestination().longitude;
+                    if (HomeTacheAdapter.this.mrt.getTrajet() != null) {
+                        String destination =
+                                HomeTacheAdapter.this.mrt.getTrajet().getCoordDestination().latitude
+                                        + ","
+                                        + HomeTacheAdapter.this.mrt.getTrajet().getCoordDestination().longitude;
 
-                    int ridingMethod = HomeTacheAdapter.this.sharedPreferences.getInt("ridingMethod", 0);
-                    String travelMode;
-                    switch (ridingMethod) {
-                        case 1:
-                            travelMode = "b";
-                            break;
+                        int ridingMethod = HomeTacheAdapter.this.sharedPreferences.getInt("ridingMethod", 0);
+                        String travelMode;
+                        switch (ridingMethod) {
+                            case 1:
+                                travelMode = "b";
+                                break;
 
-                        case 2:
-                            travelMode = "w";
-                            break;
+                            case 2:
+                                travelMode = "w";
+                                break;
 
-                        default:
-                            travelMode = "d";
+                            default:
+                                travelMode = "d";
+                        }
+
+                        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + destination + "&mode=" + travelMode);
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        v.getContext().startActivity(mapIntent);
                     }
-
-                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + destination + "&mode=" + travelMode);
-                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                    mapIntent.setPackage("com.google.android.apps.maps");
-                    v.getContext().startActivity(mapIntent);
                 }
             });
         }

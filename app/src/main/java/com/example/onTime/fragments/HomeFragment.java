@@ -194,7 +194,7 @@ public class HomeFragment extends Fragment {
                 String affichage = h + ":" + minutes;
                 this.heureArrivee.setText(affichage);
             } else {
-                this.heureArrivee.setText("--:--");
+                this.heureArrivee.setText("00:00");
             }
         }
     }
