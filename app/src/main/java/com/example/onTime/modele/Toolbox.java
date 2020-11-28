@@ -125,6 +125,11 @@ import java.util.concurrent.ExecutionException;
         Toast.makeText(context, message, displayTime).show();
     }
 
+    /**
+     * Converti les secondes au format HhMminSs
+     * @param time est le temps en seconde
+     * @return un string formatté
+     */
     public static String secondesToMinSecString(long time){
         long heures = time / 3600;
         long minutes = (time % 3600) / 60;
@@ -146,6 +151,11 @@ import java.util.concurrent.ExecutionException;
         return sb.toString();
     }
 
+    /**
+     * Converti les secondes au format HhMmin
+     * @param time est le temps en seconde
+     * @return un string formatté
+     */
     public static String secodesToMin(long time) {
         long heures = time / 3600;
         long minutes = (time % 3600) / 60;
@@ -155,7 +165,6 @@ import java.util.concurrent.ExecutionException;
         if (heures > 0) {
             sb.append(heures).append("h");
         }
-
         if (minutes >= 0) {
             sb.append(minutes).append("min");
         }

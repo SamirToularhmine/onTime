@@ -1,14 +1,15 @@
 package com.example.onTime.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import com.example.onTime.R;
 
+/**
+ * Activity du splash screen lors du chargement de l'app
+ */
 public class SplashScreenActivity extends AppCompatActivity {
 
     @Override

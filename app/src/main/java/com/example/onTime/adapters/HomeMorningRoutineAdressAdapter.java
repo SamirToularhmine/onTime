@@ -17,6 +17,9 @@ import com.example.onTime.modele.MRT;
 
 import java.util.List;
 
+/**
+ * Adapter pour le fragment HomeFragmnent
+ */
 public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRT> {
 
     private List<MRT> listMRT;
@@ -58,6 +61,10 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRT> {
         return this.listMRT.get(which);
     }
 
+    /**
+     * Selection d'une morning routine qui change le current_id_MRA des shared pref
+     * @param position est la position de la mrt
+     */
     public void choisirMRT(int position) {
         MRT mrt = getItem(position);
         HomeMorningRoutineAdressAdapter.this.homeFragment.changerCurrentMr(mrt);

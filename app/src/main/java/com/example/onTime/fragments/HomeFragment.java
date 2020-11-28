@@ -191,7 +191,8 @@ public class HomeFragment extends Fragment {
                 int h = Toolbox.getHourFromSecondes(heuredepuisminuit);
                 int m = Toolbox.getMinutesFromSecondes(heuredepuisminuit);
                 String minutes = m < 10 ? "0" + m : String.valueOf(m);
-                this.heureArrivee.setText(h + ":" + minutes);
+                String affichage = h + ":" + minutes;
+                this.heureArrivee.setText(affichage);
             } else {
                 this.heureArrivee.setText("--:--");
             }
@@ -200,7 +201,6 @@ public class HomeFragment extends Fragment {
 
     /**
      * Méthode qui set calcule et set l'heure d'arrivée
-     *
      * @param view est la view actuelle
      */
     private void setHeureArrivee(View view) {
@@ -290,9 +290,9 @@ public class HomeFragment extends Fragment {
     }
 
     /**
-     * Méthode qui crée les notifs pour le future
-     *
-     * @param heureReveilEpoch
+     * Méthode qui crée les notifs pour le future, elle reture le offset de la time zone car il
+     * faut passer un temps en GMT
+     * @param heureReveilEpoch est l'heure de réveil sous format epoch en secondes
      */
     private void createNotifs(long heureReveilEpoch) {
         long decallageProchaineTache = 180;
@@ -308,7 +308,7 @@ public class HomeFragment extends Fragment {
             intent.putExtra("ID", (int) decallageProchaineTache);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, intent, 0);
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-            long l = heureReveilEpoch * 1000 + decallageProchaineTache * 1000;
+            long l = heureReveilEpoch * 1000 + decallageProchaineTache * 1000; // *1000 car on passe de secondes à millisecondes
             alarmManager.set(AlarmManager.RTC_WAKEUP, l, pendingIntent);
             decallageProchaineTache += tache.getDuree();
             id++;
@@ -351,8 +351,7 @@ public class HomeFragment extends Fragment {
     }
 
     /**
-     * Méthode qui set l'alarme
-     *
+     * Méthode qui set le réveil
      * @param heures  l'heure du réveil
      * @param minutes minutes du réveil
      */
@@ -386,7 +385,8 @@ public class HomeFragment extends Fragment {
                 if (minutes.length() == 1) {
                     minutes = "0" + minutes;
                 }
-                this.heureReveil.setText(heures + ":" + minutes);
+                String affichage =  heures + ":" + minutes;
+                this.heureReveil.setText(affichage);
             } catch (InterruptedException | ExecutionException e) {
                 Toast.makeText(this.getContext(), R.string.impossible_maj_heure_reveil, Toast.LENGTH_LONG).show();
             }

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
-import com.example.onTime.adapters.MorningRoutineAdressAdapter;
+import com.example.onTime.adapters.MorningRoutineTrajetAdapter;
 import com.example.onTime.modele.MRT;
 import com.example.onTime.fragments.ListMRFragment;
 import com.google.android.material.snackbar.Snackbar;
@@ -27,7 +27,7 @@ import java.util.Collections;
 public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
 
 
-    private MorningRoutineAdressAdapter morningRoutineAdressAdapter;
+    private MorningRoutineTrajetAdapter morningRoutineTrajetAdapter;
     private int positionSuppr;
     private MRT supprMRT;
     private final Drawable icon;
@@ -36,9 +36,9 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
     private boolean wasCurrent;
     final ColorDrawable background = new ColorDrawable(Color.parseColor("#CA4242"));
 
-    public ItemTouchHelperMRT(Context context, MorningRoutineAdressAdapter morningRoutineAdressAdapter, ListMRFragment listMRFragment) {
+    public ItemTouchHelperMRT(Context context, MorningRoutineTrajetAdapter morningRoutineTrajetAdapter, ListMRFragment listMRFragment) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        this.morningRoutineAdressAdapter = morningRoutineAdressAdapter;
+        this.morningRoutineTrajetAdapter = morningRoutineTrajetAdapter;
         icon = ContextCompat.getDrawable(context, R.drawable.ic_delete_24px);
         this.listMRFragment = listMRFragment;
         this.context = context;
@@ -54,8 +54,8 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        Collections.swap(morningRoutineAdressAdapter.getList(), viewHolder.getAdapterPosition(), target.getAdapterPosition());
-        morningRoutineAdressAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        Collections.swap(morningRoutineTrajetAdapter.getList(), viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        morningRoutineTrajetAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
         this.listMRFragment.sauvegarder();
         return true;
     }
@@ -65,9 +65,9 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
         this.wasCurrent = false;
         int position = viewHolder.getAdapterPosition();
         this.positionSuppr = position;
-        this.supprMRT = morningRoutineAdressAdapter.getList().get(position);
-        morningRoutineAdressAdapter.getList().remove(position);
-        morningRoutineAdressAdapter.notifyItemRemoved(position);
+        this.supprMRT = morningRoutineTrajetAdapter.getList().get(position);
+        morningRoutineTrajetAdapter.getList().remove(position);
+        morningRoutineTrajetAdapter.notifyItemRemoved(position);
         this.listMRFragment.sauvegarder();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         int idCurrentMRT = sharedPreferences.getInt("current_id_MRA", -2);
@@ -85,8 +85,8 @@ public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
         snackbar.setAction("Annuler", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                morningRoutineAdressAdapter.getList().add(positionSuppr, supprMRT);
-                morningRoutineAdressAdapter.notifyItemInserted(positionSuppr);
+                morningRoutineTrajetAdapter.getList().add(positionSuppr, supprMRT);
+                morningRoutineTrajetAdapter.notifyItemInserted(positionSuppr);
                 ItemTouchHelperMRT.this.listMRFragment.sauvegarder();
                 if (wasCurrent){
                     SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);

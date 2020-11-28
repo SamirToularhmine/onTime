@@ -7,6 +7,9 @@ import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+/**
+ * BroadcastReceiver pour créer une notification lors du début d'une tâche
+ */
 public class NotificationBroadcast extends BroadcastReceiver {
 
     @Override

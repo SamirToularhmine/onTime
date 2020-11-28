@@ -12,6 +12,9 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
+/**
+ * Classe pour la petite vague bleue en haut de chaque fragment
+ */
 public class WavyLinearLayout extends LinearLayout {
 
     private Paint paint;

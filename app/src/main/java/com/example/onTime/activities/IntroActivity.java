@@ -1,19 +1,19 @@
 package com.example.onTime.activities;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import com.example.onTime.R;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.github.paolorotolo.appintro.model.SliderPage;
 
+/**
+ * Activity pour le tutoriel
+ */
 public class IntroActivity extends AppIntro {
 
     private int PRIMARY_COLOR;

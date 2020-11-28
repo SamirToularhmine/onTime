@@ -21,6 +21,9 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
+/**
+ * Adapter pour la liste des tâches
+ */
 public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHolder> {
     private List<Tache> listTache;
 
@@ -64,6 +67,11 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
     }
 
 
+    /**
+     * Méthode qui ouvre une popup pour modifier ube tache
+     * @param view est la vue actulle
+     * @param holder le holder du recycler view
+     */
     public void modifierTache(View view, final TacheViewHolder holder) {
         LayoutInflater factory = LayoutInflater.from(view.getContext());
         final View textEntryView = factory.inflate(R.layout.ajout_tache, null);

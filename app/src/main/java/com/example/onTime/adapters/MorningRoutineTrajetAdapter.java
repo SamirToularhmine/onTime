@@ -20,11 +20,14 @@ import com.example.onTime.modele.MorningRoutine;
 
 import java.util.List;
 
-public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRoutineAdressAdapter.MoringRoutineAdressViewHolder> {
+/**
+ * Adapater de la MRT
+ */
+public class MorningRoutineTrajetAdapter extends RecyclerView.Adapter<MorningRoutineTrajetAdapter.MoringRoutineAdressViewHolder> {
 
     private List<MRT> listMRT;
 
-    public MorningRoutineAdressAdapter(List<MRT> listMRT) {
+    public MorningRoutineTrajetAdapter(List<MRT> listMRT) {
         this.listMRT = listMRT;
     }
 
@@ -44,7 +47,7 @@ public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRou
     @Override
     public MoringRoutineAdressViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.mra_item_layout, parent, false);
-        return new MorningRoutineAdressAdapter.MoringRoutineAdressViewHolder(view);
+        return new MorningRoutineTrajetAdapter.MoringRoutineAdressViewHolder(view);
     }
 
     @Override
@@ -84,6 +87,12 @@ public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRou
         return listMRT;
     }
 
+    /**
+     * Modification d'une mornging routine
+     * @param view est la vue du frament
+     * @param morningRoutine est la morning routine a modifier
+     * @param position est la position de la morning routine
+     */
     public void modifierMorningRoutine(View view, MorningRoutine morningRoutine, int position) {
         Bundle bundle = new Bundle();
         bundle.putParcelable("morning_routine", morningRoutine);
@@ -96,6 +105,12 @@ public class MorningRoutineAdressAdapter extends RecyclerView.Adapter<MorningRou
         navController.navigate(R.id.editMRFragment, bundle);
     }
 
+    /**
+     * Modifie le trajet d'une MRT
+     * @param view est la vue du fragment
+     * @param trajet est le trajet a modifier
+     * @param position est la position du trajet
+     */
     public void modifierTrajet(View view, Trajet trajet, int position) {
         Bundle bundle = new Bundle();
         bundle.putParcelable("trajet", trajet);

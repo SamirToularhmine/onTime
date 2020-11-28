@@ -19,6 +19,9 @@ import com.example.onTime.modele.Toolbox;
 
 import java.util.List;
 
+/**
+ * Adapater pour les tâches dans le fragment home
+ */
 public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.TacheViewHolder> {
     private List<TacheHeureDebut> listeTachesHeuresDebut;
     private Button boutonGoogleMaps;
