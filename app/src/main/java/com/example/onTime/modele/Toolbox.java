@@ -156,7 +156,7 @@ import java.util.concurrent.ExecutionException;
             sb.append(heures).append("h");
         }
 
-        if (minutes > 0) {
+        if (minutes >= 0) {
             sb.append(minutes).append("min");
         }
         return sb.toString();
