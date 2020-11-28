@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.onTime.R;
 
@@ -97,7 +98,7 @@ public class SettingsFragment extends Fragment {
                         .remove("listeTrajets")
                         .remove("listeTachesRec")
                         .remove("notifyOnEachTaskStart").apply();
-
+                Toast.makeText(getContext(), getResources().getString(R.string.settings_toast_data_removed), Toast.LENGTH_LONG).show();
             }
         })
                 .setNegativeButton(R.string.annuler, new DialogInterface.OnClickListener() {

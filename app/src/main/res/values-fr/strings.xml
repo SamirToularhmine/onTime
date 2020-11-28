@@ -63,4 +63,5 @@
     <string name="slide5_desc">Définissez une heure d\'arrivée à votre point de destination pour le lendemain. Ainsi, vous pourrez cliquer sur la cloche pour mettre en place le prochain réveil à l\'heure calculée !</string>
     <string name="slide6_title">Bonne nuit !</string>
     <string name="slide6_desc"> Ça y est ! Vous êtes prêt à aller vous coucher, l\'application se charge du reste ! ;)</string>
+    <string name="settings_toast_data_removed">Les données ont bien été supprimées !</string>
 </resources>

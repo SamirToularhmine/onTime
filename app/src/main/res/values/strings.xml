@@ -49,7 +49,7 @@
     <string name="morning_routine" translatable="false">Morning Routine</string>
     <string name="app_name" translatable="false">onTime</string>
     <string name="min">min</string>
-    <string name="impossible_maj_heure_reveil">Impossible de mettre à jour l\'heure de réveil !</string>
+    <string name="impossible_maj_heure_reveil">Can\'t update wake up alarm clock !</string>
     <string name="demarrer">Start !</string>
     <string name="aucun_trajet">No ride set</string>
     <string name="slide0_title">Welcome in onTime !</string>
@@ -66,4 +66,5 @@
     <string name="slide5_desc">Set an arriving time to your destination for the next day. Afterwards, you will be able to tap on the calculated wake up alarm so the application can set up your next alarm clock !</string>
     <string name="slide6_title">Have a good night !</string>
     <string name="slide6_desc">We\'re done here ! You are ready to go to sleep. When you will be done with your tasks, you will be able to tap on Start so you have a GMaps itinerary ready to start ! We got your back ;) !</string>
+    <string name="settings_toast_data_removed">You data has been deleted !</string>
 </resources>
