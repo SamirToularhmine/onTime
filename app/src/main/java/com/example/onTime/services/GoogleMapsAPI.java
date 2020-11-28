@@ -18,12 +18,25 @@ import java.util.concurrent.Callable;
 public class GoogleMapsAPI implements Callable<Integer> {
 
     long arrivalTime;
-    String adresseDepart, adresseArrivee;
+    String adresseDepart, adresseArrivee, travelMode;
 
-    public GoogleMapsAPI(long arrivalTime, String adresseDepart, String adresseArrivee) {
+
+    public GoogleMapsAPI(long arrivalTime, String adresseDepart, String adresseArrivee, int travelMode) {
         this.arrivalTime = arrivalTime;
         this.adresseDepart = adresseDepart;
         this.adresseArrivee = adresseArrivee;
+        switch (travelMode) {
+            case 1: // Vélo
+                this.travelMode = "bicycling";
+                break;
+
+            case 2: // à pied
+                this.travelMode = "walking";
+                break;
+
+            default: // voiture
+                this.travelMode = "driving";
+        }
     }
 
     /**
@@ -37,6 +50,7 @@ public class GoogleMapsAPI implements Callable<Integer> {
         .append("?origins=").append(this.adresseDepart.replaceAll(" ", "+"))
         .append("&destinations=").append(this.adresseArrivee.replaceAll(" ", "+"))
         .append("&arrival_time=").append(Toolbox.getDateFromHeureArrivee(this.arrivalTime))
+        .append("&mode=").append(this.travelMode)
         .append("&key=AIzaSyAtz4xXytziDpkNHU12fYqAvjf_0NY5TxY");
         return res.toString();
     }
@@ -137,19 +151,24 @@ public class GoogleMapsAPI implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        long tempsTrajetSansTrafic = this.getTravelTimeWithoutTraffic(); // temps de trajet pour arriver à l'heure voulue sans prendre en compte le trafic
-        long heureDepart = this.arrivalTime - tempsTrajetSansTrafic;
-        long tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
-        long heureArriveeAvecTrafic = heureDepart + tempsTrajetAvecTrafic;
-        while (heureArriveeAvecTrafic > this.arrivalTime) {
-            long delta = heureArriveeAvecTrafic - this.arrivalTime;
-            if (delta < 60) {
-                break;
+        if (this.travelMode.equals("driving")) { // en voiture, il peut y avoir des bouchons/accidents/poules sur la route
+            long tempsTrajetSansTrafic = this.getTravelTimeWithoutTraffic(); // temps de trajet pour arriver à l'heure voulue sans prendre en compte le trafic
+            long heureDepart = this.arrivalTime - tempsTrajetSansTrafic;
+            long tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
+            long heureArriveeAvecTrafic = heureDepart + tempsTrajetAvecTrafic;
+            while (heureArriveeAvecTrafic > this.arrivalTime) {
+                long delta = heureArriveeAvecTrafic - this.arrivalTime;
+                if (delta < 60) {
+                    break;
+                }
+                heureDepart = heureDepart - delta; // on retire une minute à l'heure de départ
+                tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
+                heureArriveeAvecTrafic = heureDepart + tempsTrajetAvecTrafic;
             }
-            heureDepart = heureDepart - delta; // on retire une minute à l'heure de départ
-            tempsTrajetAvecTrafic = this.getTravelTimeWithTraffic(heureDepart);
-            heureArriveeAvecTrafic = heureDepart + tempsTrajetAvecTrafic;
+            return Toolbox.getMinutesRoundedUpFromSecondes(tempsTrajetAvecTrafic);
         }
-        return Toolbox.getMinutesRoundedUpFromSecondes(tempsTrajetAvecTrafic);
+        else { // en vélo où à pied, pas de trafic
+            return Toolbox.getMinutesRoundedUpFromSecondes(this.getTravelTimeWithoutTraffic());
+        }
     }
 }
