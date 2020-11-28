@@ -13,21 +13,37 @@
         app:cardCornerRadius="4dp"
         app:cardElevation="6dp"
         android:focusable="false">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_gravity="center">
                 <TextView
                     android:id="@+id/nom_tache"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center"
+                    android:layout_weight="0.5"
                     android:text="Tache"
                     android:foreground="?android:attr/selectableItemBackground"
                     />
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/darker_gray"
+                    android:layout_margin="10dp"
+                    />
 
+                <TextView
+                    android:id="@+id/duree_tache"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:text="Durée"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    />
             </LinearLayout>
 
     </androidx.cardview.widget.CardView>

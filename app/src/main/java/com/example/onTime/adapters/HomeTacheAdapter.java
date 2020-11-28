@@ -74,7 +74,7 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
         if (position < this.getItemCount() - 1) {
             Tache tache = this.listeTachesHeuresDebut.get(position).getTache();
             holder.nomTache.setText(tache.getNom());
-            holder.duree.setText(Toolbox.secondesToMinSecString(tache.getDuree()));
+            holder.duree.setText(Toolbox.secodesToMin(tache.getDuree()));
 
             long heureDebutDepuisMinuit = Toolbox.getHeureFromEpoch(this.listeTachesHeuresDebut.get(position).getHeureDebut());
             String heures = String.valueOf(Toolbox.getHourFromSecondes(heureDebutDepuisMinuit));

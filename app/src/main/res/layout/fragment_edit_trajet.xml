@@ -22,12 +22,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="20dp">
+            android:layout_marginBottom="20dp">
 
             <EditText
                 android:id="@+id/editTextTitreTrajet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:background="@android:color/transparent"
                 android:gravity="center"
@@ -39,12 +39,14 @@
                 android:textColorHint="@color/colorAccent"
                 android:textSize="28sp"
                 android:textStyle="bold"
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor"/>
 
             <Button
                 android:id="@+id/boutton_retour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
                 android:text="Valider"
                 />
 
