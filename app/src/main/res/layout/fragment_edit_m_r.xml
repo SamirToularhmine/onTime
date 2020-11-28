@@ -24,29 +24,36 @@
             android:paddingRight="20dp"
             android:paddingBottom="50dp">
 
-            <EditText
-                android:id="@+id/titreMorningRoutine"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="@android:color/transparent"
-                android:gravity="center"
-                android:imeOptions="actionDone"
-                android:importantForAutofill="no"
-                android:inputType="text"
-                android:hint="@string/changer_le_titre"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                tools:ignore="LabelFor" />
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/titreMorningRoutine"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:hint="@string/changer_le_titre"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    tools:ignore="LabelFor" />
 
-            <Button
-                android:id="@+id/boutton_retour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/valider"
-                />
+                <Button
+                    android:id="@+id/boutton_retour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/valider"
+                    android:backgroundTint="@color/colorAccent"
+                    android:textColor="@color/colorPrimary"
+                    />
+            </LinearLayout>
         </com.example.onTime.WavyLinearLayout>
 
         <LinearLayout
