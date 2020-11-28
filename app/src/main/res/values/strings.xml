@@ -67,4 +67,5 @@
     <string name="slide6_title">Have a good night !</string>
     <string name="slide6_desc">We\'re done here ! You are ready to go to sleep. When you will be done with your tasks, you will be able to tap on Start so you have a GMaps itinerary ready to start ! We got your back ;) !</string>
     <string name="settings_toast_data_removed">You data has been deleted !</string>
+    <string name="je_veux_refaire_le_tutoriel">Take me to the tutorial</string>
 </resources>

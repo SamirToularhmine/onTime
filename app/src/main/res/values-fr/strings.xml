@@ -64,4 +64,5 @@
     <string name="slide6_title">Bonne nuit !</string>
     <string name="slide6_desc"> Ça y est ! Vous êtes prêt à aller vous coucher, l\'application se charge du reste ! ;)</string>
     <string name="settings_toast_data_removed">Les données ont bien été supprimées !</string>
+    <string name="je_veux_refaire_le_tutoriel">Je veux refaire le tutoriel</string>
 </resources>

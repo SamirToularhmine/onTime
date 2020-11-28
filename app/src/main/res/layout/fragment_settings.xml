@@ -65,6 +65,15 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <Button
+                android:id="@+id/boutonTutoriel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/je_veux_refaire_le_tutoriel"
+                app:backgroundTint="@color/colorPrimary"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
 <!--            TODO : faire en sorte que le bouton ait les mêmes marges latérales que la cardview du dessus -->
             <Button
                 android:id="@+id/boutonSupprimerDonnees"

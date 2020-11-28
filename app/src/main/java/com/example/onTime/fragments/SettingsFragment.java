@@ -2,6 +2,7 @@ package com.example.onTime.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.onTime.R;
+import com.example.onTime.activities.IntroActivity;
 
 import java.util.Objects;
 
@@ -56,6 +58,7 @@ public class SettingsFragment extends Fragment {
         // Récupération des éléments graphiques du fragment
         this.switchNotificationsChaqueTache = view.findViewById(R.id.switchNotificationsDebutTaches);
         Button boutonSupprimerDonnees = view.findViewById(R.id.boutonSupprimerDonnees);
+        Button boutonTutoriel = view.findViewById(R.id.boutonTutoriel);
 
         // Mise à jour de l'état du switch en fonction de la valeur sauvegaardée dans les sharedPreferences
         this.switchNotificationsChaqueTache.setChecked(this.sharedPreferences.getBoolean("notifyOnEachTaskStart", true));
@@ -73,6 +76,15 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SettingsFragment.this.showDeleteDataConfirmDialog();
+            }
+        });
+
+        //Bouton pour aller au tutoriel
+        boutonTutoriel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), IntroActivity.class);
+                getActivity().startActivity(i);
             }
         });
     }
