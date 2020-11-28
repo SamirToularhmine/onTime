@@ -111,7 +111,12 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    SettingsFragment.this.sharedPreferences.edit().putInt("wakeUpTime", Integer.parseInt(editTextWakeUpTime.getText().toString()) * 60).apply();
+                    String input = editTextWakeUpTime.getText().toString();
+                    if (input.equals("")) {
+                        input = "0";
+                        editTextWakeUpTime.setText("0");
+                    }
+                    SettingsFragment.this.sharedPreferences.edit().putInt("wakeUpTime", Integer.parseInt(input) * 60).apply();
                 }
                 return false;
             }
