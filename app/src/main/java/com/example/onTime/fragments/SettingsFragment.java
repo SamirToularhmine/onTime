@@ -57,7 +57,7 @@ public class SettingsFragment extends Fragment {
         Button boutonSupprimerDonnees = view.findViewById(R.id.boutonSupprimerDonnees);
 
         // Mise à jour de l'état du switch en fonction de la valeur sauvegaardée dans les sharedPreferences
-        this.switchNotificationsChaqueTache.setChecked(this.sharedPreferences.getBoolean("notifyOnEachTaskStart", false));
+        this.switchNotificationsChaqueTache.setChecked(this.sharedPreferences.getBoolean("notifyOnEachTaskStart", true));
 
         // Association du listener qui va écouter les changements d'états du switch
         switchNotificationsChaqueTache.setOnClickListener(new View.OnClickListener() {

@@ -58,7 +58,7 @@ public class TacheAdapter extends RecyclerView.Adapter<TacheAdapter.TacheViewHol
     public void onBindViewHolder(@NonNull final TacheViewHolder holder, int position) {
         Tache tache = listTache.get(position);
         holder.nomTache.setText(tache.getNom());
-        holder.duree.setText(Toolbox.secondesToMinSecString(tache.getDuree()));
+        holder.duree.setText(Toolbox.secodesToMin(tache.getDuree()));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
