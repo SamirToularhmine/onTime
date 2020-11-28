@@ -17,7 +17,7 @@ public class MRManager implements Parcelable {
      * Constructeur par défaut d'un MRManager qui crée une ArrayList et met l'heure d'arrivée à 11h
      */
     public MRManager() {
-        this.heureArrivee = 39600; // 11h en secondes
+        this.heureArrivee = 0; // minuit en secondes
         this.listMRT = new ArrayList<>();
     }
 
