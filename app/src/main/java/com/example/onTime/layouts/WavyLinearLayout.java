@@ -1,4 +1,4 @@
-package com.example.onTime;
+package com.example.onTime.layouts;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;

@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".Destination">
 
-    <com.example.onTime.WavyLinearLayout
+    <com.example.onTime.layouts.WavyLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
@@ -34,7 +34,7 @@
             />
 
 
-    </com.example.onTime.WavyLinearLayout>
+    </com.example.onTime.layouts.WavyLinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
