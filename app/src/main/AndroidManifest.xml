@@ -13,19 +13,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IntroActivity"/>
+        <activity android:name=".activities.IntroActivity"/>
         <activity
             android:name=".activities.SplashScreenActivity"
             android:theme="@style/AppTheme.SplashScreen">
-        </activity>
-        <activity
-            android:name=".activities.HomeActivity"
-            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.HomeActivity"
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <meta-data
             android:name="com.google.android.gms.version"
