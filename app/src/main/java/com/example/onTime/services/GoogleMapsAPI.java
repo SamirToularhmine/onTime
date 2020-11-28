@@ -1,7 +1,5 @@
 package com.example.onTime.services;
 
-import android.util.Log;
-
 import com.example.onTime.modele.Toolbox;
 import com.example.onTime.modele.Trajet;
 import com.google.android.gms.maps.model.LatLng;

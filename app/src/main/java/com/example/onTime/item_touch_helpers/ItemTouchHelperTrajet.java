@@ -25,10 +25,9 @@ import java.util.Collections;
  */
 public class ItemTouchHelperTrajet extends ItemTouchHelper.SimpleCallback {
 
-
-    private TrajetAdapter trajetAdapter;
-    private int positionSuppr;
-    private Trajet trajet;
+    private TrajetAdapter trajetAdapter; // Adapter des trajets
+    private int positionSuppr; //la position du trajet supprimé
+    private Trajet trajet; // le trajet supprimé
     private final Drawable icon;
     final ColorDrawable background = new ColorDrawable(Color.parseColor("#CA4242"));
 

@@ -35,10 +35,10 @@ import com.google.gson.Gson;
  */
 public class ListMRFragment extends Fragment {
 
-    private MRManager mrManager;
+    private MRManager mrManager; // le morning routine manager de l'appli
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private MorningRoutineTrajetAdapter morningRoutineTrajetAdapter;
+    private MorningRoutineTrajetAdapter morningRoutineTrajetAdapter; // adapter pour les MRT
     private SharedPreferences sharedPreferences;
 
     public ListMRFragment() {

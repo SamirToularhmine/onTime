@@ -20,13 +20,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.Spinner;
-import android.widget.Toast;
+
 
 import com.example.onTime.R;
 import com.example.onTime.activities.IntroActivity;
 
-import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Fragment des paramètres
@@ -123,6 +121,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
                         .remove("id_max")
                         .remove("listeTrajets")
                         .remove("listeTachesRec")
+                        .remove("ridingMethod")
                         .remove("notifyOnEachTaskStart").apply();
                 Toast.makeText(getContext(), getResources().getString(R.string.settings_toast_data_removed), Toast.LENGTH_LONG).show();
             }

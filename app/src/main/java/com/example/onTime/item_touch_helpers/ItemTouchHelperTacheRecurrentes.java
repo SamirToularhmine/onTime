@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
-import com.example.onTime.adapters.TacheAdapter;
 import com.example.onTime.adapters.TachesRecurrentesAdapter;
-import com.example.onTime.fragments.EditMRFragment;
 import com.example.onTime.modele.Tache;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -28,9 +26,9 @@ import java.util.Collections;
 public class ItemTouchHelperTacheRecurrentes extends ItemTouchHelper.SimpleCallback {
 
 
-    private TachesRecurrentesAdapter tachesRecurrentesAdapter;
-    private int positionSuppr;
-    private Tache tacheSuppr;
+    private TachesRecurrentesAdapter tachesRecurrentesAdapter; // adapter des taches récurentes
+    private int positionSuppr; // possition de la tache récurrente supprimée
+    private Tache tacheSuppr; // la tache récurrente supprimée
     private final Drawable icon;
     final ColorDrawable background = new ColorDrawable(Color.parseColor("#CA4242"));
 

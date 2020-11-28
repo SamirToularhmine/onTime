@@ -1,8 +1,7 @@
 package com.example.onTime.fragments;
 
-import android.app.Activity;
+
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
@@ -12,14 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,7 +24,6 @@ import android.widget.Toast;
 
 
 import com.example.onTime.R;
-import com.example.onTime.adapters.TrajetAdapter;
 import com.example.onTime.modele.Toolbox;
 import com.example.onTime.modele.Trajet;
 import com.google.android.gms.maps.CameraUpdate;

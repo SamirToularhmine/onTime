@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +35,12 @@ import java.util.List;
  */
 public class  ListTFragment extends Fragment {
 
-    private List<Trajet> listeTrajets;
+    private List<Trajet> listeTrajets; // la liste des trajets
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private SharedPreferences sharedPreferences;
-    private TrajetAdapter trajetAdapter;
-    private int position;
+    private TrajetAdapter trajetAdapter; // l'adapter des trajets
+    private int position; // la position du trajet cliqué
     private boolean onlyShowList; // false si l'utilisateur veut associer un trajet à une morning routine, true sinon
 
     public ListTFragment() {

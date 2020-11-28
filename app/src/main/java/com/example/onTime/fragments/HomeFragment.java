@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.AlarmClock;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,17 +54,17 @@ import java.util.concurrent.ExecutionException;
  */
 public class HomeFragment extends Fragment {
 
-    private MRT mrt;
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private HomeTacheAdapter tacheAdapter;
+    private MRT mrt; // est la morning routine trajet actuelle
+    private RecyclerView recyclerView; // recycler view pour les tâches
+    private RecyclerView.LayoutManager layoutManager; // manager de layout
+    private HomeTacheAdapter tacheAdapter; // adapter pour gerer les taches
     private SharedPreferences sharedPreferences;
-    private TextView heureArrivee;
-    private MRManager mrManager;
-    private MaterialButton heureReveil;
-    private TextView nomTrajet, titre;
-    private List<TacheHeureDebut> listeTachesHeuresDebut;
-    private int travelMode;
+    private TextView heureArrivee; //text voew de l'heure d'arrivee
+    private MRManager mrManager; // est le morning routine manager global
+    private MaterialButton heureReveil; // est l'heure de réveil
+    private TextView nomTrajet, titre; // les textveix
+    private List<TacheHeureDebut> listeTachesHeuresDebut; // la liste des tâches avec mes heures de début
+    private int travelMode; // le type de trajet
 
     public HomeFragment() {
         // Required empty public constructor

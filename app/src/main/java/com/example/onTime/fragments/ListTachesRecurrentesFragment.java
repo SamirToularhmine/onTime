@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,11 +36,11 @@ import java.util.List;
  */
 public class ListTachesRecurrentesFragment extends Fragment {
 
-    private List<Tache> listeTaches;
+    private List<Tache> listeTachesReccurentes; // la liste de toutes les taches récurrentes
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private SharedPreferences sharedPreferences;
-    private TachesRecurrentesAdapter tachesRecurrentesAdapter;
+    private TachesRecurrentesAdapter tachesRecurrentesAdapter; // adapter des taches récurrentes
 
     public ListTachesRecurrentesFragment() {
         // Required empty public constructor
@@ -61,14 +60,14 @@ public class ListTachesRecurrentesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.listeTaches = new ArrayList<>();
+        this.listeTachesReccurentes = new ArrayList<>();
         Context context = this.getActivity().getApplicationContext();
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = this.sharedPreferences.getString("listeTachesRec", "");
         if (!json.equals("")) {
             Type type = new TypeToken<List<Tache>>(){}.getType();
-            this.listeTaches = gson.fromJson(json, type);
+            this.listeTachesReccurentes = gson.fromJson(json, type);
         }
 
         this.recyclerView = view.findViewById(R.id.taches_recurrentes_recyclerview);
@@ -76,7 +75,7 @@ public class ListTachesRecurrentesFragment extends Fragment {
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.tachesRecurrentesAdapter = new TachesRecurrentesAdapter(this.listeTaches);
+        this.tachesRecurrentesAdapter = new TachesRecurrentesAdapter(this.listeTachesReccurentes);
         this.recyclerView.setAdapter(this.tachesRecurrentesAdapter);
 
         ItemTouchHelperTacheRecurrentes itemTouchHelperTacheRecurrentes = new ItemTouchHelperTacheRecurrentes(getActivity(), this.tachesRecurrentesAdapter);
@@ -114,7 +113,7 @@ public class ListTachesRecurrentesFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Tache t = new Tache(nomTache.getText().toString(),duree.getValue()*60);
-                                ListTachesRecurrentesFragment.this.listeTaches.add(t);
+                                ListTachesRecurrentesFragment.this.listeTachesReccurentes.add(t);
                                 ListTachesRecurrentesFragment.this.tachesRecurrentesAdapter.notifyDataSetChanged();
                             }
                         })
@@ -133,7 +132,7 @@ public class ListTachesRecurrentesFragment extends Fragment {
         this.sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = this.sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(this.listeTaches);
+        String json = gson.toJson(this.listeTachesReccurentes);
         editor.putString("listeTachesRec", json);
         editor.apply();
         super.onStop();

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onTime.R;
 import com.example.onTime.adapters.TacheAdapter;
-import com.example.onTime.fragments.EditMRFragment;
+
 import com.example.onTime.modele.Tache;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -26,20 +26,17 @@ import java.util.Collections;
  */
 public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
 
-
-    private TacheAdapter tacheAdapter;
-    private int positionSuppr;
-    private Tache tacheSuppr;
+    private TacheAdapter tacheAdapter; // adapter de la tache
+    private int positionSuppr; // la position de la tache supprimée
+    private Tache tacheSuppr; // la tache supprimée
     private final Drawable icon;
-    private EditMRFragment editMRFragment ;
     final ColorDrawable background = new ColorDrawable(Color.parseColor("#CA4242"));
 
 
-    public ItemTouchHelperTache(Context context, TacheAdapter tacheAdapter, EditMRFragment editMRFragment) {
+    public ItemTouchHelperTache(Context context, TacheAdapter tacheAdapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.tacheAdapter = tacheAdapter;
         icon = ContextCompat.getDrawable(context, R.drawable.ic_delete_24px);
-        this.editMRFragment = editMRFragment;
     }
 
     @Override
@@ -53,7 +50,6 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
     public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
         Collections.swap(tacheAdapter.getList(), viewHolder.getAdapterPosition(), target.getAdapterPosition());
         tacheAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-        //editMRFragment.sauvegarder();
         return true;
     }
 
@@ -64,7 +60,6 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
         this.tacheSuppr = tacheAdapter.getList().get(position);
         tacheAdapter.getList().remove(position);
         tacheAdapter.notifyItemRemoved(position);
-        //editMRFragment.sauvegarder();
         showUndoSnackbar(viewHolder);
     }
 
@@ -75,7 +70,6 @@ public class ItemTouchHelperTache extends ItemTouchHelper.SimpleCallback {
             public void onClick(View v) {
                 tacheAdapter.getList().add(positionSuppr, tacheSuppr);
                 tacheAdapter.notifyItemInserted(positionSuppr);
-                //ItemTouchHelperTache.this.editMRFragment.sauvegarder();
             }
         });
         snackbar.show();

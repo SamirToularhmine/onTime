@@ -27,13 +27,13 @@ import java.util.Collections;
 public class ItemTouchHelperMRT extends ItemTouchHelper.SimpleCallback {
 
 
-    private MorningRoutineTrajetAdapter morningRoutineTrajetAdapter;
-    private int positionSuppr;
-    private MRT supprMRT;
+    private MorningRoutineTrajetAdapter morningRoutineTrajetAdapter; // adpater de la MRT
+    private int positionSuppr; // la position qui vient d'être supprimée
+    private MRT supprMRT; // la MRT Supprimée
     private final Drawable icon;
-    private ListMRFragment listMRFragment;
+    private ListMRFragment listMRFragment; // le fragment des list
     private Context context;
-    private boolean wasCurrent;
+    private boolean wasCurrent; // boolean pour savoir si la mrt supprimée était celle selectionnée dans le Homefragment
     final ColorDrawable background = new ColorDrawable(Color.parseColor("#CA4242"));
 
     public ItemTouchHelperMRT(Context context, MorningRoutineTrajetAdapter morningRoutineTrajetAdapter, ListMRFragment listMRFragment) {

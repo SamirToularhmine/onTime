@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Classe représentant toutes les morning routines ainsi que l'heure d'arrivée du prochain trajet.
