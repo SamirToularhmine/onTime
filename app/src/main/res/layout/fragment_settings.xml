@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.example.onTime.WavyLinearLayout
+        <com.example.onTime.layouts.WavyLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
@@ -28,7 +28,7 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="28sp"
                 android:textStyle="bold" />
-        </com.example.onTime.WavyLinearLayout>
+        </com.example.onTime.layouts.WavyLinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

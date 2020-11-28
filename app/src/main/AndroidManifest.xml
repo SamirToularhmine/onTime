@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreenActivity" android:theme="@style/AppTheme.SplashScreen">
+        <activity android:name=".activities.SplashScreenActivity" android:theme="@style/AppTheme.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,10 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".morning_routine.MorningRoutineActivity"/>
-        <activity android:name=".mrt.HomeActivity"
+        <activity android:name=".activities.HomeActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Destination" />
-        <activity android:name=".MainActivity"/>
 
         <meta-data
             android:name="com.google.android.gms.version"
