@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.example.onTime.WavyLinearLayout
+        <com.example.onTime.layouts.WavyLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
@@ -28,7 +28,8 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="28sp"
                 android:textStyle="bold" />
-        </com.example.onTime.WavyLinearLayout>
+
+        </com.example.onTime.layouts.WavyLinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,6 +63,7 @@
                         android:textSize="18sp"
                         android:theme="@style/OTSwitch"
                         android:text="@string/notifier_chaque_debut"/>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -96,6 +98,15 @@
                         android:layout_weight="1" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/boutonTutoriel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/je_veux_refaire_le_tutoriel"
+                app:backgroundTint="@color/colorPrimary"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
 
             <Button
                 android:id="@+id/boutonSupprimerDonnees"

@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Destination">
+    tools:context=".fragments.EditTFragment">
 
-    <com.example.onTime.WavyLinearLayout
+    <com.example.onTime.layouts.WavyLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
@@ -22,12 +22,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="20dp">
+            android:layout_marginBottom="20dp">
 
             <EditText
                 android:id="@+id/editTextTitreTrajet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:background="@android:color/transparent"
                 android:gravity="center"
@@ -39,13 +39,15 @@
                 android:textColorHint="@color/colorAccent"
                 android:textSize="28sp"
                 android:textStyle="bold"
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor"/>
 
             <Button
                 android:id="@+id/boutton_retour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Valider"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/valider"
                 />
 
         </LinearLayout>
@@ -57,11 +59,11 @@
             android:layout_height="300dp"
             android:layout_gravity="center" />
 
-    </com.example.onTime.WavyLinearLayout>
+    </com.example.onTime.layouts.WavyLinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:padding="20dp">
@@ -72,8 +74,9 @@
             android:layout_height="wrap_content"
             android:hint="@string/point_depart"
             android:singleLine="true"
-
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:autofillHints="text"
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/editTextArriveeTrajet"
@@ -81,7 +84,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/point_arrivee"
             android:singleLine="true"
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:inputType="text"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -42,12 +42,12 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRT> {
         TextView mr = convertView.findViewById(R.id.home_morning_routine);
         mr.setTag(position);
 
-
         if (mrt != null) {
-            if (mrt.getMorningRoutine() != null)
+            if (mrt.getMorningRoutine() != null){
                 mr.setText(mrt.getMorningRoutine().getNom());
-            else
+            }else{
                 mr.setText(R.string.aucune_mr_definie);
+            }
         }
 
         return convertView;
@@ -60,7 +60,6 @@ public class HomeMorningRoutineAdressAdapter extends ArrayAdapter<MRT> {
 
     public void choisirMRT(int position) {
         MRT mrt = getItem(position);
-        //Log.d("CLICK", "onClick: "+ mra.getMorningRoutine().getNom());
         HomeMorningRoutineAdressAdapter.this.homeFragment.changerCurrentMr(mrt);
         int idCurrentMRA = mrt.getId();
 

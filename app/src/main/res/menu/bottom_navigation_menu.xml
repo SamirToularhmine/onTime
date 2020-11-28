@@ -14,9 +14,4 @@
         android:enabled="true"
         android:icon="@drawable/ic_settings_24px"
         android:title="@string/parametres"/>
-    <item
-        android:id="@+id/statsFragment"
-        android:enabled="true"
-        android:icon="@drawable/ic_analytics_24px"
-        android:title="@string/statistiques"/>
 </menu>

@@ -23,7 +23,6 @@ import com.example.onTime.modele.Toolbox;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
-import java.util.Map;
 
 public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.TacheViewHolder> {
     private List<TacheHeureDebut> listeTachesHeuresDebut;
@@ -60,10 +59,10 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
     @NonNull
     @Override
     public TacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == 0) { // TACHE
+        if (viewType == 0) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tache_item_layout, parent, false);
             return new TacheViewHolder(view);
-        }else{ // FOOTER
+        }else{
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_mr_item_gmaps_button_layout, parent, false);
             this.boutonGoogleMaps = view.findViewById(R.id.bouton_gmaps);
 
@@ -100,15 +99,19 @@ public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.Tach
     public void onBindViewHolder(@NonNull final TacheViewHolder holder, int position) {
         if (position < this.getItemCount() - 1) {
             Tache tache = this.listeTachesHeuresDebut.get(position).getTache();
+
             holder.nomTache.setText(tache.getNom());
-            holder.duree.setText(Toolbox.secondesToMinSecString(tache.getDuree()));
+            holder.duree.setText(Toolbox.secodesToMin(tache.getDuree()));
 
             long heureDebutDepuisMinuit = Toolbox.getHeureFromEpoch(this.listeTachesHeuresDebut.get(position).getHeureDebut());
+
             String heures = String.valueOf(Toolbox.getHourFromSecondes(heureDebutDepuisMinuit));
             String minutes = String.valueOf(Toolbox.getMinutesFromSecondes(heureDebutDepuisMinuit));
+
             if (minutes.length() == 1) {
                 minutes = "0" + minutes;
             }
+
             String affichageHeure = heures+"H"+minutes;
             holder.heureDebut.setText(affichageHeure);
         }else{

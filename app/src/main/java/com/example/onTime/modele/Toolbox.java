@@ -155,6 +155,22 @@ import java.util.concurrent.ExecutionException;
         return sb.toString();
     }
 
+    public static String secodesToMin(long time) {
+        long heures = time / 3600;
+        long minutes = (time % 3600) / 60;
+        long secondes = ((time % 3600) % 60);
+
+        StringBuilder sb = new StringBuilder();
+        if (heures > 0) {
+            sb.append(heures).append("h");
+        }
+
+        if (minutes >= 0) {
+            sb.append(minutes).append("min");
+        }
+        return sb.toString();
+    }
+
 
     /**
      * Méthode qui permet de cacher le clavier

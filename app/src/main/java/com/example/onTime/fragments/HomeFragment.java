@@ -44,7 +44,10 @@ import com.google.android.material.timepicker.TimeFormat;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -143,6 +146,7 @@ public class HomeFragment extends Fragment {
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        removeNotifs();
                         adapter.choisirMRT(which);
                         HomeFragment.this.updateHeureReveil();
                         HomeFragment.this.updateMapTachesHeuresDebut();
@@ -265,14 +269,16 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 MRT laMrt = HomeFragment.this.mrt;
                 try {
-
                     long heureReveil = laMrt.getHeureReveil(HomeFragment.this.travelMode);
-
                     long heuredepuisminuit = Toolbox.getHeureFromEpoch(heureReveil);
                     int h = Toolbox.getHourFromSecondes(heuredepuisminuit);
                     int m = Toolbox.getMinutesFromSecondes(heuredepuisminuit);
                     setAlarm(h, m);
-                    createNotifs(heureReveil);
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);
+                    boolean shouldNotif = sharedPreferences.getBoolean("notifyOnEachTaskStart",true);
+                    if (shouldNotif)
+                        removeNotifs();
+                        createNotifs(heureReveil);
 
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
@@ -293,20 +299,44 @@ public class HomeFragment extends Fragment {
     private void createNotifs(long heureReveilEpoch) {
         long decallageProchaineTache = 180;
 
+        TimeZone tz = TimeZone.getDefault();
+        Calendar cal = GregorianCalendar.getInstance(tz);
+        int offsetInMillis = tz.getOffset(cal.getTimeInMillis());
+        heureReveilEpoch -= (offsetInMillis / 1000);
+        int id = 0;
         for (Tache tache : this.mrt.getMorningRoutine().getListeTaches()) {
             Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
             intent.putExtra("CONTEXTE", tache.getNom());
             intent.putExtra("ID", (int) decallageProchaineTache);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), (int) decallageProchaineTache, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, intent, 0);
             AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, heureReveilEpoch * 1000 + decallageProchaineTache * 1000, pendingIntent);
+            long l = heureReveilEpoch * 1000 + decallageProchaineTache * 1000;
+            alarmManager.set(AlarmManager.RTC_WAKEUP, l, pendingIntent);
             decallageProchaineTache += tache.getDuree();
+            id++;
         }
+    }
 
+
+    /**
+     * Supprime toutes les notifs qui sont set avec cette tâche
+     */
+    private void removeNotifs(){
+        int id=0;
+        if (mrt != null && this.mrt.getMorningRoutine() != null && this.mrt.getMorningRoutine().getListeTaches() != null) {
+            for (Tache tache : this.mrt.getMorningRoutine().getListeTaches()) {
+                Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, intent, 0);
+                AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+                alarmManager.cancel(pendingIntent);
+                id++;
+            }
+        }
     }
 
     /**
-     * Création du channel pour envoyer des notifacaitons
+     * Création du channel pour envoyer des notifacaitons obligatoire à partir de la version OREO
+     * Inutile dans les versions antérieures
      */
     private void createNotificationChannel() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -314,8 +344,7 @@ public class HomeFragment extends Fragment {
             CharSequence name = "onTimeChannel";
             String description = "Channel for onTIme";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = null;
-            channel = new NotificationChannel("notifyOnTime", name, importance);
+            NotificationChannel channel = new NotificationChannel("notifyOnTime", name, importance);
             channel.setDescription(description);
 
             NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
@@ -498,6 +527,7 @@ public class HomeFragment extends Fragment {
 
         super.onResume();
     }
+
 
 
 }

@@ -2,6 +2,7 @@ package com.example.onTime.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -17,10 +18,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.onTime.R;
+import com.example.onTime.activities.IntroActivity;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -61,9 +64,10 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         this.switchNotificationsChaqueTache = view.findViewById(R.id.switchNotificationsDebutTaches);
         Button boutonSupprimerDonnees = view.findViewById(R.id.boutonSupprimerDonnees);
         Spinner spinnerChoixMoyenLocomotion = view.findViewById(R.id.spinnermoyenlocomotion);
+        Button boutonTutoriel = view.findViewById(R.id.boutonTutoriel);
 
         // Mise à jour de l'état du switch en fonction de la valeur sauvegaardée dans les sharedPreferences
-        this.switchNotificationsChaqueTache.setChecked(this.sharedPreferences.getBoolean("notifyOnEachTaskStart", false));
+        this.switchNotificationsChaqueTache.setChecked(this.sharedPreferences.getBoolean("notifyOnEachTaskStart", true));
 
         // Association du listener qui va écouter les changements d'états du switch
         switchNotificationsChaqueTache.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +92,15 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         spinnerChoixMoyenLocomotion.setSelection(this.sharedPreferences.getInt("ridingMethod", 0));
 
         spinnerChoixMoyenLocomotion.setOnItemSelectedListener(this);
+
+        //Bouton pour aller au tutoriel
+        boutonTutoriel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), IntroActivity.class);
+                getActivity().startActivity(i);
+            }
+        });
     }
 
     /**
@@ -111,7 +124,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
                         .remove("listeTrajets")
                         .remove("listeTachesRec")
                         .remove("notifyOnEachTaskStart").apply();
-
+                Toast.makeText(getContext(), getResources().getString(R.string.settings_toast_data_removed), Toast.LENGTH_LONG).show();
             }
         })
                 .setNegativeButton(R.string.annuler, new DialogInterface.OnClickListener() {

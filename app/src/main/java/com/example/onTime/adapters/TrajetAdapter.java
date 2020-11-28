@@ -56,6 +56,7 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
     @Override
     public TacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trajet_item_layout, parent, false);
+
         return new TrajetAdapter.TacheViewHolder(view);
     }
 
@@ -82,7 +83,6 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
                 }
             });
         }
-
     }
 
 
@@ -123,10 +123,8 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
         navController.navigate(R.id.listMRFragment);
     }
 
-
     @Override
     public int getItemCount() {
         return listTrajet.size();
     }
-
 }

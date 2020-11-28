@@ -34,7 +34,6 @@ import java.util.List;
 public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurrentesAdapter.TachesRecurrentesViewHolder> {
     private List<Tache> listeTaches;
 
-
     public TachesRecurrentesAdapter(List<Tache> listeTaches) {
         this.listeTaches = listeTaches;
     }
@@ -44,11 +43,12 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
     }
 
     public static class TachesRecurrentesViewHolder extends RecyclerView.ViewHolder {
-        TextView nomTache;
+        TextView nomTache, dureeTache;
 
         public TachesRecurrentesViewHolder(View itemView) {
             super(itemView);
             nomTache = itemView.findViewById(R.id.nom_tache);
+            dureeTache = itemView.findViewById(R.id.duree_tache);
         }
     }
 
@@ -56,15 +56,15 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
     @Override
     public TachesRecurrentesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tache_recurrente_item_layout, parent, false);
+
         return new TachesRecurrentesViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final TachesRecurrentesViewHolder holder, int position) {
-
         Tache tache = this.listeTaches.get(position);
-        String affichage = tache.getNom() + " | " + Toolbox.getMinutesFromSecondes(tache.getDuree()) + " m";
-        holder.nomTache.setText(affichage);
+        holder.nomTache.setText(tache.getNom());
+        holder.dureeTache.setText(Toolbox.getMinutesFromSecondes(tache.getDuree()) + " m");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +110,6 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
                             }
                         });
         alert.show();
-
     }
 
     @Override
