@@ -111,7 +111,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     //Clear focus here from edittext
                     titreTrajet.clearFocus();
-//                    Toolbox.hideSoftKeyboard(v);
                     EditTFragment.this.trajet.setNom(titreTrajet.getText().toString());
 
                 }
@@ -206,7 +205,6 @@ public class EditTFragment extends Fragment implements OnMapReadyCallback {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) { // sauvegarde et placement d'un marquer lors du clique sur ok
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     depart.clearFocus();
-//                    Toolbox.hideSoftKeyboard(v);
                     EditTFragment.this.trajet.setAdresseDepart(depart.getText().toString());
                     boolean goneWell = placeMarker(depart.getText().toString(), EditTFragment.MarkerType.DEPART); // on déplace les points lors d'un changement de point de départ
 
