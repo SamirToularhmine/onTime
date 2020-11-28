@@ -17,6 +17,9 @@ import com.example.onTime.modele.Toolbox;
 
 import java.util.List;
 
+/**
+ * Adapter pour selectionner une Morning routine recurrente
+ */
 public class SelectionMorningRecurrenteAdapter extends ArrayAdapter<Tache> {
 
     private List<Tache> listTache;

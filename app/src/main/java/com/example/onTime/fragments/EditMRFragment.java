@@ -240,7 +240,7 @@ public class EditMRFragment extends Fragment {
     }
 
     /**
-     * Cache le  menu qui s'ouvre après un plus
+     * Cache le  menu qui s'ouvre après le clique sur le plus
      */
     private void hideMenu() {
         View view = this.getView();

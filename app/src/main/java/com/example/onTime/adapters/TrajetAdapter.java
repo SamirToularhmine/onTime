@@ -23,6 +23,9 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+/**
+ * Adapter pour la liste des trajets
+ */
 public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewHolder> {
     private List<Trajet> listTrajet;
     private int positionTrajet, positionMRT;
@@ -86,6 +89,11 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
     }
 
 
+    /**
+     * Modifie un trajet
+     * @param view est la vue
+     * @param holder est un TacheViewHolder
+     */
     public void modifierTrajet(View view, final TacheViewHolder holder) {
         int position = holder.getAdapterPosition();
         Trajet trajet = listTrajet.get(position);
@@ -101,6 +109,11 @@ public class TrajetAdapter extends RecyclerView.Adapter<TrajetAdapter.TacheViewH
         navController.navigate(R.id.editTFragment, bundle);
     }
 
+    /**
+     * Permet de selectionenr un trajet
+     * @param view est la vue
+     * @param holder est le TacheViewHolder
+     */
     public void selectionnerTrajet(View view, final TacheViewHolder holder) {
         Context context = view.getContext().getApplicationContext();
         SharedPreferences sharedPreferences = context.getSharedPreferences("onTimePreferences", Context.MODE_PRIVATE);

@@ -9,6 +9,9 @@ import android.os.Bundle;
 import com.example.onTime.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+/**
+ * Activity principale contenant la navigation en bas et le fragment principal
+ */
 public class HomeActivity extends AppCompatActivity {
 
     @Override

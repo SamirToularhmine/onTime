@@ -24,6 +24,9 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
+/**
+ * Adapater pour les tâches dans le fragment home
+ */
 public class HomeTacheAdapter extends RecyclerView.Adapter<HomeTacheAdapter.TacheViewHolder> {
     private List<TacheHeureDebut> listeTachesHeuresDebut;
     private MaterialButton boutonGoogleMaps;

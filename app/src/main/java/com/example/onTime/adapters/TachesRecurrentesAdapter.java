@@ -31,6 +31,9 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+/**
+ * Adapter pour la liste des tâches récurrentes
+ */
 public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurrentesAdapter.TachesRecurrentesViewHolder> {
     private List<Tache> listeTaches;
 
@@ -64,18 +67,23 @@ public class TachesRecurrentesAdapter extends RecyclerView.Adapter<TachesRecurre
     public void onBindViewHolder(@NonNull final TachesRecurrentesViewHolder holder, int position) {
         Tache tache = this.listeTaches.get(position);
         holder.nomTache.setText(tache.getNom());
-        holder.dureeTache.setText(Toolbox.getMinutesFromSecondes(tache.getDuree()) + " m");
+        String affichage = Toolbox.getMinutesFromSecondes(tache.getDuree()) + " m" ;
+        holder.dureeTache.setText(affichage);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                modifierTache(v, holder);
+                modifierTacheReccurente(v, holder);
             }
         });
     }
 
-
-    public void modifierTache(View view, final TachesRecurrentesViewHolder holder) {
+    /**
+     * Modification d'uneTacheReccurent
+     * @param view est la vue actuelle
+     * @param holder est le recycler holder
+     */
+    public void modifierTacheReccurente(View view, final TachesRecurrentesViewHolder holder) {
         final int position = holder.getAdapterPosition();
 
         LayoutInflater factory = LayoutInflater.from(view.getContext());

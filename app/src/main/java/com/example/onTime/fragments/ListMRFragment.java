@@ -26,7 +26,7 @@ import com.example.onTime.modele.MRT;
 import com.example.onTime.modele.MRManager;
 import com.example.onTime.modele.MorningRoutine;
 import com.example.onTime.item_touch_helpers.ItemTouchHelperMRT;
-import com.example.onTime.adapters.MorningRoutineAdressAdapter;
+import com.example.onTime.adapters.MorningRoutineTrajetAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
@@ -38,7 +38,7 @@ public class ListMRFragment extends Fragment {
     private MRManager mrManager;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private MorningRoutineAdressAdapter morningRoutineAdressAdapter;
+    private MorningRoutineTrajetAdapter morningRoutineTrajetAdapter;
     private SharedPreferences sharedPreferences;
 
     public ListMRFragment() {
@@ -78,8 +78,8 @@ public class ListMRFragment extends Fragment {
         this.layoutManager = new LinearLayoutManager(getActivity());
         this.recyclerView.setLayoutManager(this.layoutManager);
 
-        this.morningRoutineAdressAdapter = new MorningRoutineAdressAdapter(mrManager.getListMRT());
-        this.recyclerView.setAdapter(this.morningRoutineAdressAdapter);
+        this.morningRoutineTrajetAdapter = new MorningRoutineTrajetAdapter(mrManager.getListMRT());
+        this.recyclerView.setAdapter(this.morningRoutineTrajetAdapter);
 
         // We use a String here, but any type that can be put in a Bundle is supported
         SavedStateHandle handle = NavHostFragment.findNavController(this).getCurrentBackStackEntry().getSavedStateHandle();
@@ -96,7 +96,7 @@ public class ListMRFragment extends Fragment {
         });
 
         // drag and drop + swipe
-        ItemTouchHelperMRT itemTouchHelperTache = new ItemTouchHelperMRT(getActivity(), this.morningRoutineAdressAdapter, this);
+        ItemTouchHelperMRT itemTouchHelperTache = new ItemTouchHelperMRT(getActivity(), this.morningRoutineTrajetAdapter, this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperTache);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
@@ -112,8 +112,8 @@ public class ListMRFragment extends Fragment {
 
     /**
      * Navigation dans le fraglent de création de nouvelle morning routine en passant -1 en position
-     * @param view
-     * @param morningRoutine
+     * @param view est la vue actuelle
+     * @param morningRoutine est la morning routine a modifier (qui vient d'être créée)
      */
     public void creerNouvelleMorningRoutine(View view, MorningRoutine morningRoutine) {
         Bundle bundle = new Bundle();
@@ -142,11 +142,11 @@ public class ListMRFragment extends Fragment {
                     .putInt("id_max", newIDMax)
                     .apply();
             this.mrManager.ajouterMorningRoutine(mr, newIDMax);
-            morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRT().size());
+            morningRoutineTrajetAdapter.notifyItemInserted(mrManager.getListMRT().size());
         }else{
             MRT MRT = this.mrManager.getListMRT().get(position);
             MRT.setMorningRoutine(mr);
-            morningRoutineAdressAdapter.notifyItemChanged(position);
+            morningRoutineTrajetAdapter.notifyItemChanged(position);
         }
     }
 
@@ -172,12 +172,12 @@ public class ListMRFragment extends Fragment {
                         .putInt("id_max", newIDMax)
                         .apply();
                 this.mrManager.ajouterMorningRoutine(morningRoutine, newIDMax);
-                morningRoutineAdressAdapter.notifyItemInserted(mrManager.getListMRT().size());
+                morningRoutineTrajetAdapter.notifyItemInserted(mrManager.getListMRT().size());
             } else {
                 if (position >= 0) {
                     MRT MRT = this.mrManager.getListMRT().get(position);
                     MRT.setMorningRoutine(morningRoutine);
-                    morningRoutineAdressAdapter.notifyItemChanged(position);
+                    morningRoutineTrajetAdapter.notifyItemChanged(position);
                 }
             }
         }
